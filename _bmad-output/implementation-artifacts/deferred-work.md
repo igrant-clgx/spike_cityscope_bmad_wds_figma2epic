@@ -63,3 +63,7 @@
 ## Story 4.2 — Result cost card
 
 - **Persistent live-region announcement (deferred → Story 4.3):** the result arrival announcement (UX-DR20 results) is only reliable if the PERSISTENT results parent keeps an always-present `role="status"` region in the tree and lets the card content populate it. A live region inserted in the same commit as its text is frequently NOT announced by screen readers. Story 4.3 must render the live region in the persistent results shell (not remount it between calculating→result states). The card documents this contract in its header.
+
+## Story 4.4 — Edit/New Estimate actions
+
+- **Post-action focus management (deferred → manual a11y check):** clicking "Edit Estimate" or "New Estimate" unmounts the focused button (view returns to idle), so keyboard/screen-reader focus falls to `<body>`. The fix is to relocate focus to the form's first control (Edit) or the Calculate CTA (New) after the reset. Deferred to the epic's already-planned manual a11y pass because the node-only test harness cannot assert focus movement, reveal timing, or SR announcement (per epic-4-context UX-DR20 note).
