@@ -1,0 +1,192 @@
+# generated: 2026-08-12T19:28:28+10:00
+# last_updated: 2026-08-12T19:28:28+10:00
+# project: spike_cityscope_bmad_wds_figma2epic
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: "{project-root}/_bmad-output/implementation-artifacts"
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog -> in-progress: Automatically when first story is created (via create-story)
+#   - in-progress -> done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; sprint-status surfaces open ones
+
+generated: 2026-08-12T19:28:28+10:00
+last_updated: '2026-08-14T04:50:00+10:00'
+project: spike_cityscope_bmad_wds_figma2epic
+project_key: NOKEY
+tracking_system: file-system
+story_location: "{project-root}/_bmad-output/implementation-artifacts"
+
+development_status:
+  epic-1: done
+  1-1-greenfield-scaffold-ports-and-adapters-skeleton: done
+  1-2-design-system-theme-tokens: done
+  1-3-branded-shell-header-responsive-layout-footer-disclaimer: done
+  1-4-shared-feedback-motion-accessibility-primitives: done
+  1-5-typed-analyticssink-event-seam: done
+  epic-1-retrospective: done
+  epic-2: done
+  2-1-addressprovider-port-stub-adapter-bff-route: done
+  2-2-display-current-address-change-control: done
+  2-3-address-autocomplete-modal-with-structured-resolution: done
+  2-4-manual-entry-fallback-non-destructive-error-handling: done
+  2-5-address-change-resets-scope-to-a-defined-state: done
+  epic-2-retrospective: done
+  epic-3: done
+  3-1-configsource-port-stub-adapter-versioned-content-schemas: done
+  3-2-accordion-stepper-shell-flow-aggregate: done
+  3-3-step-1-renovation-type-selection: done
+  3-4-step-2-config-driven-multi-select-items: done
+  3-5-step-3-dynamic-property-details-with-validation: done
+  epic-3-retrospective: done
+  epic-4: done
+  4-1-estimateengine-port-deterministic-stub-estimate-identity: done
+  4-2-result-cost-card: done
+  4-3-results-states-loading-error-empty-low-confidence: done
+  4-4-edit-estimate-new-estimate-actions: done
+  epic-4-retrospective: done
+  epic-5: done
+  5-1-leadsink-port-stub-store-shared-lead-schema: done
+  5-2-contact-section-coach-cta: done
+  5-3-lead-form-with-au-validation-consent-gate: done
+  5-4-submit-lead-linked-to-estimate-with-confirmation-states: done
+  epic-5-retrospective: done
+  epic-6: done
+  6-1-screen-state-matrix-sign-off: done
+  6-2-accessibility-audit-wcag-2-1-aa: done
+  6-3-responsive-performance-verification: done
+  6-4-security-privacy-reliability-observability-verification: done
+  6-5-test-suites-browser-support-matrix: done
+  epic-6-retrospective: done
+
+action_items:
+  - epic: 1
+    action: "Add & configure TanStack Query as the async-ownership layer (AD-5) before Epic 2 Story 2.1"
+    owner: "Winston / Amelia"
+    status: done
+  - epic: 1
+    action: "Decide the interaction-testing approach for the address modal (node-only + manual a11y checks, or introduce jsdom for focus-trap/return) before Story 2.3"
+    owner: "Amelia / Dana"
+    status: done
+  - epic: 1
+    action: "Add the inward-dependency boundary lint/arch test (deferred from Story 1.1) during Epic 2"
+    owner: "Winston"
+    status: done
+  - epic: 1
+    action: "Re-evaluate the api-client one-shot-body retry gap when autocomplete introduces a bodied request (Story 2.3)"
+    owner: "Amelia"
+    status: done
+  - epic: 1
+    action: "Codify the two-parallel-reviewer loop (Blind Hunter + Edge Case Hunter) as the standard dev-auto finalize gate"
+    owner: "Amelia"
+    status: done
+  - epic: 1
+    action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (nice-to-have)"
+    owner: "Winston"
+    status: open
+  - epic: 2
+    action: "Confirm OI-7 — address-change reset scope (clear-all vs keep-valid vs prompt); Story 2.5 assumed clear-all + notify — reconcile before Story 3.2 wires scope slots"
+    owner: "Alice / Igrant"
+    status: done
+  - epic: 2
+    action: "Surface OI-1 (Step 2 item content) and OI-2 (Step 3 validation) as documented assumptions in the Story 3.4 / 3.5 specs and flag for confirmation"
+    owner: "Alice / Amelia"
+    status: done
+  - epic: 2
+    action: "Land the inward-dependency boundary arch test early in Epic 3 (by Story 3.1) so ConfigSource/EstimateEngine/LeadSink adapters cannot import inward"
+    owner: "Winston"
+    status: done
+  - epic: 2
+    action: "Decide the accordion interaction-testing approach (extend node-only + manual a11y, or introduce a jsdom lane) before Story 3.2"
+    owner: "Amelia / Dana"
+    status: done
+  - epic: 2
+    action: "Add 'stale transient UI state reset' as an explicit item in the reviewer-prompt checklist"
+    owner: "Amelia"
+    status: done
+  - epic: 3
+    action: "Land the inward-dependency boundary arch test as the FIRST task of Epic 4 (before the EstimateEngine adapter); manual grep across 4 adapters is on borrowed time — carried from Epic 1 #3 / Epic 2 #3"
+    owner: "Winston"
+    status: done
+  - epic: 3
+    action: "Confirm OI-7 — reconcile the shipped clear-all reset to a signed product decision before wiring Edit/New Estimate (Story 4.4)"
+    owner: "Alice / Igrant"
+    status: done
+  - epic: 3
+    action: "Keep OI-3 (cost algorithm) behind the EstimateEngine port so the real algorithm swaps in with zero UI change; document as the [OPEN] in the 4.1 spec"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 3
+    action: "Extract AUD integer-cents money formatting to a pure, exhaustively-tested helper (AD-7); add money-unit correctness to the reviewer checklist"
+    owner: "Amelia / Dana"
+    status: done
+  - epic: 3
+    action: "Pull deferred Epic 3 items into 4.x specs: stale-answer pruning (prune propertyDetails to visible questions before the estimate request) + form-level submit toast"
+    owner: "Amelia"
+    status: done
+  - epic: 3
+    action: "Add 'derived-state-on-transient' and 'a11y error wiring (aria-describedby resolves to a rendered node)' to the reviewer-prompt checklist"
+    owner: "Amelia"
+    status: done
+  - epic: 3
+    action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (carried from Epic 1 #6, nice-to-have)"
+    owner: "Winston"
+    status: open
+  - epic: 4
+    action: "Enforce BFF-only PII (AD-1/NFR-6): add a reviewer check — and a test if cheap — that the client posts lead PII only to the same-origin BFF route, never client-to-external, before Story 5.1"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 4
+    action: "Make the AD-10 consent gate + encryption-at-rest marking explicit and tested (no consent -> no store; record marked for encryption) by Story 5.1"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 4
+    action: "Resolve [OPEN] OI-10 (conversion path: phone CTA vs lead form) before Story 5.3 wires the form"
+    owner: "Alice / Igrant"
+    status: open
+  - epic: 4
+    action: "Extract AU phone/email validators as pure, exhaustively-tested helpers (validateAnswer pattern); add AU-format edge cases to the reviewer checklist by Story 5.3"
+    owner: "Amelia / Dana"
+    status: open
+  - epic: 4
+    action: "Keep the two-parallel-reviewer loop; add 'live-region ownership (exactly one region speaks the value, persistently)' and 'enforcement tests must reject a known-bad input' to the reviewer checklist"
+    owner: "Amelia"
+    status: open
+  - epic: 4
+    action: "Post-action/lead-form focus management — fold the Edit/New focus-relocation gap (deferred from 4.4) into Epic 5's manual a11y pass"
+    owner: "Dana / Amelia"
+    status: open
+  - epic: 4
+    action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (carried from Epic 1 #6 / Epic 3 #7, nice-to-have)"
+    owner: "Winston"
+    status: open
