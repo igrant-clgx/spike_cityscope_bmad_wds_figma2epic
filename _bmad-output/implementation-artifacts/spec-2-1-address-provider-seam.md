@@ -2,9 +2,10 @@
 title: 'Story 2.1 — AddressProvider port, stub adapter & BFF route'
 type: 'feature'
 created: '2026-08-12'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 baseline_revision: '499a93f7de8419ada67225620ca0a64cde010382'
+final_revision: '5b70fe7de5eb815a589fe990456f94787b7798a3'
 followup_review_recommended: false
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-2-context.md'
