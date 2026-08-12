@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Party Mode · Epic Pressure-Test · 2026-08-12</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --ink:#e6edf3; --muted:#8b949e;
+    --line:#2d333b; --accent:#58a6ff; --warm:#ffa657; --good:#3fb950; --bad:#f85149;
+    --violet:#bc8cff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 20% -10%, #1b2230 0%, var(--bg) 60%);
+    color:var(--ink); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:48px 20px 80px;
+  }
+  .wrap{max-width:820px; margin:0 auto}
+  header.masthead{text-align:center; margin-bottom:40px}
+  .kicker{letter-spacing:.28em; text-transform:uppercase; color:var(--muted); font-size:12px}
+  h1{font-size:34px; margin:.35em 0 .1em; background:linear-gradient(90deg,var(--accent),var(--violet));
+     -webkit-background-clip:text; background-clip:text; color:transparent}
+  .stamp{color:var(--muted); font-size:14px}
+  .marquee{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:22px 0 0}
+  .chip{border:1px solid var(--line); background:var(--panel); border-radius:999px; padding:6px 12px; font-size:13px}
+  .chip .i{margin-right:6px}
+  .scene{color:var(--muted); font-style:italic; text-align:center; margin:26px auto 34px; max-width:640px}
+  .turn{display:flex; gap:14px; padding:16px 18px; border:1px solid var(--line); border-radius:14px;
+        background:var(--panel); margin:14px 0; animation:rise .5s ease both}
+  .turn:nth-child(odd){transform:translateZ(0)}
+  @keyframes rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+  .av{flex:0 0 42px; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+      font-size:22px; background:#0d1117; border:1px solid var(--line)}
+  .body .who{font-weight:700; margin-bottom:2px}
+  .body .who small{font-weight:400; color:var(--muted); margin-left:8px}
+  .say{margin:0}
+  .divider{display:flex; align-items:center; gap:12px; margin:34px 0 8px; color:var(--muted);
+           font-size:12px; letter-spacing:.2em; text-transform:uppercase}
+  .divider::before,.divider::after{content:""; height:1px; background:var(--line); flex:1}
+  .takeaways{border:1px solid var(--line); border-radius:16px; background:linear-gradient(180deg,#141a22,#12161d);
+             padding:24px 26px; margin-top:14px}
+  .takeaways h2{margin:0 0 14px; font-size:18px}
+  .takeaways ol{margin:0; padding-left:20px}
+  .takeaways li{margin:9px 0}
+  .tag{display:inline-block; font-size:11px; padding:2px 8px; border-radius:6px; margin-left:6px;
+       border:1px solid var(--line)}
+  .tag.crit{color:var(--bad); border-color:#5a2a2a}
+  .tag.ok{color:var(--good); border-color:#24422b}
+  footer{margin-top:40px; text-align:center; color:var(--muted); font-size:13px}
+  .pulse{display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--good);
+         box-shadow:0 0 0 0 rgba(63,185,80,.7); animation:pulse 2s infinite; margin-right:7px}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,185,80,.6)}70%{box-shadow:0 0 0 10px rgba(63,185,80,0)}100%{box-shadow:0 0 0 0 rgba(63,185,80,0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Party Mode · Round Table</div>
+    <h1>The Epic Pressure-Test</h1>
+    <div class="stamp">Spike Reno Calculator · 2026-08-12</div>
+    <div class="marquee">
+      <span class="chip"><span class="i">📋</span>John · PM</span>
+      <span class="chip"><span class="i">🏗️</span>Winston · Architect</span>
+      <span class="chip"><span class="i">🎨</span>Sally · UX</span>
+      <span class="chip"><span class="i">⚙️</span>Amelia · Dev</span>
+      <span class="chip"><span class="i">📊</span>Mary · Analyst</span>
+      <span class="chip"><span class="i">😤</span>Grumbal · walk-on</span>
+    </div>
+  </header>
+
+  <p class="scene">Six epics pinned to the board. The question on the table: does this breakdown survive contact with the people who'll have to build it?</p>
+
+  <div class="turn"><div class="av">📊</div><div class="body">
+    <div class="who">Mary <small>Analyst</small></div>
+    <p class="say">Before anyone gets attached — Epic 4 says "estimate." Against what? There's no algorithm yet. If we demo a number, someone will believe it.</p>
+  </div></div>
+
+  <div class="turn"><div class="av">🏗️</div><div class="body">
+    <div class="who">Winston <small>Architect</small></div>
+    <p class="say">That's the whole point of the port. EstimateEngine has a deterministic stub behind it. The real thing — OI-3 — drops in later with zero UI change. The pipeline is real; the number is honest-fake.</p>
+  </div></div>
+
+  <div class="turn"><div class="av">😤</div><div class="body">
+    <div class="who">Grumbal <small>the adversary, uninvited</small></div>
+    <p class="say">And Epic 6? "Quality Hardening"? That's a landfill. That's where every "we'll fix it later" goes to rot. States, a11y, loading — you're deferring the hard parts to a bucket at the end.</p>
+  </div></div>
+
+  <div class="turn"><div class="av">🎨</div><div class="body">
+    <div class="who">Sally <small>UX</small></div>
+    <p class="say">…he's not wrong. Priya using a screen reader shouldn't have to wait for Epic 6 to exist. The empty state of the address field is *part of* the address field. It's born there.</p>
+  </div></div>
+
+  <div class="turn"><div class="av">⚙️</div><div class="body">
+    <div class="who">Amelia <small>Dev</small></div>
+    <p class="say">Agreed. Push states and a11y into Epics 2–5 where the surface lives. Then Epic 6 isn't a dumping ground — it's a verification gate. E2E, cross-browser, the audit. Things that can only exist once the whole system does.</p>
+  </div></div>
+
+  <div class="turn"><div class="av">📋</div><div class="body">
+    <div class="who">John <small>PM</small></div>
+    <p class="say">So we don't redesign — we refine. Six boxes stay. UX-DR16 and 20 split per surface. FR-32/33 plumbing lands in Epic 1, gets *applied* in Epic 2. Epic 6 becomes "Release Readiness &amp; Verification." Everyone good?</p>
+  </div></div>
+
+  <div class="turn"><div class="av">😤</div><div class="body">
+    <div class="who">Grumbal</div>
+    <p class="say">…fine. It's less broken than it was. Don't let it slide back.</p>
+  </div></div>
+
+  <div class="divider">Where the room landed</div>
+
+  <div class="takeaways">
+    <h2>Best takeaways</h2>
+    <ol>
+      <li><strong>Epic 6 reframed</strong> → <em>Release Readiness &amp; Verification</em>. Verify what should be true — no new feature build. <span class="tag ok">adopted</span></li>
+      <li><strong>States + accessibility distributed</strong> into Epics 2–5, born in the feature. UX-DR16/20 split per surface (address / form / results / lead).</li>
+      <li><strong>FR-32/33</strong> = Epic 1 foundation, first <em>applied</em> in Epic 2 — no file churn.</li>
+      <li><strong>Epic 4</strong> names the deterministic stub honestly. The real cost algorithm stays behind the port. <span class="tag crit">OI-3 · CRITICAL</span></li>
+      <li><strong>The 6-epic shape + stub-behind-a-port held up</strong> under pressure. Refinement, not redesign. <span class="tag ok">upheld</span></li>
+    </ol>
+  </div>
+
+  <footer>
+    <span class="pulse"></span>Party memory saved · epics.md updated · committed to <code>planning/epics-and-stories</code><br>
+    A keepsake of the round table — 2026-08-12
+  </footer>
+
+</div>
+</body>
+</html>
