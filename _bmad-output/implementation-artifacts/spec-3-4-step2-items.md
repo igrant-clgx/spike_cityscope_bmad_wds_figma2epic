@@ -2,11 +2,11 @@
 title: 'Story 3.4 — Step 2: Config-driven multi-select items'
 type: 'feature'
 created: '2026-08-13'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 baseline_revision: '04c1c48681cf5260b00e9ec0f68b662224e8815b'
-final_revision: ''
+final_revision: '146c875ee6489f1008dc3c017ee375e56ae21093'
 context:
   - '_bmad-output/implementation-artifacts/epic-3-context.md'
 warnings: []
