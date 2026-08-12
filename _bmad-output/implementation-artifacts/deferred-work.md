@@ -59,3 +59,7 @@
 
 - **Non-idempotent POST retry (deferred → Epic 5):** `apiFetch` retries transient failures (network/5xx) up to 2×, and `use-estimate` issues a POST. Harmless now — the estimate route is a pure, side-effect-free computation — but once Epic 5 makes this seam stateful (lead linkage / persistence), a 5xx-then-success retry could double-create. Before adding a write to this POST path, gate retries by idempotency (retry only idempotent verbs, or require an idempotency key). A `// NOTE:` marker is in `use-estimate.ts`.
 - **OI-3 real cost algorithm (still [OPEN], CRITICAL):** the stub's per-item base-cost magnitudes are `[ASSUMPTION]` placeholders. The real pricing model drops in behind `EstimateEngine` as a single adapter substitution (`stub-estimate-engine.ts`) with no change above the port. `estimateId` is currently a 64-bit non-crypto scope hash; if it becomes the authoritative persistence key, assign a durable id at persistence time instead.
+
+## Story 4.2 — Result cost card
+
+- **Persistent live-region announcement (deferred → Story 4.3):** the result arrival announcement (UX-DR20 results) is only reliable if the PERSISTENT results parent keeps an always-present `role="status"` region in the tree and lets the card content populate it. A live region inserted in the same commit as its text is frequently NOT announced by screen readers. Story 4.3 must render the live region in the persistent results shell (not remount it between calculating→result states). The card documents this contract in its header.

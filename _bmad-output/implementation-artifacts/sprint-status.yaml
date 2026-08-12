@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: '2026-08-14T02:15:00+10:00'
+last_updated: '2026-08-14T00:45:00+10:00'
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -71,7 +71,7 @@ development_status:
   epic-3-retrospective: done
   epic-4: in-progress
   4-1-estimateengine-port-deterministic-stub-estimate-identity: done
-  4-2-result-cost-card: backlog
+  4-2-result-cost-card: done
   4-3-results-states-loading-error-empty-low-confidence: backlog
   4-4-edit-estimate-new-estimate-actions: backlog
   epic-4-retrospective: optional
@@ -101,7 +101,7 @@ action_items:
   - epic: 1
     action: "Add the inward-dependency boundary lint/arch test (deferred from Story 1.1) during Epic 2"
     owner: "Winston"
-    status: open
+    status: done
   - epic: 1
     action: "Re-evaluate the api-client one-shot-body retry gap when autocomplete introduces a bodied request (Story 2.3)"
     owner: "Amelia"
@@ -125,7 +125,7 @@ action_items:
   - epic: 2
     action: "Land the inward-dependency boundary arch test early in Epic 3 (by Story 3.1) so ConfigSource/EstimateEngine/LeadSink adapters cannot import inward"
     owner: "Winston"
-    status: open
+    status: done
   - epic: 2
     action: "Decide the accordion interaction-testing approach (extend node-only + manual a11y, or introduce a jsdom lane) before Story 3.2"
     owner: "Amelia / Dana"
@@ -137,7 +137,7 @@ action_items:
   - epic: 3
     action: "Land the inward-dependency boundary arch test as the FIRST task of Epic 4 (before the EstimateEngine adapter); manual grep across 4 adapters is on borrowed time — carried from Epic 1 #3 / Epic 2 #3"
     owner: "Winston"
-    status: open
+    status: done
   - epic: 3
     action: "Confirm OI-7 — reconcile the shipped clear-all reset to a signed product decision before wiring Edit/New Estimate (Story 4.4)"
     owner: "Alice / Igrant"
@@ -149,7 +149,7 @@ action_items:
   - epic: 3
     action: "Extract AUD integer-cents money formatting to a pure, exhaustively-tested helper (AD-7); add money-unit correctness to the reviewer checklist"
     owner: "Amelia / Dana"
-    status: open
+    status: done
   - epic: 3
     action: "Pull deferred Epic 3 items into 4.x specs: stale-answer pruning (prune propertyDetails to visible questions before the estimate request) + form-level submit toast"
     owner: "Amelia"
