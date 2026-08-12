@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: '2026-08-14T01:10:00+10:00'
+last_updated: '2026-08-14T01:20:00+10:00'
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -69,12 +69,12 @@ development_status:
   3-4-step-2-config-driven-multi-select-items: done
   3-5-step-3-dynamic-property-details-with-validation: done
   epic-3-retrospective: done
-  epic-4: in-progress
+  epic-4: done
   4-1-estimateengine-port-deterministic-stub-estimate-identity: done
   4-2-result-cost-card: done
   4-3-results-states-loading-error-empty-low-confidence: done
   4-4-edit-estimate-new-estimate-actions: done
-  epic-4-retrospective: optional
+  epic-4-retrospective: done
   epic-5: backlog
   5-1-leadsink-port-stub-store-shared-lead-schema: backlog
   5-2-contact-section-coach-cta: backlog
@@ -117,7 +117,7 @@ action_items:
   - epic: 2
     action: "Confirm OI-7 — address-change reset scope (clear-all vs keep-valid vs prompt); Story 2.5 assumed clear-all + notify — reconcile before Story 3.2 wires scope slots"
     owner: "Alice / Igrant"
-    status: open
+    status: done
   - epic: 2
     action: "Surface OI-1 (Step 2 item content) and OI-2 (Step 3 validation) as documented assumptions in the Story 3.4 / 3.5 specs and flag for confirmation"
     owner: "Alice / Amelia"
@@ -141,7 +141,7 @@ action_items:
   - epic: 3
     action: "Confirm OI-7 — reconcile the shipped clear-all reset to a signed product decision before wiring Edit/New Estimate (Story 4.4)"
     owner: "Alice / Igrant"
-    status: open
+    status: done
   - epic: 3
     action: "Keep OI-3 (cost algorithm) behind the EstimateEngine port so the real algorithm swaps in with zero UI change; document as the [OPEN] in the 4.1 spec"
     owner: "Winston / Amelia"
@@ -153,12 +153,40 @@ action_items:
   - epic: 3
     action: "Pull deferred Epic 3 items into 4.x specs: stale-answer pruning (prune propertyDetails to visible questions before the estimate request) + form-level submit toast"
     owner: "Amelia"
-    status: open
+    status: done
   - epic: 3
     action: "Add 'derived-state-on-transient' and 'a11y error wiring (aria-describedby resolves to a rendered node)' to the reviewer-prompt checklist"
     owner: "Amelia"
-    status: open
+    status: done
   - epic: 3
     action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (carried from Epic 1 #6, nice-to-have)"
+    owner: "Winston"
+    status: open
+  - epic: 4
+    action: "Enforce BFF-only PII (AD-1/NFR-6): add a reviewer check — and a test if cheap — that the client posts lead PII only to the same-origin BFF route, never client-to-external, before Story 5.1"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 4
+    action: "Make the AD-10 consent gate + encryption-at-rest marking explicit and tested (no consent -> no store; record marked for encryption) by Story 5.1"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 4
+    action: "Resolve [OPEN] OI-10 (conversion path: phone CTA vs lead form) before Story 5.3 wires the form"
+    owner: "Alice / Igrant"
+    status: open
+  - epic: 4
+    action: "Extract AU phone/email validators as pure, exhaustively-tested helpers (validateAnswer pattern); add AU-format edge cases to the reviewer checklist by Story 5.3"
+    owner: "Amelia / Dana"
+    status: open
+  - epic: 4
+    action: "Keep the two-parallel-reviewer loop; add 'live-region ownership (exactly one region speaks the value, persistently)' and 'enforcement tests must reject a known-bad input' to the reviewer checklist"
+    owner: "Amelia"
+    status: open
+  - epic: 4
+    action: "Post-action/lead-form focus management — fold the Edit/New focus-relocation gap (deferred from 4.4) into Epic 5's manual a11y pass"
+    owner: "Dana / Amelia"
+    status: open
+  - epic: 4
+    action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (carried from Epic 1 #6 / Epic 3 #7, nice-to-have)"
     owner: "Winston"
     status: open
