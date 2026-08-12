@@ -3,8 +3,8 @@ project_name: spike_cityscope_bmad_wds_figma2epic
 config:
   brief_level: simplified   # derived from existing artifacts; pending owner confirmation
 phase:
-  current: 2-wds-design
-  step: outline-scenarios (complete, doc-synthesis)
+  current: 4-wds-design
+  step: ux-design (in progress — Figma ingested, first page spec written)
 started: 2026-08-13
 branch: ig-figma-to-bmad-ux
 artifacts:
@@ -13,4 +13,7 @@ artifacts:
   personas: _bmad-output/B-Trigger-Map/personas/
   feature_impact: _bmad-output/B-Trigger-Map/feature-impact-analysis.md
   ux_scenarios: _bmad-output/C-UX-Scenarios/00-ux-scenarios.md
-next_phase: 4-wds-design (bmad-wds-conceptual-specs / bmad-ux)
+  figma_render: _bmad-output/C-UX-Scenarios/_figma-imports/figma-9-2-desktop-1512w.png
+  figma_observations: _bmad-output/C-UX-Scenarios/_figma-imports/figma-design-observations.md
+  page_spec_calculator_form: _bmad-output/C-UX-Scenarios/01-priya-honest-number/01-calculator-form.md
+next_phase: 4-wds-design remaining (specs for scenarios 02/03 + result surface; Design Delivery [H]) then token remap

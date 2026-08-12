@@ -73,3 +73,38 @@
 ### Next
 - Owner to confirm scenarios.
 - Phase 4: UX Design / Conceptual Specs — **Figma-grounded** (pull real frames via Figma MCP; pixels are source of truth). Run in a fresh context.
+
+---
+## 2026-08-13 — Phase 4 UX Design: FIGMA INGESTED + first page spec (the crux)
+
+- **Resolved the spike's root cause.** The `imports/` folder was empty in the prior run — the Figma
+  was never visually ingested. This phase pulled the **real Figma** via MCP (`get_metadata` +
+  `get_design_context`) on frame `9:2`/page `9:90` and recorded exact pixels/tokens.
+- Outputs in `_bmad-output/C-UX-Scenarios/`:
+  - `_figma-imports/figma-9-2-desktop-1512w.png` — the real frame render (ingested).
+  - `_figma-imports/figma-design-observations.md` — **exact** layout/color/type/token ledger + a
+    Pixels-vs-Doc **Conflicts** table.
+  - `01-priya-honest-number/01-calculator-form.md` — Figma-grounded page specification for the
+    primary scenario's form surface (all values sourced from pixels).
+
+### Key fidelity findings (pixels win over the handover doc the build followed)
+- Primary/accent: **#432A6E violet (Jacarta)** — NOT #0066CC blue.
+- Headings: **Poppins**; body/labels/buttons: **Source Sans Pro** — NOT Roboto.
+- Text: **Ebony 80% (#110B1C @ 80%)**. Paper radius **16px**, button radius **4px**. Buttons title-case.
+- Layout: 840px centered content column (336px margins @1512w), header 68.98px, footer 81.45px,
+  ~16px inter-card gap, 7.98px button gap.
+
+### Decisions
+- Recorded exact tokens as source of truth; recommend remapping `src/theme/tokens.ts` (Poppins +
+  Source Sans Pro, primary #432A6E, text Ebony 80%, paper radius 16px) and re-verifying the running
+  app against `figma-9-2-desktop-1512w.png`.
+
+### New Open Items
+- OI-F1 exact header/canvas hexes + logo treatment; OI-F2 selection-button selected state;
+  OI-F3 Poppins/Source Sans Pro licensing.
+
+### Next
+- Owner to confirm the observations ledger + page spec.
+- Remaining Phase 4: specs for scenarios 02/03 surfaces + result/estimate surface; then Design
+  Delivery ([H]) / conceptual-specs packaging. Recommend applying the token remap to close the
+  fidelity loop.
