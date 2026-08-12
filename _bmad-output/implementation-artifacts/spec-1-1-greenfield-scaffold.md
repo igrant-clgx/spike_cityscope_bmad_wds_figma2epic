@@ -2,10 +2,11 @@
 title: 'Story 1.1 — Greenfield scaffold & Ports-and-Adapters skeleton'
 type: 'feature'
 created: '2026-08-12'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 baseline_revision: '28df17311d87c101fe0940585cef3c0147ecba6b'
+final_revision: 'efe4e93949574b70bb7fb5b922f8d7c3a2204344'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-1-context.md'
   - '{project-root}/_bmad-output/planning-artifacts/architecture/architecture-spike_cityscope_bmad_wds_figma2epic-2026-08-12/ARCHITECTURE-SPINE.md'
