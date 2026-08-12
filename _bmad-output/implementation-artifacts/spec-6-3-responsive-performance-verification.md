@@ -2,13 +2,13 @@
 title: 'Story 6.3: Responsive & performance verification'
 type: 'chore'
 created: '2026-08-13'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: '49bd6e9'
-final_revision: ''
+final_revision: '5b2585a'
 ---
 
 <intent-contract>
