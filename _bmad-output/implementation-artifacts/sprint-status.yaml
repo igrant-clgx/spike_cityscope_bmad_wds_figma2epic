@@ -1,0 +1,90 @@
+# generated: 2026-08-12T19:28:28+10:00
+# last_updated: 2026-08-12T19:28:28+10:00
+# project: spike_cityscope_bmad_wds_figma2epic
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: "{project-root}/_bmad-output/implementation-artifacts"
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog -> in-progress: Automatically when first story is created (via create-story)
+#   - in-progress -> done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; sprint-status surfaces open ones
+
+generated: 2026-08-12T19:28:28+10:00
+last_updated: 2026-08-12T19:28:28+10:00
+project: spike_cityscope_bmad_wds_figma2epic
+project_key: NOKEY
+tracking_system: file-system
+story_location: "{project-root}/_bmad-output/implementation-artifacts"
+
+development_status:
+  epic-1: backlog
+  1-1-greenfield-scaffold-ports-and-adapters-skeleton: backlog
+  1-2-design-system-theme-tokens: backlog
+  1-3-branded-shell-header-responsive-layout-footer-disclaimer: backlog
+  1-4-shared-feedback-motion-accessibility-primitives: backlog
+  1-5-typed-analyticssink-event-seam: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-addressprovider-port-stub-adapter-bff-route: backlog
+  2-2-display-current-address-change-control: backlog
+  2-3-address-autocomplete-modal-with-structured-resolution: backlog
+  2-4-manual-entry-fallback-non-destructive-error-handling: backlog
+  2-5-address-change-resets-scope-to-a-defined-state: backlog
+  epic-2-retrospective: optional
+  epic-3: backlog
+  3-1-configsource-port-stub-adapter-versioned-content-schemas: backlog
+  3-2-accordion-stepper-shell-flow-aggregate: backlog
+  3-3-step-1-renovation-type-selection: backlog
+  3-4-step-2-config-driven-multi-select-items: backlog
+  3-5-step-3-dynamic-property-details-with-validation: backlog
+  epic-3-retrospective: optional
+  epic-4: backlog
+  4-1-estimateengine-port-deterministic-stub-estimate-identity: backlog
+  4-2-result-cost-card: backlog
+  4-3-results-states-loading-error-empty-low-confidence: backlog
+  4-4-edit-estimate-new-estimate-actions: backlog
+  epic-4-retrospective: optional
+  epic-5: backlog
+  5-1-leadsink-port-stub-store-shared-lead-schema: backlog
+  5-2-contact-section-coach-cta: backlog
+  5-3-lead-form-with-au-validation-consent-gate: backlog
+  5-4-submit-lead-linked-to-estimate-with-confirmation-states: backlog
+  epic-5-retrospective: optional
+  epic-6: backlog
+  6-1-screen-state-matrix-sign-off: backlog
+  6-2-accessibility-audit-wcag-2-1-aa: backlog
+  6-3-responsive-performance-verification: backlog
+  6-4-security-privacy-reliability-observability-verification: backlog
+  6-5-test-suites-browser-support-matrix: backlog
+  epic-6-retrospective: optional
