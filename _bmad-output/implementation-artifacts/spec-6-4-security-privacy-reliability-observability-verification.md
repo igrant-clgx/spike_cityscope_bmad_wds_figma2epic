@@ -2,7 +2,7 @@
 title: 'Story 6.4: Security, privacy, reliability & observability verification'
 type: 'chore'
 created: '2026-08-14'
-status: 'ready-for-dev'
+status: 'in-review'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
@@ -58,10 +58,10 @@ final_revision: ''
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `_bmad-output/implementation-artifacts/security-privacy-reliability-observability-verification.md` -- CREATE: an invariant table (PII boundary, no-PII analytics, consent gate, encryption-at-rest marking, retention, phone masking, idempotency-as-transport, rate-limiting/reliability NFR-7, TLS/CORS/API-key NFR-5, requestId/observability NFR-8) each `pass`(enforcement cited)/`manual-pass`(deploy/infra control)/`deferred`(OI-11 real-sink); an OI-11 real-sink hardening requirements section (bounded/TTL ledgers, real at-rest encryption, real rate-limiter, real CRM connector); a defects section; a verdict + honest node-only-harness ceiling.
-- [ ] `_bmad-output/implementation-artifacts/deferred-work.md` -- APPEND the OI-11 real-sink hardening requirements surfaced by this audit.
-- [ ] `_bmad-output/implementation-artifacts/sprint-status.yaml` -- (finalization) mark `6-4-security-privacy-reliability-observability-verification: done`.
-- [ ] Confirm the tree stays green (`npm run typecheck && npm run lint && npm test && npm run build`), plus `npx vitest run src/server/architecture.test.ts`.
+- [x] `_bmad-output/implementation-artifacts/security-privacy-reliability-observability-verification.md` -- CREATE: an invariant table (PII boundary, no-PII analytics, consent gate, encryption-at-rest marking, retention, phone masking, idempotency-as-transport, rate-limiting/reliability NFR-7, TLS/CORS/API-key NFR-5, requestId/observability NFR-8) each `pass`(enforcement cited)/`manual-pass`(deploy/infra control)/`deferred`(OI-11 real-sink); an OI-11 real-sink hardening requirements section (bounded/TTL ledgers, real at-rest encryption, real rate-limiter, real CRM connector); a defects section; a verdict + honest node-only-harness ceiling.
+- [x] `_bmad-output/implementation-artifacts/deferred-work.md` -- APPEND the OI-11 real-sink hardening requirements surfaced by this audit.
+- [x] `_bmad-output/implementation-artifacts/sprint-status.yaml` -- (finalization) mark `6-4-security-privacy-reliability-observability-verification: done`.
+- [x] Confirm the tree stays green (`npm run typecheck && npm run lint && npm test && npm run build`), plus `npx vitest run src/server/architecture.test.ts`.
 
 **Acceptance Criteria:**
 - Given the assembled app, when the invariants are audited, then no PII crosses the client-to-external boundary and lead data is consent-gated and marked encrypted-at-rest with 24-month retention (NFR-5, NFR-6, AD-10) — each cited to enforcement code + tests, with real at-rest encryption recorded as an OI-11 `deferred`.
@@ -78,3 +78,29 @@ final_revision: ''
 **Manual checks:**
 - Every `pass` cell cites real enforcement code + a passing test; every `manual-pass` names the deploy/infra control; every `deferred` routes to OI-11.
 - No forbidden PII key sits on any analytics-event egress path; no PII in `NEXT_PUBLIC_*`/query strings/unmasked logs; the OI-11 real-sink requirements are written to deferred-work.md.
+
+## Review Triage Log
+
+Verification story — one adversarial auditor (opus-4.8) checked the artifact for **completeness, honesty, and evidence** rather than code bugs (proportionate: this story ships an audit artifact + zero code change).
+
+**Audit result: HONEST AND COMPLETE — 0 critical, 2 minor (both fixed).**
+
+- Citation integrity (all `pass` cells): every cited enforcement read and confirmed exact — `AssertNoPII<T>`/`_PIIChecks` (all 5 variants)/`FORBIDDEN_PII_KEYS`, recursive `scanForPII` (nested + arrays-of-objects + cycle guard, never throws), consent gate ordered before the ledger, `encryptAtRest:true`/`RETENTION_MONTHS=24`, `maskPhone`, `idempotencyKey` as a separate `capture()` param, `route.ts` `consent:z.literal(true)` 400 + empty-key guard + controlled 500 + receipt re-validation, boundary arch test, `generateRequestId` in all 6 routes. **CLEARED.**
+- Hidden-leak check: independent grep confirmed NO `firstName/lastName/email/phone` on any analytics event, `NEXT_PUBLIC_*` var, or query string — "no PII crosses the boundary" is TRUE. **CLEARED.**
+- NFR-7 honesty: independent grep confirmed ZERO rate-limiter/throttle in src+app; recorded `deferred → OI-11`, explicitly not faked, never claimed `pass`. **CLEARED.**
+- Overclaim check: at-rest encryption honestly split (marking = `pass`, real crypto = `deferred`); TLS/CORS/API-key correctly `manual-pass`; unbounded ledger correctly `deferred` (not called production-safe). **CLEARED.**
+- OI-11: all 6 real-sink hardening requirements accurate and appended to `deferred-work.md`. **CLEARED.**
+
+**MINOR #1 (fixed):** consent gate described as "throws" — it returns `Promise.reject(...)`; reworded to "rejects with" (functionally identical behind `await`, but precise).
+**MINOR #2 (fixed):** "name-exemption proven by the test" overstated — the exemption is implemented + indirectly exercised (five-event-names test) but has no dedicated assertion; reworded to reflect that (proven items = top-level/nested/array PII detection + no-throw).
+
+No CRITICAL issues, no false `pass`, no missed leak. No HALT/blocked condition.
+
+## Auto Run Result
+
+- **Outcome:** ✅ done — verification artifact delivered, audited HONEST AND COMPLETE, tree green.
+- **Deliverable:** `security-privacy-reliability-observability-verification.md` — 5 invariant sections (privacy/PII boundary NFR-6/AD-10; consent+encryption-marking+retention AD-10/NFR-6/FR-30; observability no-PII-analytics+requestId NFR-8/AD-12; reliability/rate-limiting NFR-7; security config NFR-5) each `pass`(enforcement+test cited)/`manual-pass`(deploy control)/`deferred`(OI-11 real-sink), + an OI-11 real-sink hardening section (6 requirements), verdict + honest node-only-stub-harness ceiling.
+- **Code change:** none (doc-only). Rate-limiter confirmed absent (NFR-7 recorded against seam, not faked); real crypto/retention/TLS/CORS/API-key recorded as OI-11 `deferred` / infra `manual-pass`.
+- **Gates:** typecheck ✅, lint ✅, test ✅ (524), build ✅, boundary arch test ✅ (3/3).
+- **Review:** 1 adversarial auditor, 0 critical / 2 minor (both fixed).
+- **Deferred:** OI-11 real-sink hardening requirements appended to `deferred-work.md`.
