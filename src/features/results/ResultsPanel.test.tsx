@@ -19,6 +19,7 @@ import {
   NEW_ESTIMATE_LABEL,
   RESULT_CARD_TITLE,
 } from './copy';
+import { CONTACT_HEADING } from '@/features/lead/contact-copy';
 
 const RESULT: EstimateResult = {
   estimateId: 'est_1',
@@ -140,6 +141,33 @@ describe('ResultsPanelView (node-only structural, full I/O matrix)', () => {
     for (const html of [idle, loading, error]) {
       expect(html).not.toContain(EDIT_ESTIMATE_LABEL);
       expect(html).not.toContain(NEW_ESTIMATE_LABEL);
+    }
+  });
+
+  it('success/lowConfidence: renders the Contact Section coach CTA (FR-26)', () => {
+    const success = renderView({
+      kind: 'success',
+      result: RESULT,
+      announce: 'Your estimate is ready.',
+    });
+    const low = renderView({
+      kind: 'lowConfidence',
+      result: { ...RESULT, confidence: 'low' as const },
+      announce: 'An early, rough estimate is ready.',
+    });
+    for (const html of [success, low]) {
+      expect(html).toContain(CONTACT_HEADING);
+      expect(html).toContain('href="tel:');
+    }
+  });
+
+  it('idle/loading/error: does NOT render the Contact Section', () => {
+    const idle = renderView({ kind: 'idle', announce: '' });
+    const loading = renderView({ kind: 'loading', announce: '' });
+    const error = renderView({ kind: 'error', message: 'x', announce: '' });
+    for (const html of [idle, loading, error]) {
+      expect(html).not.toContain(CONTACT_HEADING);
+      expect(html).not.toContain('href="tel:');
     }
   });
 

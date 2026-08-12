@@ -12,6 +12,7 @@ import { formatAudRange } from '@/lib/money-format';
 import type { FormConfig } from '@shared/schemas';
 import type { StepFormValues } from '@/features/estimate-form/flow-form-values';
 import { useEstimate } from '@/features/estimate-form/use-estimate';
+import { ContactSection } from '@/features/lead/ContactSection';
 import { ResultCostCard } from './ResultCostCard';
 import { buildEstimateRequest } from './build-estimate-request';
 import { toResultsView, type ResultsView } from './results-view-state';
@@ -139,6 +140,7 @@ export function ResultsPanelView({
                 {NEW_ESTIMATE_LABEL}
               </Button>
             </Stack>
+            <ContactSection />
           </Stack>
         </Collapse>
       )}
