@@ -14,8 +14,8 @@ export const STEP_ORDER: readonly StepId[] = ['type', 'items', 'details'];
  */
 export const STEP_META: Record<StepId, { id: StepId; title: string; index: number }> = {
   type: { id: 'type', title: 'Renovation type', index: 0 },
-  items: { id: 'items', title: 'What are you renovating?', index: 1 },
-  details: { id: 'details', title: 'Property details', index: 2 },
+  items: { id: 'items', title: 'What to renovate', index: 1 },
+  details: { id: 'details', title: 'More questions', index: 2 },
 };
 
 /**

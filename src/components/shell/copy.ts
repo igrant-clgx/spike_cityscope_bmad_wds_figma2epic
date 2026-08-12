@@ -11,6 +11,9 @@ export const PRODUCT_NAME = 'Reno Calculator';
 export const PARTNER_NAME = 'Demo Channel';
 
 export const DISCLAIMER =
-  'This estimate is indicative only. It is based on the answers you provide ' +
-  'and is not financial advice, a loan offer, or a quote. Actual renovation ' +
-  'costs vary — talk to a professional before making any decisions.';
+  'Disclaimer: The Renovation Calculator Report is available to customers who ' +
+  'provide their contact details for Demo Channel to contact them about ' +
+  'products and services. Renovation Calculator Report are prepared by ' +
+  'Cotality. The statements, information and opinions contained in those ' +
+  'reports are those of Cotality only, and Demo Channel AU does not endorse or ' +
+  'accept any liability for them.';

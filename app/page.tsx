@@ -1,4 +1,3 @@
-import Typography from '@mui/material/Typography';
 import { EstimateFlow } from '@/features/estimate-form';
 
 /**
@@ -8,15 +7,11 @@ import { EstimateFlow } from '@/features/estimate-form';
  * scope, and lifts the confirmed address so a real change resets dependent scope
  * (FR-9 / Story 2.5). `EstimateFlow` is the client boundary; this page stays a
  * Server Component.
+ *
+ * Per the Figma design, the flow leads directly with the address row + accordion
+ * steps — there is no page-level product title above the form (the brand lives
+ * in the header only).
  */
 export default function HomePage() {
-  return (
-    <>
-      <Typography variant="h1" gutterBottom>
-        Reno Calculator
-      </Typography>
-
-      <EstimateFlow />
-    </>
-  );
+  return <EstimateFlow />;
 }

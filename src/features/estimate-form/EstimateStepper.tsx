@@ -102,7 +102,7 @@ export function EstimateStepper() {
               {showSummary ? <CompletionIndicator /> : null}
               <Box component="span" sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography component="span" variant="body1" sx={{ display: 'block', fontWeight: 500 }}>
-                  {meta.title}
+                  {`Step ${meta.index + 1}: ${meta.title}`}
                 </Typography>
                 {showSummary ? (
                   <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block' }}>

@@ -114,6 +114,20 @@ export const theme = createTheme({
         },
       },
     },
+    // Renovation-type / item selectors (Step 1–2). The Figma renders these as
+    // title-case, primary-coloured outlined buttons — NOT MUI's default
+    // uppercase grey. Kill the uppercase textTransform and colour the resting
+    // (unselected) state with the primary token so it reads as an actionable
+    // outlined control; the selected fill is applied per-control.
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          color: colors.primary,
+          borderColor: colors.primary,
+        },
+      },
+    },
     // Input-error treatment (UX-DR15): 2px error border + soft focus glow, driven
     // by the shared `Mui-error` state so `FormTextField` gets it for free.
     MuiInputBase: {

@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '@/theme';
 import { AppShell } from './AppShell';
-import { PRODUCT_NAME, PARTNER_NAME } from './copy';
+import { PRODUCT_NAME, PARTNER_NAME, DISCLAIMER } from './copy';
 
 /**
  * Structural render test WITHOUT jsdom/RTL: `renderToStaticMarkup` returns the
@@ -34,8 +34,8 @@ describe('AppShell', () => {
   });
 
   it('renders the constant disclaimer', () => {
-    expect(html).toContain('indicative only');
-    expect(html).toContain('not financial advice');
+    expect(html).toContain('does not endorse or accept any liability');
+    expect(html).toContain(DISCLAIMER);
   });
 
   it('renders children inside the shell', () => {
