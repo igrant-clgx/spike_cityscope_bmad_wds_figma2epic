@@ -13,3 +13,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-2-design-system-theme.md`
   summary: `header-bg` (#2C2C2C) and `disabled` (#CCCCCC) palette tokens live only in `src/theme/tokens.ts`, not mapped into MUI palette slots.
   evidence: Blind Hunter noted these two brand colours aren't exposed on the MUI theme. MUI has no natural slot for a header background, and the charcoal header is built in Story 1.3; disabled-control states arrive with the form controls (Epics 2–5). Consumers read them from `tokens.ts` today. Wire into the theme (custom palette augmentation or component overrides) when the header and disabled states are implemented.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-4-feedback-motion-a11y.md`
+  summary: `apiFetch` retries reuse the same `RequestInfo`/`RequestInit`; a `Request` with a one-shot body would fail on retry (consumed stream).
+  evidence: Blind Hunter flagged that retrying a `Request` whose body was already read fails. All current callers pass a URL string + plain `init` (health check has no body), so no live defect. If a future caller passes a `Request` with a streamed body, clone it per attempt (or read the body once and rebuild `init`) before retrying.
