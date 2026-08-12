@@ -2,13 +2,13 @@
 title: 'Story 6.4: Security, privacy, reliability & observability verification'
 type: 'chore'
 created: '2026-08-14'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: 'd5d7c82'
-final_revision: ''
+final_revision: '40ff3a4'
 ---
 
 <intent-contract>
