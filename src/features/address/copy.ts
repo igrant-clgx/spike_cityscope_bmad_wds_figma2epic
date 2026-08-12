@@ -14,6 +14,14 @@ export const CHANGE_ADDRESS_LABEL = 'Enter new address';
 /** Control label when no address is set yet (initial flow). */
 export const ADD_ADDRESS_LABEL = 'Enter your property address';
 
+/**
+ * Non-blocking notice shown when a homeowner changes an already-confirmed
+ * address (FR-9, OI-7 assumption). Dependent renovation answers are cleared so
+ * the estimate always reflects the current property. Plain, reassuring voice.
+ */
+export const ADDRESS_CHANGED_RESET_NOTICE =
+  'Address updated. We cleared your renovation answers so your estimate matches the new property.';
+
 /* Autocomplete modal microcopy (Story 2.3) — plain, low-pressure voice. */
 
 /** Modal title / accessible dialog name. */

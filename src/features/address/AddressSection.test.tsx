@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { ThemeProvider } from '@mui/material/styles';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { makeQueryClient } from '@/lib/query-client';
+import { ToastProvider } from '@/components/feedback';
 import { theme } from '@/theme';
 import { AddressSection } from './AddressSection';
 import { ADDRESS_EMPTY_PROMPT, ADD_ADDRESS_LABEL } from './copy';
@@ -10,15 +11,18 @@ import { ADDRESS_EMPTY_PROMPT, ADD_ADDRESS_LABEL } from './copy';
 /**
  * Node-only structural test (no jsdom/RTL). The container owns the flow-form
  * state and mounts the display block (the modal is closed, so its Portal body is
- * not emitted). Wrapped in a `QueryClientProvider` because the modal's suggest
- * hook uses TanStack Query. Asserts the block renders its empty/initial state
- * and the keyboard-operable change control that opens the modal.
+ * not emitted). Wrapped in a `QueryClientProvider` (the modal's suggest hook uses
+ * TanStack Query) and a `ToastProvider` (the change path surfaces a reset notice
+ * via `useToast`). Asserts the block renders its empty/initial state and the
+ * keyboard-operable change control that opens the modal.
  */
 describe('AddressSection', () => {
   const html = renderToStaticMarkup(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={makeQueryClient()}>
-        <AddressSection />
+        <ToastProvider>
+          <AddressSection />
+        </ToastProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );

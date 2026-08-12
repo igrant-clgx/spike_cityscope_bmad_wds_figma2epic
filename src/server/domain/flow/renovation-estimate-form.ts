@@ -19,3 +19,24 @@ export function setAddress(
 ): RenovationEstimateForm {
   return { ...form, address };
 }
+
+/**
+ * Change the confirmed property address (FR-9, OI-7 `[OPEN]`).
+ *
+ * Changing the address resets ALL dependent renovation scope to the defined
+ * initial state and then applies the new address. Implemented as "start from
+ * `emptyForm()`, set the new address" so that as later epics add scope slots to
+ * `emptyForm()`, they are reset automatically here with no change to this
+ * transition.
+ *
+ * OI-7 (clear vs keep dependent answers) is unconfirmed by product; this
+ * implements the documented `[ASSUMPTION]` — clear dependent scope. Use
+ * `setAddress` for the FIRST address selection (nothing to reset); use
+ * `changeAddress` when replacing an already-confirmed address.
+ */
+export function changeAddress(
+  _form: RenovationEstimateForm,
+  address: ResolvedAddress,
+): RenovationEstimateForm {
+  return setAddress(emptyForm(), address);
+}
