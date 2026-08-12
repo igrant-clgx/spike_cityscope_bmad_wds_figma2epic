@@ -1,12 +1,20 @@
-import { Roboto } from 'next/font/google';
+import { Poppins, Source_Sans_3 } from 'next/font/google';
 import { Providers } from './providers';
 import { AppShell } from '@/components/shell';
 
-const roboto = Roboto({
+// Figma frame 9:2 uses Poppins (display/headings) + Source Sans Pro (body/UI).
+const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-roboto',
+  variable: '--font-poppins',
+});
+
+const sourceSans = Source_Sans_3({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-source-sans',
 });
 
 export const metadata = {
@@ -20,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-AU" className={roboto.variable}>
+    <html lang="en-AU" className={`${poppins.variable} ${sourceSans.variable}`}>
       <body>
         <Providers>
           <AppShell>{children}</AppShell>

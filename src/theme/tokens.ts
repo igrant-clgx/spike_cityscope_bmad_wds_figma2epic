@@ -2,21 +2,25 @@
  * Raw design tokens — the single source of truth for the brand layer.
  *
  * This is the ONLY file in the app permitted to contain hex colour and px
- * literals. Values are copied EXACTLY from DESIGN.md (the brand delta over
- * MUI v9 defaults). `theme.ts` maps these tokens into MUI's shape; every other
- * module must read design values from the theme, never re-declare literals.
+ * literals. Values are grounded in the ACTUAL Figma pixels (frame 9:2), pulled
+ * via Figma MCP and recorded in
+ * `_bmad-output/C-UX-Scenarios/_figma-imports/figma-design-observations.md`.
+ * Where the earlier DESIGN.md handover doc disagreed with the Figma, the pixels
+ * win (see that ledger's Pixels-vs-Doc Conflicts table). `theme.ts` maps these
+ * tokens into MUI's shape; every other module must read design values from the
+ * theme, never re-declare literals.
  */
 
 export const colors = {
   headerBg: '#2C2C2C',
-  canvas: '#F5F5F5',
+  canvas: '#EDF1F3', // Figma canvas: light blue-grey (observed; exact hex OI-F1)
   surface: '#FFFFFF',
-  textPrimary: '#333333',
+  textPrimary: '#110B1C', // Figma "Ebony" (rendered at 80% over surface)
   textSecondary: '#666666',
   textHint: '#999999',
-  primary: '#0066CC',
-  primaryHover: '#0052A3',
-  primaryActive: '#003D7A',
+  primary: '#432A6E', // Figma "Jacarta" / color/violet/30 — outlined selection buttons
+  primaryHover: '#37225A',
+  primaryActive: '#2C1B48',
   onPrimary: '#FFFFFF',
   success: '#28A745',
   error: '#DC3545',
@@ -26,7 +30,14 @@ export const colors = {
   disabled: '#CCCCCC',
 } as const;
 
-export const fontFamily = '"Roboto","Helvetica","Arial",sans-serif';
+/**
+ * Font families (Figma frame 9:2). Headings use "Poppins" (font-1); body, UI
+ * labels and buttons use "Source Sans Pro" (font-2, shipped as `Source Sans 3`
+ * via next/font). Each references the next/font CSS variable first (set in
+ * app/layout.tsx) with a graceful web-safe fallback stack.
+ */
+export const fontFamily = '"Source Sans 3","Source Sans Pro","Helvetica","Arial",sans-serif';
+export const headingFontFamily = '"Poppins","Helvetica","Arial",sans-serif';
 
 /**
  * Typography ramp. Sizes/weights/line-heights/letter-spacing exactly per
@@ -46,10 +57,11 @@ export const typography = {
   costDisplay: { fontSize: 56, fontWeight: 700, lineHeight: 1.2, letterSpacing: -1 },
 } as const;
 
-/** Corner radii. */
+/** Corner radii. Figma: selection buttons 4px, accordion papers/cards 16px. */
 export const radii = {
   sm: 4,
   md: 8,
+  lg: 16,
   full: 9999,
 } as const;
 
@@ -64,7 +76,7 @@ export const spacing = {
 
 /** Elevation shadows. No shadow exceeds 0.15 opacity. */
 export const shadows = {
-  accordion: '0px 2px 4px rgba(0,0,0,0.08)',
+  accordion: '0px 2px 2px rgba(17,11,28,0.08)', // Figma paper elevation (exact)
   result: '0px 4px 8px rgba(0,0,0,0.10)',
   snackbar: '0px 2px 8px rgba(0,0,0,0.15)',
 } as const;
@@ -95,6 +107,7 @@ export const focusRingWidth = 2;
 export const tokens = {
   colors,
   fontFamily,
+  headingFontFamily,
   typography,
   radii,
   spacing,

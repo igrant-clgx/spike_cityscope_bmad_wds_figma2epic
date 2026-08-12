@@ -4,13 +4,13 @@ import { tokens } from './tokens';
 
 describe('theme wiring', () => {
   it('maps palette tokens exactly', () => {
-    expect(theme.palette.primary.main).toBe('#0066CC');
-    expect(theme.palette.primary.dark).toBe('#0052A3');
+    expect(theme.palette.primary.main).toBe('#432A6E');
+    expect(theme.palette.primary.dark).toBe('#37225A');
     expect(theme.palette.primary.contrastText).toBe('#FFFFFF');
-    expect(theme.palette.text.primary).toBe('#333333');
+    expect(theme.palette.text.primary).toBe('#110B1C');
     expect(theme.palette.text.secondary).toBe('#666666');
     expect(theme.palette.text.disabled).toBe('#999999');
-    expect(theme.palette.background.default).toBe('#F5F5F5');
+    expect(theme.palette.background.default).toBe('#EDF1F3');
     expect(theme.palette.background.paper).toBe('#FFFFFF');
     expect(theme.palette.success.main).toBe('#28A745');
     expect(theme.palette.error.main).toBe('#DC3545');
@@ -27,8 +27,11 @@ describe('theme wiring', () => {
     expect(cd.letterSpacing).toBe(-1);
   });
 
-  it('uses the Roboto family and the full ramp', () => {
-    expect(theme.typography.fontFamily).toContain('Roboto');
+  it('uses the Source Sans body face with Poppins display headings and the full ramp', () => {
+    expect(theme.typography.fontFamily).toContain('Source Sans 3');
+    expect(theme.typography.fontFamily).toContain('--font-source-sans');
+    expect(theme.typography.h1.fontFamily).toContain('Poppins');
+    expect(theme.typography.h1.fontFamily).toContain('--font-poppins');
     expect(theme.typography.h1.fontSize).toBe(48);
     expect(theme.typography.h6.fontSize).toBe(16);
     expect(theme.typography.body1.fontSize).toBe(14);

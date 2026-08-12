@@ -1,7 +1,14 @@
 import { createTheme } from '@mui/material/styles';
 import { tokens } from './tokens';
 
-const { colors, fontFamily, typography, radii, spacing, shadows, motion, inputErrorGlow, minTarget, focusRingWidth } = tokens;
+const { colors, fontFamily, headingFontFamily, typography, radii, spacing, shadows, motion, inputErrorGlow, minTarget, focusRingWidth } = tokens;
+
+// next/font exposes hashed families via CSS variables set on <html>
+// (app/layout.tsx). Reference the variable first; the literal stack is the
+// graceful fallback. Poppins is the display/heading face; Source Sans Pro is the
+// body/UI face — matching the two families in the Figma (frame 9:2).
+const bodyFontStack = `var(--font-source-sans), ${fontFamily}`;
+const headingFontStack = `var(--font-poppins), ${headingFontFamily}`;
 
 /**
  * Authoritative MUI theme assembled from the raw design tokens.
@@ -37,21 +44,20 @@ export const theme = createTheme({
     divider: colors.border,
   },
   typography: {
-    // next/font/google generates a hashed family name exposed via the
-    // `--font-roboto` CSS variable (set on <html>), so reference it first; the
-    // literal "Roboto"/Helvetica/Arial stack is the graceful fallback.
-    fontFamily: `var(--font-roboto), ${fontFamily}`,
-    h1: typography.h1,
-    h2: typography.h2,
-    h3: typography.h3,
-    h4: typography.h4,
+    // Body/UI face (Source Sans Pro) is the default; prominent display headings
+    // (h1–h4) and the cost figure use the Poppins display face per the Figma.
+    fontFamily: bodyFontStack,
+    h1: { ...typography.h1, fontFamily: headingFontStack },
+    h2: { ...typography.h2, fontFamily: headingFontStack },
+    h3: { ...typography.h3, fontFamily: headingFontStack },
+    h4: { ...typography.h4, fontFamily: headingFontStack },
     h5: typography.h5,
     h6: typography.h6,
     body1: typography.body1,
     body2: typography.body2,
     caption: typography.caption,
     button: typography.button,
-    'cost-display': typography.costDisplay,
+    'cost-display': { ...typography.costDisplay, fontFamily: headingFontStack },
   },
   shape: {
     borderRadius: radii.md,
@@ -114,17 +120,28 @@ export const theme = createTheme({
         },
       },
     },
+    // Accordion papers / cards use the Figma 16px corner radius (radii.lg) and
+    // the brand accordion elevation. The global `shape.borderRadius` (8px) stays
+    // the default for other surfaces.
+    MuiPaper: {
+      styleOverrides: {
+        rounded: {
+          borderRadius: radii.lg,
+        },
+      },
+    },
     // Renovation-type / item selectors (Step 1–2). The Figma renders these as
-    // title-case, primary-coloured outlined buttons — NOT MUI's default
-    // uppercase grey. Kill the uppercase textTransform and colour the resting
-    // (unselected) state with the primary token so it reads as an actionable
-    // outlined control; the selected fill is applied per-control.
+    // title-case, primary-coloured outlined buttons with a 4px radius — NOT MUI's
+    // default uppercase grey. Kill the uppercase textTransform and colour the
+    // resting (unselected) state with the primary token so it reads as an
+    // actionable outlined control; the selected fill is applied per-control.
     MuiToggleButton: {
       styleOverrides: {
         root: {
           textTransform: 'none',
           color: colors.primary,
           borderColor: colors.primary,
+          borderRadius: radii.sm,
         },
       },
     },
