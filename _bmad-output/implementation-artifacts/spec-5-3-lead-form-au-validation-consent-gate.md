@@ -2,13 +2,13 @@
 title: 'Story 5.3: Lead form with AU validation & consent gate'
 type: 'feature'
 created: '2026-08-14'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: '2b78d79'
-final_revision: ''
+final_revision: '6657d35'
 ---
 
 ## OI-10 resolution (signed for this spike)
