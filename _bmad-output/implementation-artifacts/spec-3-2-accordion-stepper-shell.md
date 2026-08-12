@@ -2,11 +2,11 @@
 title: 'Story 3.2 — Accordion stepper shell & flow aggregate'
 type: 'feature'
 created: '2026-08-13'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 baseline_revision: 'ed87bcf8d353dc61366823793e0e494dd84b1f1c'
-final_revision: ''
+final_revision: 'e0e6c96c2737b4adc18314d08ba287da8e09ff2f'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-3-context.md'
 warnings: []
