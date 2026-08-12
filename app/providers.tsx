@@ -5,6 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from '@/theme';
+import { ToastProvider } from '@/components/feedback';
 
 /**
  * Client-side brand shell: mounts the Emotion App Router cache (flicker-free
@@ -15,7 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <AppRouterCacheProvider options={{ enableCssLayer: true }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );

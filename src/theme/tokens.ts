@@ -69,6 +69,29 @@ export const shadows = {
   snackbar: '0px 2px 8px rgba(0,0,0,0.15)',
 } as const;
 
+/**
+ * Motion system (UX-DR19 / FR-34). Durations in ms: micro interactions
+ * 100–150ms (use 120), accordion ≈300ms, reveal 300–500ms (use 400). Standard
+ * easing curve per DESIGN.md. `snackbarAutoHideMs` is the toast auto-dismiss
+ * window (3–5s, default 4s). All motion collapses under prefers-reduced-motion.
+ */
+export const motion = {
+  durMicro: 120,
+  durAccordion: 300,
+  durReveal: 400,
+  easingStandard: 'cubic-bezier(0.4,0,0.2,1)',
+  snackbarAutoHideMs: 4000,
+} as const;
+
+/**
+ * Input-error + a11y-baseline literals (UX-DR15 / UX-DR18 / UX-DR20). The soft
+ * error focus glow, the minimum 44px interactive target, and the focus-ring
+ * width all live here as the single source of literals.
+ */
+export const inputErrorGlow = '0 0 0 3px rgba(220,53,69,0.10)';
+export const minTarget = 44;
+export const focusRingWidth = 2;
+
 export const tokens = {
   colors,
   fontFamily,
@@ -76,6 +99,10 @@ export const tokens = {
   radii,
   spacing,
   shadows,
+  motion,
+  inputErrorGlow,
+  minTarget,
+  focusRingWidth,
 } as const;
 
 export type Tokens = typeof tokens;

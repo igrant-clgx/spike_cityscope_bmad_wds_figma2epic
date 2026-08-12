@@ -67,4 +67,37 @@ describe('theme wiring', () => {
       }
     }
   });
+
+  it('wires motion durations + standard easing from tokens', () => {
+    expect(theme.transitions.duration.short).toBe(120);
+    expect(theme.transitions.duration.standard).toBe(300);
+    expect(theme.transitions.duration.complex).toBe(400);
+    expect(theme.transitions.easing.easeInOut).toBe('cubic-bezier(0.4,0,0.2,1)');
+  });
+
+  it('collapses motion under prefers-reduced-motion via MuiCssBaseline', () => {
+    const overrides = theme.components?.MuiCssBaseline?.styleOverrides as
+      | Record<string, unknown>
+      | undefined;
+    expect(overrides).toBeDefined();
+    expect(overrides).toHaveProperty('@media (prefers-reduced-motion: reduce)');
+  });
+
+  it('registers the a11y + input-error component overrides', () => {
+    expect(theme.components?.MuiButton).toBeDefined();
+    expect(theme.components?.MuiButtonBase).toBeDefined();
+    expect(theme.components?.MuiOutlinedInput).toBeDefined();
+    expect(theme.components?.MuiInputBase).toBeDefined();
+  });
+
+  it('uses the primary focus ring colour and the error glow token', () => {
+    const button = theme.components?.MuiButton?.styleOverrides?.root as Record<string, unknown>;
+    const focus = button['&.Mui-focusVisible, &:focus-visible'] as { outline: string };
+    expect(focus.outline).toContain(tokens.colors.primary);
+    expect(button.minHeight).toBe(tokens.minTarget);
+
+    const input = theme.components?.MuiOutlinedInput?.styleOverrides?.root as Record<string, unknown>;
+    const errFocused = input['&.Mui-error.Mui-focused'] as { boxShadow: string };
+    expect(errFocused.boxShadow).toBe(tokens.inputErrorGlow);
+  });
 });

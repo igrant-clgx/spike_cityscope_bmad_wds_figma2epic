@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 import { tokens } from './tokens';
 
-const { colors, fontFamily, typography, radii, spacing, shadows } = tokens;
+const { colors, fontFamily, typography, radii, spacing, shadows, motion, inputErrorGlow, minTarget, focusRingWidth } = tokens;
 
 /**
  * Authoritative MUI theme assembled from the raw design tokens.
@@ -62,6 +62,80 @@ export const theme = createTheme({
     headerH: spacing.headerH,
     stepGap: spacing.stepGap,
     cardPad: spacing.cardPad,
+  },
+  // Motion system (UX-DR19 / FR-34): map the brand durations/easing onto MUI's
+  // transition slots so every animated component inherits them. Keep MUI's other
+  // defaults (e.g. `shorter`, `shortest`, easing.easeOut/easeIn/sharp) intact.
+  transitions: {
+    duration: {
+      short: motion.durMicro,
+      standard: motion.durAccordion,
+      complex: motion.durReveal,
+    },
+    easing: {
+      easeInOut: motion.easingStandard,
+    },
+  },
+  components: {
+    // Belt-and-braces reduced-motion: collapse ALL animation/transition globally
+    // (complements the JS `useReducedMotion` hook for JS-driven animation).
+    MuiCssBaseline: {
+      styleOverrides: {
+        '@media (prefers-reduced-motion: reduce)': {
+          '*, *::before, *::after': {
+            animationDuration: '0.01ms !important',
+            animationIterationCount: '1 !important',
+            transitionDuration: '0.01ms !important',
+            scrollBehavior: 'auto !important',
+          },
+        },
+      },
+    },
+    // A11y baseline (UX-DR18/20): visible primary focus-visible ring on every
+    // interactive element; never remove the outline without replacing it.
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focusVisible, &:focus-visible': {
+            outline: `${focusRingWidth}px solid ${colors.primary}`,
+            outlineOffset: 2,
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          minHeight: minTarget,
+          '&.Mui-focusVisible, &:focus-visible': {
+            outline: `${focusRingWidth}px solid ${colors.primary}`,
+            outlineOffset: 2,
+          },
+        },
+      },
+    },
+    // Input-error treatment (UX-DR15): 2px error border + soft focus glow, driven
+    // by the shared `Mui-error` state so `FormTextField` gets it for free.
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          minHeight: minTarget,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+            borderWidth: 2,
+            borderColor: colors.error,
+          },
+          '&.Mui-error.Mui-focused': {
+            boxShadow: inputErrorGlow,
+          },
+        },
+      },
+    },
   },
 });
 
