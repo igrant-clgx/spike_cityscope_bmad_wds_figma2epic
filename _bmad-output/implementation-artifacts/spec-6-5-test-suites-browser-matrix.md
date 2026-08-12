@@ -2,13 +2,13 @@
 title: 'Story 6.5: Test suites & browser support matrix'
 type: 'chore'
 created: '2026-08-14'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: 'af9a668'
-final_revision: ''
+final_revision: '0d2b3ee'
 ---
 
 <intent-contract>
