@@ -39,10 +39,12 @@ describe('ResultCostCard (node-only structural)', () => {
     expect(html).toContain(formatAudRange(RESULT.costMin, RESULT.costMax));
   });
 
-  it('wraps the estimate in a polite live region for SR announcement', () => {
+  it('renders the estimate range and title (no card-level live region)', () => {
     const html = render(RESULT, ['Kitchen']);
-    expect(html).toContain('role="status"');
-    expect(html).toContain('aria-live="polite"');
+    // The card carries NO live region of its own — the persistent parent owns it.
+    expect(html).not.toContain('role="status"');
+    expect(html).toContain(RESULT_CARD_TITLE);
+    expect(html).toContain(formatAudRange(RESULT.costMin, RESULT.costMax));
   });
 
   it('always shows the indicative disclaimer', () => {

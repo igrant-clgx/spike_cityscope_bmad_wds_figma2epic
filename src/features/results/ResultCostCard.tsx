@@ -44,15 +44,13 @@ const CONFIDENCE_COLOR: Record<
  * honest cost range. The parent (Story 4.3) owns the async/error state and
  * derives `typeLabel`/`itemLabels`; the actions below it are Story 4.4.
  *
- * The title/summary/range sit inside a polite live region so a screen reader
- * announces the estimate's arrival when the card mounts (UX-DR20 results). The
- * `cost-display` variant is the emotional peak and is used nowhere else.
+ * The `cost-display` variant is the emotional peak and is used nowhere else.
  *
- * NOTE (Story 4.3 contract): for the arrival announcement to be reliable, the
- * PERSISTENT results parent must keep an always-present `role="status"` region
- * in the tree and let the card's content populate it — a live region inserted
- * in the SAME commit as its text is often not announced. 4.3 must not
- * unmount/remount this region between calculating and result states.
+ * NOTE (Story 4.3 contract): the arrival announcement is owned SOLELY by the
+ * PERSISTENT results parent, which keeps an always-present `role="status"`
+ * region in the tree (never unmounted between calculating and result states)
+ * and speaks the dollar range there. This card carries NO live region of its
+ * own, so the figure is announced exactly once by the single reliable region.
  */
 export function ResultCostCard({ result, typeLabel, itemLabels }: ResultCostCardProps) {
   const confidence = resolveConfidence(result.confidence);
@@ -72,7 +70,7 @@ export function ResultCostCard({ result, typeLabel, itemLabels }: ResultCostCard
       }}
     >
       <Stack spacing={2} sx={{ alignItems: 'center', textAlign: 'center' }}>
-        <Box role="status" aria-live="polite" sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%' }}>
           <Typography variant="h5" component="h2" gutterBottom>
             {RESULT_CARD_TITLE}
           </Typography>
@@ -86,7 +84,7 @@ export function ResultCostCard({ result, typeLabel, itemLabels }: ResultCostCard
             variant="cost-display"
             component="p"
             align="center"
-            aria-label={`${formatAud(result.costMin)} to ${formatAud(result.costMax)}`}
+            aria-label={`${formatAud(Math.min(result.costMin, result.costMax))} to ${formatAud(Math.max(result.costMin, result.costMax))}`}
             sx={{ mt: 1 }}
           >
             {range}

@@ -9,6 +9,8 @@ import { ADDRESS_CHANGED_RESET_NOTICE } from '@/features/address/copy';
 import { useToast } from '@/components/feedback';
 import { EstimateStepper } from './EstimateStepper';
 import { stepFormDefaults, type StepFormValues } from './flow-form-values';
+import { useFormConfig } from './use-form-config';
+import { ResultsPanel } from '@/features/results';
 
 /** Structural equality of two resolved addresses (a re-confirm of the same
  * address must NOT be treated as a change — that would silently wipe scope). */
@@ -40,6 +42,8 @@ export function EstimateFlow() {
   const [address, setAddressState] = useState<ResolvedAddress | null>(null);
   const [stepperKey, setStepperKey] = useState(0);
   const toast = useToast();
+  const configQuery = useFormConfig();
+  const config = configQuery.data?.ok ? configQuery.data.data : undefined;
 
   const handleConfirm = (addr: ResolvedAddress) => {
     // A re-confirm of the identical address is not a change — never reset.
@@ -59,6 +63,7 @@ export function EstimateFlow() {
       <AddressSection address={address} onConfirm={handleConfirm} />
       <FormProvider {...methods}>
         <EstimateStepper key={stepperKey} />
+        <ResultsPanel config={config} getScope={methods.getValues} />
       </FormProvider>
     </Box>
   );

@@ -27,6 +27,44 @@ export const HOW_CALCULATED_EXPLAINER =
   'and does not account for your property\u2019s specific condition, finishes, or ' +
   'local labour rates. For a precise figure, talk to a professional.';
 
+/**
+ * Idle (not yet requested) copy: a low-pressure prompt plus the explicit
+ * "calculate" CTA. The estimate fires only on this deliberate action, never on
+ * a keystroke (UX-DR16 results).
+ */
+export const IDLE_PROMPT =
+  'When you\u2019re ready, we\u2019ll turn your answers into an indicative cost range.';
+export const CALCULATE_CTA_LABEL = 'See my estimate';
+
+/** Loading copy — calm, honest about the wait (UX-DR16 loading). */
+export const LOADING_MESSAGE = 'Working out your estimate\u2026';
+export const LOADING_ANNOUNCEMENT = 'Calculating your estimate\u2026';
+
+/** Success arrival announcement, spoken via the persistent live region. */
+export const SUCCESS_ANNOUNCEMENT = 'Your estimate is ready.';
+
+/**
+ * Empty/low-confidence copy (UX-DR16). Honest that the range is rough and offers
+ * a forward path — the range is still shown, framed humbly, never a single
+ * false-precise number.
+ */
+export const LOW_CONFIDENCE_MESSAGE =
+  'We can only give a rough range from what you\u2019ve told us so far. ' +
+  'Add a little more detail to your answers and we\u2019ll sharpen it.';
+export const LOW_CONFIDENCE_ANNOUNCEMENT =
+  'An early, rough estimate is ready.';
+
+/**
+ * Non-destructive error copy (UX-DR16 error). Reassures the homeowner their
+ * answers are safe and offers a plain retry; the request re-fires unchanged.
+ */
+export const ERROR_TITLE = 'We couldn\u2019t work out your estimate';
+export const ERROR_MESSAGE =
+  'Something went wrong on our side. Your answers are safe \u2014 you can try again.';
+export const ERROR_ANNOUNCEMENT =
+  'We couldn\u2019t work out your estimate. Please try again.';
+export const RETRY_LABEL = 'Try again';
+
 /** Confidence display copy keyed by level (humble, non-alarming). */
 export const CONFIDENCE_COPY: Record<
   EstimateConfidence,
