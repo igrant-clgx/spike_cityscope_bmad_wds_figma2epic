@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { visuallyHidden } from '@mui/utils';
 import { useAnalytics } from '@/components/analytics/AnalyticsProvider';
 import { LeadForm } from './LeadForm';
 import { useLeadCapture } from './use-lead-capture';
@@ -48,7 +49,7 @@ export function LeadPanelView({ view, onSubmit, onRetry }: LeadPanelViewProps) {
         role="status"
         aria-live="polite"
         aria-busy={view.kind === 'submitting'}
-        sx={{ minHeight: 0 }}
+        sx={visuallyHidden}
       >
         {view.announce}
       </Box>

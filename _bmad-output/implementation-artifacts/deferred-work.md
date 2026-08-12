@@ -85,3 +85,9 @@ ResultsPanel owns a persistent live region AND LeadPanel adds its own; in the su
 
 ## Story 5.4 — edited-resubmit after a transport error reuses the key (EH#5)
 On a transport error the form stays editable while the same `idempotencyKey` is retained; if the original POST actually succeeded but the response was lost, a subsequent edited submit returns the original `leadId` and discards the edits (ledger keys on key, not payload). Narrow (transport-loss + user edit); intended idempotency tradeoff. Revisit only if payload-aware idempotency is required downstream.
+
+## Story 5.4 → RESOLVED in Story 6.2 — competing / visible live regions
+The two `role="status"` regions on the success screen (ResultsPanel + LeadPanel) are now both `visuallyHidden` (SR-only), matching the `EstimateStepper` pattern: exactly one SR-only polite region per surface, empty at rest, announcing at disjoint times (estimate arrival, then lead submission) with static content thereafter (no live re-announce/race). The prior `minHeight: 0` treatment rendered the announcement as a visible duplicate above the card; that is removed. Node-tested (`ResultsPanel.test.tsx`/`LeadPanel.test.tsx` SR-only assertions). See `accessibility-audit.md`.
+
+## Story 4.4 → SPECIFIED (manual-pass) in Story 6.2 — focus order (WCAG 2.4.3)
+No `.focus()` management exists; after New/Edit Estimate and on lead submit→success/error, focus is dropped to `<body>`. Dynamic behaviour the node-only harness cannot verify, so it is documented as a manual-pass remediation with a concrete recommendation (move focus to: address/step-1 header on New; first editable step on Edit; confirmation heading on lead success; error heading/Try-again on lead error — via a `ref` + `useEffect` keyed on the view `kind`). Implement + verify in a browser-capable pass; not remediated in code to avoid shipping unverifiable focus behaviour under the node harness. See `accessibility-audit.md` §Operable / SC 2.4.3.

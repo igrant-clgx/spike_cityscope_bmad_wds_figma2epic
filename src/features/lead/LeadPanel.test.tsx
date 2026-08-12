@@ -100,6 +100,17 @@ describe('LeadPanelView (node-only structural, full I/O matrix)', () => {
       expect(html.match(/aria-live="polite"/g)).toHaveLength(1);
     }
   });
+
+  it('the persistent live region is SR-only (visuallyHidden)', () => {
+    const html = renderView({
+      kind: 'submitting',
+      announce: LEAD_SUBMITTING_ANNOUNCEMENT,
+    });
+    // One SR-only polite region per surface (no visible duplicate, no competing
+    // visible region with the Results surface) — resolves the Story 5.4 concern.
+    expect(html).toContain('clip:rect(0 0 0 0)');
+    expect(html).toContain(LEAD_SUBMITTING_ANNOUNCEMENT);
+  });
 });
 
 describe('leadSubmittedEvent (AD-12: leadId + contactMethod, NEVER PII)', () => {

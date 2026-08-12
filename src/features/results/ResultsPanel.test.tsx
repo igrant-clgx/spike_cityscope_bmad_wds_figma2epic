@@ -61,6 +61,18 @@ describe('ResultsPanelView (node-only structural, full I/O matrix)', () => {
     expect(html).toContain('aria-live="polite"');
   });
 
+  it('the live region is SR-only (visuallyHidden), not a visible duplicate', () => {
+    const html = renderView({
+      kind: 'success',
+      result: RESULT,
+      announce: 'Your estimate is ready.',
+    });
+    // visuallyHidden emits a clip-rect style; the announcement text stays in the
+    // DOM (SR-reachable) but is not a visible duplicate of the card's range.
+    expect(html).toContain('clip:rect(0 0 0 0)');
+    expect(html).toContain('Your estimate is ready.');
+  });
+
   it('idle: disables the CTA when told to (config not loaded)', () => {
     const html = renderView({ kind: 'idle', announce: '' }, { ctaDisabled: true });
     expect(html).toContain('disabled');

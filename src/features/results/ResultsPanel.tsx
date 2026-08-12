@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { visuallyHidden } from '@mui/utils';
 import { useReducedMotion, resolveDuration } from '@/components/feedback';
 import { formatAudRange } from '@/lib/money-format';
 import type { FormConfig } from '@shared/schemas';
@@ -80,7 +81,7 @@ export function ResultsPanelView({
         role="status"
         aria-live="polite"
         aria-busy={view.kind === 'loading'}
-        sx={{ minHeight: 0 }}
+        sx={visuallyHidden}
       >
         {announce}
       </Box>
