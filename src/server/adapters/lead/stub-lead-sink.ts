@@ -35,6 +35,15 @@ const RETENTION_MONTHS = 24;
 let leadSeq = 0;
 
 /**
+ * Process-level idempotency ledger (FR-32/FR-33): `Idempotency-Key` → the
+ * `leadId` it first produced. Deliberately module-scoped (NOT per sink instance)
+ * so a manual retry — which constructs a FRESH sink per POST — still dedups to
+ * the SAME `leadId` and never stores a second record. Only transport metadata
+ * lives here; no PII.
+ */
+const idempotencyLedger = new Map<string, string>();
+
+/**
  * An internal stored lead record: the captured lead plus the AD-10 privacy
  * markings. Kept INTERNAL to this module (never returned to the client) so PII
  * cannot leak past the BFF.
@@ -96,10 +105,21 @@ export function createStubLeadSink(): StubLeadSink {
   const store: StoredLeadRecord[] = [];
 
   return {
-    capture(lead: LeadCapture): Promise<LeadReceipt> {
+    capture(lead: LeadCapture, idempotencyKey?: string): Promise<LeadReceipt> {
       // Consent gate (AD-10): reject a consent-less capture — defense in depth.
+      // Checked FIRST, BEFORE the idempotency dedup, so a consent-less retry can
+      // never be short-circuited into a spurious success.
       if (!lead.consent) {
         return Promise.reject(new Error("Lead capture requires explicit consent."));
+      }
+
+      // Idempotent dedup (FR-32/FR-33): a repeat key returns the SAME leadId and
+      // does NOT push a second store record.
+      if (idempotencyKey !== undefined) {
+        const existing = idempotencyLedger.get(idempotencyKey);
+        if (existing !== undefined) {
+          return Promise.resolve({ leadId: existing });
+        }
       }
 
       leadSeq += 1;
@@ -111,6 +131,10 @@ export function createStubLeadSink(): StubLeadSink {
         retentionMonths: RETENTION_MONTHS,
         leadId,
       });
+
+      if (idempotencyKey !== undefined) {
+        idempotencyLedger.set(idempotencyKey, leadId);
+      }
 
       return Promise.resolve({ leadId });
     },

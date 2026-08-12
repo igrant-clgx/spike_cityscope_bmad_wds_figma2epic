@@ -13,6 +13,7 @@ import type { FormConfig } from '@shared/schemas';
 import type { StepFormValues } from '@/features/estimate-form/flow-form-values';
 import { useEstimate } from '@/features/estimate-form/use-estimate';
 import { ContactSection } from '@/features/lead/ContactSection';
+import { LeadPanel } from '@/features/lead/LeadPanel';
 import { ResultCostCard } from './ResultCostCard';
 import { buildEstimateRequest } from './build-estimate-request';
 import { toResultsView, type ResultsView } from './results-view-state';
@@ -141,6 +142,7 @@ export function ResultsPanelView({
               </Button>
             </Stack>
             <ContactSection />
+            <LeadPanel estimateId={view.result.estimateId} />
           </Stack>
         </Collapse>
       )}

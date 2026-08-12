@@ -58,7 +58,11 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   try {
-    const receipt = await captureLead(createStubLeadSink(), parsed.data);
+    // A present-but-empty/whitespace header must NOT be treated as a real key
+    // (it would collide every such lead to one `leadId` against the ledger).
+    const rawKey = request.headers.get("Idempotency-Key");
+    const idempotencyKey = rawKey && rawKey.trim() ? rawKey : undefined;
+    const receipt = await captureLead(createStubLeadSink(), parsed.data, idempotencyKey);
     return respondWithReceipt(receipt, requestId);
   } catch {
     // A thrown adapter error (e.g. the consent gate) becomes the same controlled

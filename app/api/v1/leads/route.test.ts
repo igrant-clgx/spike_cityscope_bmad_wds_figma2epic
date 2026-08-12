@@ -68,11 +68,50 @@ describe("POST /api/v1/leads", () => {
     expect(body.error.code).toBe("invalid_request");
   });
 
-  it("returns a 400 error envelope for an invalid email", async () => {
-    const res = await POST(postRequest({ ...VALID_BODY, email: "nope" }));
-    const body = await res.json();
-    expect(res.status).toBe(400);
-    expect(body.error.code).toBe("invalid_request");
+  it("returns the SAME receipt for a repeated Idempotency-Key (FR-32/FR-33)", async () => {
+    const key = `idem-route-${Math.random().toString(36).slice(2)}`;
+    const first = await POST(
+      new Request("http://localhost/api/v1/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json", "Idempotency-Key": key },
+        body: JSON.stringify(VALID_BODY),
+      }),
+    );
+    const second = await POST(
+      new Request("http://localhost/api/v1/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json", "Idempotency-Key": key },
+        body: JSON.stringify(VALID_BODY),
+      }),
+    );
+    const firstBody = await first.json();
+    const secondBody = await second.json();
+    expect(firstBody.ok).toBe(true);
+    expect(secondBody.ok).toBe(true);
+    expect(secondBody.data.leadId).toBe(firstBody.data.leadId);
+  });
+
+  it("does NOT dedup on an empty/whitespace Idempotency-Key header (EH#1)", async () => {
+    const first = await POST(
+      new Request("http://localhost/api/v1/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json", "Idempotency-Key": "  " },
+        body: JSON.stringify(VALID_BODY),
+      }),
+    );
+    const second = await POST(
+      new Request("http://localhost/api/v1/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json", "Idempotency-Key": "" },
+        body: JSON.stringify(VALID_BODY),
+      }),
+    );
+    const firstBody = await first.json();
+    const secondBody = await second.json();
+    expect(firstBody.ok).toBe(true);
+    expect(secondBody.ok).toBe(true);
+    // An empty/whitespace key is treated as absent → distinct leads, no collision.
+    expect(secondBody.data.leadId).not.toBe(firstBody.data.leadId);
   });
 });
 

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -39,6 +40,7 @@ import {
   CONSENT_LABEL,
   SUBMIT_LABEL,
 } from './lead-form-copy';
+import { LEAD_DISABLED_SUBMIT_HELP } from './lead-panel-copy';
 
 /** Stable ids so each control's error node links via `aria-describedby`. */
 const FIELD_IDS = {
@@ -56,6 +58,7 @@ const CONTACT_METHOD_ERROR_ID = 'lead-contact-method-error';
 const BEST_TIME_LABEL_ID = 'lead-best-time-label';
 const BEST_TIME_ERROR_ID = 'lead-best-time-error';
 const CONSENT_ERROR_ID = 'lead-consent-error';
+const DISABLED_SUBMIT_HELP_ID = 'lead-disabled-submit-help';
 
 export interface LeadFormProps {
   /**
@@ -65,6 +68,13 @@ export interface LeadFormProps {
    * satisfy `leadCaptureRequestSchema` once Story 5.4 joins the `estimateId`.
    */
   onSubmit?: (fields: LeadRequestFields) => void;
+  /**
+   * Story 5.4 submit-in-flight flag. While `true` the form is inert — the submit
+   * shows a loading spinner and is disabled so a duplicate submission is
+   * impossible (UX-DR16 lead). The rhf state is untouched, so entered data is
+   * preserved across submitting↔error.
+   */
+  submitting?: boolean;
 }
 
 /**
@@ -81,7 +91,7 @@ export interface LeadFormProps {
  * its error node via `aria-describedby`; consent is a real MUI `Checkbox` with
  * correct semantics and its own error wiring (UX-DR20). Targets are ≥44px.
  */
-export function LeadForm({ onSubmit }: LeadFormProps) {
+export function LeadForm({ onSubmit, submitting = false }: LeadFormProps) {
   const { control, handleSubmit, watch } = useForm<LeadFormValues>({
     defaultValues: leadFormDefaults(),
     mode: 'onTouched',
@@ -309,12 +319,21 @@ export function LeadForm({ onSubmit }: LeadFormProps) {
         <Button
           type="submit"
           variant="contained"
-          disabled={!submittable}
+          disabled={!submittable || submitting}
           sx={{ minHeight: 44 }}
+          aria-describedby={!submittable ? DISABLED_SUBMIT_HELP_ID : undefined}
+          startIcon={
+            submitting ? <CircularProgress size={16} aria-hidden /> : undefined
+          }
         >
           {SUBMIT_LABEL}
         </Button>
       </Stack>
+      {!submittable ? (
+        <FormHelperText id={DISABLED_SUBMIT_HELP_ID}>
+          {LEAD_DISABLED_SUBMIT_HELP}
+        </FormHelperText>
+      ) : null}
     </Box>
   );
 }

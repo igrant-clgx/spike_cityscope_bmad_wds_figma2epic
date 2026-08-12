@@ -17,22 +17,38 @@ import type { LeadCaptureRequest, LeadReceipt } from '@shared/schemas';
  * The request wiring is extracted as a plain function so it is node-testable via
  * a `global.fetch` stub (mirrors `use-estimate.ts`).
  *
- * NOTE: safe non-idempotent-POST retry/idempotency for the stateful lead submit
- * (FR-32/FR-33) is designed in Story 5.4 — `apiFetch` retry semantics are
- * intentionally unchanged here.
+ * NOTE: this is a STATEFUL POST, so it is NEVER silently transport-retried
+ * (`apiFetch` `maxRetries: 0`) and it carries a stable per-submission
+ * `Idempotency-Key` header (FR-32/FR-33) the stub sink dedups on — a manual
+ * retry re-fires the SAME key and returns the SAME `leadId`, no duplicate.
  */
 export function requestLeadCapture(
   request: LeadCaptureRequest,
+  idempotencyKey: string,
 ): Promise<ApiResult<LeadReceipt>> {
-  return apiFetch('/api/v1/leads', leadReceiptSchema, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(request),
-  });
+  return apiFetch(
+    '/api/v1/leads',
+    leadReceiptSchema,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Idempotency-Key': idempotencyKey,
+      },
+      body: JSON.stringify(request),
+    },
+    { maxRetries: 0 },
+  );
 }
 
 export function useLeadCapture() {
   return useMutation({
-    mutationFn: requestLeadCapture,
+    mutationFn: ({
+      request,
+      idempotencyKey,
+    }: {
+      request: LeadCaptureRequest;
+      idempotencyKey: string;
+    }) => requestLeadCapture(request, idempotencyKey),
   });
 }

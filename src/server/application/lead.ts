@@ -15,6 +15,7 @@ import type {
 export async function captureLead(
   sink: LeadSink,
   lead: LeadCapture,
+  idempotencyKey?: string,
 ): Promise<LeadReceipt> {
-  return sink.capture(lead);
+  return sink.capture(lead, idempotencyKey);
 }

@@ -59,6 +59,38 @@ describe("createStubLeadSink", () => {
     expect(first.leadId).not.toBe(second.leadId);
     expect(sink.peek()).toHaveLength(2);
   });
+
+  it("dedups a repeat idempotency key to the SAME leadId and stores only ONE record (FR-32/FR-33)", async () => {
+    const key = `idem-${Math.random().toString(36).slice(2)}`;
+    const sink = createStubLeadSink();
+    const first = await sink.capture(lead(), key);
+    // A fresh sink models the retry POST (route builds a new sink per request).
+    const retrySink = createStubLeadSink();
+    const second = await retrySink.capture(lead(), key);
+    expect(second.leadId).toBe(first.leadId);
+    // The retry stored NO new record — the ledger short-circuited it.
+    expect(retrySink.peek()).toHaveLength(0);
+  });
+
+  it("gives DISTINCT idempotency keys distinct leadIds", async () => {
+    const suffix = Math.random().toString(36).slice(2);
+    const sink = createStubLeadSink();
+    const a = await sink.capture(lead(), `idem-a-${suffix}`);
+    const b = await sink.capture(lead(), `idem-b-${suffix}`);
+    expect(a.leadId).not.toBe(b.leadId);
+    expect(sink.peek()).toHaveLength(2);
+  });
+
+  it("rejects a consent-less capture BEFORE the idempotency dedup", async () => {
+    const key = `idem-consent-${Math.random().toString(36).slice(2)}`;
+    const sink = createStubLeadSink();
+    await expect(sink.capture(lead({ consent: false }), key)).rejects.toThrow(/consent/i);
+    expect(sink.peek()).toHaveLength(0);
+    // The rejected key never entered the ledger: a later consented capture with
+    // the same key stores a fresh record.
+    const ok = await createStubLeadSink().capture(lead(), key);
+    expect(ok.leadId).toMatch(/^lead_[0-9a-f]{16}$/);
+  });
 });
 
 describe("maskPhone", () => {

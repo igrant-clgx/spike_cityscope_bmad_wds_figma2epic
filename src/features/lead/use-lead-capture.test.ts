@@ -32,19 +32,33 @@ afterEach(() => {
 });
 
 describe('requestLeadCapture (client)', () => {
-  it('POSTs to the same-origin lead route', async () => {
+  it('POSTs to the same-origin lead route with the Idempotency-Key header', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       envelopeResponse({ ok: true, data: { leadId: 'lead_abc' }, requestId: 'rid-lead' }),
     );
     global.fetch = fetchMock as typeof fetch;
 
-    await requestLeadCapture(sampleRequest);
+    await requestLeadCapture(sampleRequest, 'idem-key-1');
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0];
     expect(url).toBe('/api/v1/leads');
     expect(init.method).toBe('POST');
+    expect(init.headers['Idempotency-Key']).toBe('idem-key-1');
     expect(JSON.parse(init.body)).toEqual(sampleRequest);
+  });
+
+  it('does NOT auto-retry a 5xx (stateful POST, maxRetries: 0)', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      envelopeResponse('upstream boom', 503),
+    );
+    global.fetch = fetchMock as typeof fetch;
+
+    const result = await requestLeadCapture(sampleRequest, 'idem-key-2');
+
+    // Called exactly once — a transient 5xx must NOT be silently retried.
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(result.ok).toBe(false);
   });
 
   it('returns the typed lead receipt on success', async () => {
@@ -53,7 +67,7 @@ describe('requestLeadCapture (client)', () => {
     );
     global.fetch = fetchMock as typeof fetch;
 
-    const result = await requestLeadCapture(sampleRequest);
+    const result = await requestLeadCapture(sampleRequest, 'idem-key-3');
 
     expect(result.ok).toBe(true);
     if (result.ok) {
@@ -71,7 +85,7 @@ describe('requestLeadCapture (client)', () => {
     );
     global.fetch = fetchMock as typeof fetch;
 
-    const result = await requestLeadCapture(sampleRequest);
+    const result = await requestLeadCapture(sampleRequest, 'idem-key-4');
 
     expect(result.ok).toBe(false);
     if (!result.ok) {

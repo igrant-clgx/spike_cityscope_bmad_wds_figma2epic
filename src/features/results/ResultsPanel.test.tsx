@@ -20,6 +20,7 @@ import {
   RESULT_CARD_TITLE,
 } from './copy';
 import { CONTACT_HEADING } from '@/features/lead/contact-copy';
+import { LEAD_FORM_HEADING } from '@/features/lead/lead-form-copy';
 
 const RESULT: EstimateResult = {
   estimateId: 'est_1',
@@ -34,17 +35,19 @@ function renderView(
 ): string {
   return renderToStaticMarkup(
     <ThemeProvider theme={theme}>
-      <ResultsPanelView
-        view={view}
-        typeLabel="Internal"
-        itemLabels={['Kitchen']}
-        ctaDisabled={false}
-        onCalculate={() => {}}
-        onRetry={() => {}}
-        onEdit={() => {}}
-        onNewEstimate={() => {}}
-        {...props}
-      />
+      <QueryClientProvider client={new QueryClient()}>
+        <ResultsPanelView
+          view={view}
+          typeLabel="Internal"
+          itemLabels={['Kitchen']}
+          ctaDisabled={false}
+          onCalculate={() => {}}
+          onRetry={() => {}}
+          onEdit={() => {}}
+          onNewEstimate={() => {}}
+          {...props}
+        />
+      </QueryClientProvider>
     </ThemeProvider>,
   );
 }
@@ -158,6 +161,31 @@ describe('ResultsPanelView (node-only structural, full I/O matrix)', () => {
     for (const html of [success, low]) {
       expect(html).toContain(CONTACT_HEADING);
       expect(html).toContain('href="tel:');
+    }
+  });
+
+  it('success/lowConfidence: mounts the LeadPanel form (Story 5.4)', () => {
+    const success = renderView({
+      kind: 'success',
+      result: RESULT,
+      announce: 'Your estimate is ready.',
+    });
+    const low = renderView({
+      kind: 'lowConfidence',
+      result: { ...RESULT, confidence: 'low' as const },
+      announce: 'An early, rough estimate is ready.',
+    });
+    for (const html of [success, low]) {
+      expect(html).toContain(LEAD_FORM_HEADING);
+    }
+  });
+
+  it('idle/loading/error: does NOT mount the LeadPanel', () => {
+    const idle = renderView({ kind: 'idle', announce: '' });
+    const loading = renderView({ kind: 'loading', announce: '' });
+    const error = renderView({ kind: 'error', message: 'x', announce: '' });
+    for (const html of [idle, loading, error]) {
+      expect(html).not.toContain(LEAD_FORM_HEADING);
     }
   });
 

@@ -32,7 +32,13 @@ describe("captureLead", () => {
     const sink = fakeSink();
     const receipt = await captureLead(sink, SAMPLE_LEAD);
     expect(receipt).toEqual({ leadId: "lead_abc123" });
-    expect(sink.capture).toHaveBeenCalledWith(SAMPLE_LEAD);
+    expect(sink.capture).toHaveBeenCalledWith(SAMPLE_LEAD, undefined);
+  });
+
+  it("threads the idempotency key through to the sink (FR-32/FR-33)", async () => {
+    const sink = fakeSink();
+    await captureLead(sink, SAMPLE_LEAD, "idem-key-1");
+    expect(sink.capture).toHaveBeenCalledWith(SAMPLE_LEAD, "idem-key-1");
   });
 
   it("propagates a rejection from the sink (e.g. consent gate)", async () => {

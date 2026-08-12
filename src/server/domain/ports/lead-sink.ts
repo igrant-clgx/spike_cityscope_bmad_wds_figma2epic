@@ -4,9 +4,15 @@
  *
  * Interface only at scaffold time — the concrete adapter (store → CRM, OI-11)
  * is wired in a later story. No external I/O here.
+ *
+ * `idempotencyKey` (FR-32/FR-33) is TRANSPORT metadata for safe non-idempotent
+ * POST retry — the stateful lead submit carries a stable per-submission key so a
+ * manual retry dedups to the SAME `leadId` (no duplicate record). It is a
+ * DELIBERATELY separate param, NOT a field on `LeadCapture`, so it never becomes
+ * PII on the lead payload and never touches the shared request schema.
  */
 export interface LeadSink {
-  capture(lead: LeadCapture): Promise<LeadReceipt>;
+  capture(lead: LeadCapture, idempotencyKey?: string): Promise<LeadReceipt>;
 }
 
 /**
