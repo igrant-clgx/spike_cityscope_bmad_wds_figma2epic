@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: 2026-08-13T00:05:00+10:00
+last_updated: 2026-08-13T01:30:00+10:00
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -55,13 +55,13 @@ development_status:
   1-4-shared-feedback-motion-accessibility-primitives: done
   1-5-typed-analyticssink-event-seam: done
   epic-1-retrospective: done
-  epic-2: in-progress
+  epic-2: done
   2-1-addressprovider-port-stub-adapter-bff-route: done
   2-2-display-current-address-change-control: done
   2-3-address-autocomplete-modal-with-structured-resolution: done
   2-4-manual-entry-fallback-non-destructive-error-handling: done
   2-5-address-change-resets-scope-to-a-defined-state: done
-  epic-2-retrospective: optional
+  epic-2-retrospective: done
   epic-3: backlog
   3-1-configsource-port-stub-adapter-versioned-content-schemas: backlog
   3-2-accordion-stepper-shell-flow-aggregate: backlog
@@ -93,11 +93,11 @@ action_items:
   - epic: 1
     action: "Add & configure TanStack Query as the async-ownership layer (AD-5) before Epic 2 Story 2.1"
     owner: "Winston / Amelia"
-    status: open
+    status: done
   - epic: 1
     action: "Decide the interaction-testing approach for the address modal (node-only + manual a11y checks, or introduce jsdom for focus-trap/return) before Story 2.3"
     owner: "Amelia / Dana"
-    status: open
+    status: done
   - epic: 1
     action: "Add the inward-dependency boundary lint/arch test (deferred from Story 1.1) during Epic 2"
     owner: "Winston"
@@ -105,12 +105,32 @@ action_items:
   - epic: 1
     action: "Re-evaluate the api-client one-shot-body retry gap when autocomplete introduces a bodied request (Story 2.3)"
     owner: "Amelia"
-    status: open
+    status: done
   - epic: 1
     action: "Codify the two-parallel-reviewer loop (Blind Hunter + Edge Case Hunter) as the standard dev-auto finalize gate"
     owner: "Amelia"
-    status: open
+    status: done
   - epic: 1
     action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (nice-to-have)"
     owner: "Winston"
+    status: open
+  - epic: 2
+    action: "Confirm OI-7 — address-change reset scope (clear-all vs keep-valid vs prompt); Story 2.5 assumed clear-all + notify — reconcile before Story 3.2 wires scope slots"
+    owner: "Alice / Igrant"
+    status: open
+  - epic: 2
+    action: "Surface OI-1 (Step 2 item content) and OI-2 (Step 3 validation) as documented assumptions in the Story 3.4 / 3.5 specs and flag for confirmation"
+    owner: "Alice / Amelia"
+    status: open
+  - epic: 2
+    action: "Land the inward-dependency boundary arch test early in Epic 3 (by Story 3.1) so ConfigSource/EstimateEngine/LeadSink adapters cannot import inward"
+    owner: "Winston"
+    status: open
+  - epic: 2
+    action: "Decide the accordion interaction-testing approach (extend node-only + manual a11y, or introduce a jsdom lane) before Story 3.2"
+    owner: "Amelia / Dana"
+    status: open
+  - epic: 2
+    action: "Add 'stale transient UI state reset' as an explicit item in the reviewer-prompt checklist"
+    owner: "Amelia"
     status: open
