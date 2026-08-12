@@ -41,15 +41,15 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: 2026-08-12T19:28:28+10:00
+last_updated: 2026-08-12T19:50:21+10:00
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
 story_location: "{project-root}/_bmad-output/implementation-artifacts"
 
 development_status:
-  epic-1: backlog
-  1-1-greenfield-scaffold-ports-and-adapters-skeleton: backlog
+  epic-1: in-progress
+  1-1-greenfield-scaffold-ports-and-adapters-skeleton: done
   1-2-design-system-theme-tokens: backlog
   1-3-branded-shell-header-responsive-layout-footer-disclaimer: backlog
   1-4-shared-feedback-motion-accessibility-primitives: backlog
