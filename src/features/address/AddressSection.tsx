@@ -2,53 +2,40 @@
 
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import {
-  emptyForm,
-  setAddress,
-  changeAddress,
-} from '@server/domain/flow/renovation-estimate-form';
 import type { ResolvedAddress } from '@server/domain/ports/address-provider';
-import { useToast } from '@/components/feedback';
 import { AddressBlock } from './AddressBlock';
 import { AddressModal } from './AddressModal';
-import { ADDRESS_CHANGED_RESET_NOTICE } from './copy';
+
+export interface AddressSectionProps {
+  /** The current confirmed property address, or `null` before one is chosen. */
+  address: ResolvedAddress | null;
+  /** Commit a resolved address to the flow (first-set vs change lives upstream). */
+  onConfirm: (address: ResolvedAddress) => void;
+}
 
 /**
- * Client container that owns the renovation-estimate flow-form React state and
- * connects the display block to the change modal (AD-6). `AddressBlock`'s change
- * control opens the modal; a confirmed resolution writes into the flow aggregate
- * and closes. Focus-return needs no manual ref: MUI `Dialog` restores focus to
- * the element focused when the dialog opened — the change control button itself
- * — on close (UX-DR9/UX-DR18).
- *
- * Address-change reset (FR-9, OI-7 `[OPEN]` assumption): the FIRST confirmation
- * uses `setAddress` (nothing to reset); changing an already-confirmed address
- * uses `changeAddress`, which resets dependent renovation scope to the defined
- * initial state, and surfaces a non-blocking notice so the reset is communicated.
+ * Controlled address container. It owns ONLY the local modal `open` boolean and
+ * wires the display block to the change modal; the flow-form state, the
+ * first-set-vs-change decision, and the address-change reset notice were lifted
+ * up to `EstimateFlow` (the single flow aggregate owner, AD-6). `AddressBlock`'s
+ * change control opens the modal; a confirmed resolution calls `onConfirm` and
+ * closes. Focus-return needs no manual ref: MUI `Dialog` restores focus to the
+ * element focused when the dialog opened — the change control button — on close
+ * (UX-DR9/UX-DR18).
  */
-export function AddressSection() {
-  const [form, setForm] = useState(emptyForm());
+export function AddressSection({ address, onConfirm }: AddressSectionProps) {
   const [open, setOpen] = useState(false);
-  const toast = useToast();
-
-  const handleConfirm = (address: ResolvedAddress) => {
-    const isChange = form.address !== null;
-    setForm((current) =>
-      isChange ? changeAddress(current, address) : setAddress(current, address),
-    );
-    setOpen(false);
-    if (isChange) {
-      toast.show({ severity: 'info', message: ADDRESS_CHANGED_RESET_NOTICE });
-    }
-  };
 
   return (
     <Box>
-      <AddressBlock address={form.address} onChangeAddress={() => setOpen(true)} />
+      <AddressBlock address={address} onChangeAddress={() => setOpen(true)} />
       <AddressModal
         open={open}
         onCancel={() => setOpen(false)}
-        onConfirm={handleConfirm}
+        onConfirm={(addr) => {
+          onConfirm(addr);
+          setOpen(false);
+        }}
       />
     </Box>
   );

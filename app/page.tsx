@@ -1,11 +1,12 @@
 import Typography from '@mui/material/Typography';
-import { AddressSection } from '@/features/address';
+import { EstimateFlow } from '@/features/estimate-form';
 
 /**
- * Walking-skeleton home page. The address section (Story 2.3) renders above the
- * form region — it owns the flow-form state and connects the display block to
- * the autocomplete change modal (debounced suggest → structured resolution →
- * `setAddress`). `AddressSection` is the client boundary; this page stays a
+ * Walking-skeleton home page. `EstimateFlow` (Story 3.2) is the single flow
+ * aggregate owner (AD-6): it renders the controlled address section above the
+ * accordion stepper shell, holds the one react-hook-form instance for Step 1–3
+ * scope, and lifts the confirmed address so a real change resets dependent scope
+ * (FR-9 / Story 2.5). `EstimateFlow` is the client boundary; this page stays a
  * Server Component.
  */
 export default function HomePage() {
@@ -15,16 +16,7 @@ export default function HomePage() {
         Reno Calculator
       </Typography>
 
-      <AddressSection />
-
-      <Typography variant="cost-display" component="p">
-        $32,700 - $40,000
-      </Typography>
-      <Typography variant="body1">
-        Themed walking skeleton. The MUI theme, Roboto font, design tokens, and
-        the address block are now live; the guided form and results arrive in
-        later stories.
-      </Typography>
+      <EstimateFlow />
     </>
   );
 }
