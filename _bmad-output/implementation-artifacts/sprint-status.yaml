@@ -60,7 +60,7 @@ development_status:
   2-2-display-current-address-change-control: done
   2-3-address-autocomplete-modal-with-structured-resolution: done
   2-4-manual-entry-fallback-non-destructive-error-handling: done
-  2-5-address-change-resets-scope-to-a-defined-state: backlog
+  2-5-address-change-resets-scope-to-a-defined-state: done
   epic-2-retrospective: optional
   epic-3: backlog
   3-1-configsource-port-stub-adapter-versioned-content-schemas: backlog
