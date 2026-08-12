@@ -15,8 +15,16 @@ export interface EstimateEngineRequest {
   itemIds: readonly string[];
 }
 
+/**
+ * Confidence indicator for an estimate (UX-DR16). A placeholder heuristic in the
+ * stub (derived from scope size); the real OI-3 model may compute it differently
+ * without changing this contract.
+ */
+export type EstimateConfidence = "low" | "medium" | "high";
+
 export interface EstimateEngineResult {
   estimateId: string;
   costMin: AudCents;
   costMax: AudCents;
+  confidence: EstimateConfidence;
 }
