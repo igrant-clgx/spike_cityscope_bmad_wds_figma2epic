@@ -2,11 +2,11 @@
 title: 'Story 3.3 — Step 1: Renovation Type selection'
 type: 'feature'
 created: '2026-08-13'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 baseline_revision: '7a266110c0e400ce1e7a6bc87938fe7c0875dae9'
-final_revision: ''
+final_revision: '098d08f78a2f1c3a746bb5094f7f9acd22014e76'
 context:
   - '_bmad-output/implementation-artifacts/epic-3-context.md'
 warnings: []
