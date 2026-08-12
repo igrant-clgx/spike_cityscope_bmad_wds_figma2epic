@@ -67,3 +67,9 @@
 ## Story 4.4 — Edit/New Estimate actions
 
 - **Post-action focus management (deferred → manual a11y check):** clicking "Edit Estimate" or "New Estimate" unmounts the focused button (view returns to idle), so keyboard/screen-reader focus falls to `<body>`. The fix is to relocate focus to the form's first control (Edit) or the Calculate CTA (New) after the reset. Deferred to the epic's already-planned manual a11y pass because the node-only test harness cannot assert focus movement, reveal timing, or SR announcement (per epic-4-context UX-DR20 note).
+
+## Story 5.1 — non-idempotent lead POST retry (BH#2)
+`src/features/lead/use-lead-capture.ts` reuses the shared non-throwing `apiFetch`, which retries 5xx/network up to `DEFAULT_MAX_RETRIES=2`. Safe for the idempotent estimate compute, but a lead capture is a stateful mutation — a transient 5xx AFTER the sink stored the lead → client re-POST → duplicate lead once a real CRM (OI-11) is wired. **Resolve in Story 5.4:** disable retry for this mutation or attach an idempotency key.
+
+## Story 5.1 — sentinel / all-zeros phone accepted (EH#3)
+`isAuPhone` accepts format-valid but semantically impossible numbers (e.g. `0400000000`, `0200000000`). Semantic-plausibility validation is out of spike scope; revisit if real telephony validation is required downstream.
