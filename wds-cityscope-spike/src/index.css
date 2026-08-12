@@ -1,0 +1,11 @@
+/* Global reset — visual styling is handled by MUI theme (theme.ts) and
+   CssBaseline. This file only sets root-level app container constraints. */
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 1128px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
