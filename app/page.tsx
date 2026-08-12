@@ -1,9 +1,8 @@
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 export default function HomePage() {
   return (
-    <Container component="main" maxWidth="md" sx={{ py: 4 }}>
+    <>
       <Typography variant="h1" gutterBottom>
         Reno Calculator
       </Typography>
@@ -15,6 +14,6 @@ export default function HomePage() {
         design tokens are now live; branded shell and features arrive in later
         stories.
       </Typography>
-    </Container>
+    </>
   );
 }

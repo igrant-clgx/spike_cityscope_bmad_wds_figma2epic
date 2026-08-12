@@ -1,5 +1,6 @@
 import { Roboto } from 'next/font/google';
 import { Providers } from './providers';
+import { AppShell } from '@/components/shell';
 
 const roboto = Roboto({
   weight: ['400', '500', '600', '700'],
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en-AU" className={roboto.variable}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AppShell>{children}</AppShell>
+        </Providers>
       </body>
     </html>
   );
