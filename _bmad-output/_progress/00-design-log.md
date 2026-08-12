@@ -133,3 +133,23 @@
 - Owner to confirm DD-001 + the open items.
 - Optional: specs for scenarios 02/03 + the result/estimate surface; then Phase 5 (agentic dev)
   to resolve the remaining content/state questions.
+
+---
+## 2026-08-13 — Open-item reconciliation against the built implementation
+
+- Rather than fabricate answers under the autonomous pattern, reconciled DD-001's open items
+  against the authoritative implementation (`planning/epics-and-stories`). Resolved by code:
+  - **OI-7** (address change keep-vs-reset): first-set = record only; changing a confirmed address
+    resets scope + shows `ADDRESS_CHANGED_RESET_NOTICE` (FR-9/Story 2.5); re-confirming the same
+    address is not a change. Source: `EstimateFlow.tsx`, `address/copy.ts`.
+  - **OI-8** (progression): ordered type→items→details; exactly-one-expanded (UX-DR7); a step is
+    complete once its scope slot holds a meaningful answer. Source: `step-state.ts`.
+  - **STATE-ADDRESS**: default entry state is EMPTY (`address === null`) — the built empty prompt is
+    intended; the Figma pre-fill is an illustrative filled state. Source: `AddressSection.tsx`.
+- Kept OPEN (genuine Product placeholders, flagged as such **in the code itself**): **OI-1** (Step 2
+  item set) and **OI-2** (Step 3 questions), plus visual **OI-F1/F2/F3** and **R3** (algorithm).
+
+### Outcome
+- The spike's Figma-first thread is complete: ingested → spec'd → remapped in code (verified) →
+  packaged (DD-001) → open items reconciled. Only true Product content decisions (OI-1/OI-2) and a
+  few visual confirmations remain — all correctly owner-gated, not fabricated.

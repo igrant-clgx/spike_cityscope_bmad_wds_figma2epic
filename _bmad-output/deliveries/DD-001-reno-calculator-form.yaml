@@ -128,26 +128,46 @@ acceptance_criteria:
     - "Visual fidelity: color/type/radius/spacing match the Figma tokens (verified)."
 
 open_questions:
+  # Reconciled 2026-08-13 against the authoritative implementation on
+  # planning/epics-and-stories. Items answered by code are marked RESOLVED with
+  # the source; genuine Product placeholders stay OPEN.
+  - id: "OI-1"
+    status: "OPEN"
+    q: "Step 2 item set — code (stub-config-source.ts) explicitly marks it a PLACEHOLDER pending Product confirmation."
   - id: "OI-2"
-    q: "What are Step 3's questions? (undefined in Figma)"
+    status: "OPEN"
+    q: "Step 3 questions — code (stub-config-source.ts) explicitly marks them GENERIC/placeholder pending Product confirmation."
   - id: "OI-7"
-    q: "On 'Enter new address', keep or reset prior answers?"
+    status: "RESOLVED"
+    answer: "First address set = record only (no reset, no notice). Changing an already-confirmed address = reset dependent scope + show ADDRESS_CHANGED_RESET_NOTICE (FR-9 / Story 2.5). Re-confirming the SAME address is not a change (no wipe)."
+    source: "src/features/estimate-form/EstimateFlow.tsx (isSameAddress), src/features/address/copy.ts"
   - id: "OI-8"
-    q: "Exact step-progression rule (auto-open next step?)"
+    status: "RESOLVED"
+    answer: "Ordered progressive disclosure type -> items -> details; exactly-one-step-expanded invariant (UX-DR7). A step is 'complete' once its scope slot holds a meaningful (non-blank) answer."
+    source: "src/features/estimate-form/step-state.ts (STEP_ORDER, isStepComplete, next-expanded logic)"
+  - id: "STATE-ADDRESS"
+    status: "RESOLVED"
+    answer: "Default entry state is EMPTY (address === null) -> the app shows the 'Enter your property address to get started' prompt. The Figma's pre-filled '400 Catherine Street...' is an illustrative filled state, not the default."
+    source: "src/features/address/AddressSection.tsx (address: ... | null), EstimateFlow.tsx"
   - id: "OI-F1"
+    status: "OPEN"
     q: "Exact header/canvas background hexes + logo treatment (observed from render only)."
   - id: "OI-F2"
+    status: "OPEN"
     q: "Selection-button selected state (fill/contrast) — not shown in this frame."
   - id: "OI-F3"
+    status: "OPEN"
     q: "Poppins + Source Sans Pro licensing/availability for production."
   - id: "R3"
+    status: "OPEN"
     q: "Cost algorithm behind the estimate (out of UX scope)."
-  - id: "STATE-ADDRESS"
-    q: "The built app shows an empty address prompt; the Figma shows a pre-filled address with 'Enter new address'. Confirm the default entry state."
 
 handoff:
   to: "BMad dev (existing implementation on planning/epics-and-stories)"
   note: |
     The token remap is already implemented and verified on planning/epics-and-stories
-    (commit beb7d31). Remaining work is content/state (OI-2/7/8, STATE-ADDRESS) and
-    confirming the open visual items (OI-F1/F2/F3), not core theming.
+    (commit beb7d31). Step progression (OI-8), address keep-vs-reset (OI-7) and the
+    default address state (STATE-ADDRESS) are already resolved in the implementation.
+    The ONLY genuinely open content items are OI-1 (Step 2 item set) and OI-2 (Step 3
+    questions) — the code explicitly flags both as placeholders pending Product — plus
+    the open visual items OI-F1/F2/F3. Core theming and interaction are done.
