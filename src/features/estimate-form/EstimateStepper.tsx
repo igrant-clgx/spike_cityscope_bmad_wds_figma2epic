@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import { useReducedMotion } from '@/components/feedback';
 import { Step1RenovationType } from './Step1RenovationType';
+import { Step2Items } from './Step2Items';
 import type { StepFormValues } from './flow-form-values';
 import {
   STEP_ORDER,
@@ -122,6 +123,8 @@ export function EstimateStepper() {
             <AccordionDetails id={contentId} aria-labelledby={headerId}>
               {stepId === 'type' ? (
                 <Step1RenovationType />
+              ) : stepId === 'items' ? (
+                <Step2Items />
               ) : (
                 <Typography variant="body2" color="text.secondary">
                   {STEP_PLACEHOLDER[stepId]}

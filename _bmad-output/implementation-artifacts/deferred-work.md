@@ -43,3 +43,8 @@
 ## Story 3.3 — Step 1 renovation-type selection
 
 - **Phantom selection on config-version change — `[DEFER → Epic 4 / AD-6]`** — If a config refetch returns a `renovationTypes` taxonomy that no longer contains the chosen `renovationTypeId`, no button renders pressed yet `isStepComplete('type')` still reports complete and Step 2 (FR-11) would filter items by a stale id. Not reachable in the spike (single immutable `configVersion`; refetch returns identical data). Proper fix — reconcile a stale selection against the active config version — is config-invalidation policy owned by Epic 4 (AD-6: changing renovationType/config invalidates prior EstimateResult). Reviewers: Edge Case Hunter #1 (high, not-reachable-in-spike) + Blind Hunter cleared; Edge #4 (value-not-in-types presentational) folds in here.
+
+## Story 3.4 — Step 2 config-driven multi-select items
+
+- **OI-1 (exact Step 2 item content) — `[OPEN]`** — The precise item taxonomy per renovation type is pending product confirmation (FR-15). Implemented generically: items are served by ConfigSource and filtered by the Step 1 `typeId` (stub: Internal→kitchen/bathroom/flooring, External→roofing/painting/landscaping). No item label/id is a literal in UI code. Confirming the final list is a config-content change only (no code).
+- **Config-error non-destructive fallback — `[DEFER / minor]`** — When a background config refetch returns a failure envelope, Step 2 shows the error treatment and (now, post-review) preserves the existing selection rather than pruning it. Surfacing the last-known items alongside the error banner (instead of replacing them) is a possible UX enhancement, out of spike scope. Reviewers: Blind #2 / Edge #9 (resolved by the prune-gating patch).
