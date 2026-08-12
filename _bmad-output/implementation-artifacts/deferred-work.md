@@ -76,3 +76,12 @@
 
 ## Story 5.3 — no error-reveal on a submit-attempt with an untouched invalid field (EH#3)
 FR-30 keeps the submit button DISABLED until the form is valid, so there is no submit event to trigger an "all-errors reveal"; a user with one still-untouched required field sees a disabled button with no explanation, and per-field errors surface only on blur. **Resolve in Story 5.4** (owns the submit/states surface): on a submit-attempt or `submitCount>0`, treat all fields as touched (reveal every error) and/or add an aria-live error summary so the blocked state is explained.
+
+## Story 5.4 — two `role="status"` live regions on the success screen (EH#2)
+ResultsPanel owns a persistent live region AND LeadPanel adds its own; in the success state both are on screen. LeadPanel's region is empty at rest (`announce: ''`), so both reviewers rated it tolerable. **Resolve in Epic 6 (Story 6.2 a11y audit):** either scope LeadPanel announcements through the single Results region, or demote LeadPanel's to a plain visually-hidden `aria-live` without a second `role="status"`.
+
+## Story 5.4 — unbounded idempotency ledger (BH#2 / EH#3)
+`src/server/adapters/lead/stub-lead-sink.ts` `idempotencyLedger` Map never evicts — grows one entry per unique key for the process lifetime. By design for the stub sink. **Resolve at OI-11 (real CRM sink):** bounded LRU or TTL eviction.
+
+## Story 5.4 — edited-resubmit after a transport error reuses the key (EH#5)
+On a transport error the form stays editable while the same `idempotencyKey` is retained; if the original POST actually succeeded but the response was lost, a subsequent edited submit returns the original `leadId` and discards the edits (ledger keys on key, not payload). Narrow (transport-loss + user edit); intended idempotency tradeoff. Revisit only if payload-aware idempotency is required downstream.
