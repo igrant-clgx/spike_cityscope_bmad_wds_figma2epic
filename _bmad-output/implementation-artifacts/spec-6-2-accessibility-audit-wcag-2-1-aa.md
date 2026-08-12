@@ -8,7 +8,7 @@ followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: '87a9afb'
-final_revision: ''
+final_revision: 'b4666cd'
 ---
 
 <intent-contract>
