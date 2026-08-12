@@ -11,6 +11,7 @@ import { visuallyHidden } from '@mui/utils';
 import { useReducedMotion } from '@/components/feedback';
 import { Step1RenovationType } from './Step1RenovationType';
 import { Step2Items } from './Step2Items';
+import { Step3Details } from './Step3Details';
 import type { StepFormValues } from './flow-form-values';
 import {
   STEP_ORDER,
@@ -19,16 +20,6 @@ import {
   nextExpanded,
   type StepId,
 } from './step-state';
-
-/**
- * Placeholder body copy per step — the real step content arrives in later
- * stories, so the shell only announces where each will be filled.
- */
-const STEP_PLACEHOLDER: Record<StepId, string> = {
-  type: 'Coming in Story 3.3',
-  items: 'Coming in Story 3.4',
-  details: 'Coming in Story 3.5',
-};
 
 /**
  * A completed-step indicator. OI-9 `[ASSUMPTION]`: the design calls for a check
@@ -126,9 +117,7 @@ export function EstimateStepper() {
               ) : stepId === 'items' ? (
                 <Step2Items />
               ) : (
-                <Typography variant="body2" color="text.secondary">
-                  {STEP_PLACEHOLDER[stepId]}
-                </Typography>
+                <Step3Details />
               )}
             </AccordionDetails>
           </Accordion>

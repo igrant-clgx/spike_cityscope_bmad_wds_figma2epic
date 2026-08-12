@@ -14,6 +14,11 @@ export {
   deriveToggledId,
 } from './item-selection';
 export { resolveItemsStep, type ItemsStepView } from './resolve-items-step';
+export { filterQuestions } from './question-selection';
+export { validateAnswer } from './validate-answer';
+export { resolveDetailsStep, type DetailsStepView } from './resolve-details-step';
+export { DynamicField } from './DynamicField';
+export { Step3Details } from './Step3Details';
 export {
   stepFormDefaults,
   type StepFormValues,
