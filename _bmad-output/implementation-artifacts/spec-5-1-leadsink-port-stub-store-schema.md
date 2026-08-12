@@ -2,13 +2,13 @@
 title: 'Story 5.1 — LeadSink port, stub store & shared lead schema'
 type: 'feature'
 created: '2026-08-14'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: 'c6b4ddf'
-final_revision: ''
+final_revision: '603cc06'
 ---
 
 <intent-contract>

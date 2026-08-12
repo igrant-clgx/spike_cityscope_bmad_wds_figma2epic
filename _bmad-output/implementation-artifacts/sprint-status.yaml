@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: '2026-08-14T01:20:00+10:00'
+last_updated: '2026-08-14T01:35:00+10:00'
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -75,8 +75,8 @@ development_status:
   4-3-results-states-loading-error-empty-low-confidence: done
   4-4-edit-estimate-new-estimate-actions: done
   epic-4-retrospective: done
-  epic-5: backlog
-  5-1-leadsink-port-stub-store-shared-lead-schema: backlog
+  epic-5: in-progress
+  5-1-leadsink-port-stub-store-shared-lead-schema: done
   5-2-contact-section-coach-cta: backlog
   5-3-lead-form-with-au-validation-consent-gate: backlog
   5-4-submit-lead-linked-to-estimate-with-confirmation-states: backlog
