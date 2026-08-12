@@ -4,7 +4,7 @@ config:
   brief_level: simplified   # derived from existing artifacts; pending owner confirmation
 phase:
   current: 2-wds-design
-  step: trigger-mapping (complete, doc-synthesis)
+  step: outline-scenarios (complete, doc-synthesis)
 started: 2026-08-13
 branch: ig-figma-to-bmad-ux
 artifacts:
@@ -12,4 +12,5 @@ artifacts:
   trigger_map: _bmad-output/B-Trigger-Map/trigger-map.md
   personas: _bmad-output/B-Trigger-Map/personas/
   feature_impact: _bmad-output/B-Trigger-Map/feature-impact-analysis.md
-next_phase: 3-wds-design (bmad-wds-outline-scenarios)
+  ux_scenarios: _bmad-output/C-UX-Scenarios/00-ux-scenarios.md
+next_phase: 4-wds-design (bmad-wds-conceptual-specs / bmad-ux)
