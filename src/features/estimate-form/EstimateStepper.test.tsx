@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useForm, FormProvider } from 'react-hook-form';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '@/theme';
 import { EstimateStepper } from './EstimateStepper';
@@ -9,12 +10,17 @@ import { STEP_META } from './step-state';
 
 function Harness({ defaultValues }: { defaultValues: StepFormValues }) {
   const methods = useForm<StepFormValues>({ defaultValues });
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
   return (
-    <ThemeProvider theme={theme}>
-      <FormProvider {...methods}>
-        <EstimateStepper />
-      </FormProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <FormProvider {...methods}>
+          <EstimateStepper />
+        </FormProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

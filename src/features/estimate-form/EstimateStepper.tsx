@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import { useReducedMotion } from '@/components/feedback';
+import { Step1RenovationType } from './Step1RenovationType';
 import type { StepFormValues } from './flow-form-values';
 import {
   STEP_ORDER,
@@ -119,9 +120,13 @@ export function EstimateStepper() {
               </Box>
             </AccordionSummary>
             <AccordionDetails id={contentId} aria-labelledby={headerId}>
-              <Typography variant="body2" color="text.secondary">
-                {STEP_PLACEHOLDER[stepId]}
-              </Typography>
+              {stepId === 'type' ? (
+                <Step1RenovationType />
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  {STEP_PLACEHOLDER[stepId]}
+                </Typography>
+              )}
             </AccordionDetails>
           </Accordion>
         );
