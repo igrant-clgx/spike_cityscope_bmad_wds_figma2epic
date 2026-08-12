@@ -2,13 +2,13 @@
 title: 'Story 5.2: Contact Section & Coach CTA'
 type: 'feature'
 created: '2026-08-14'
-status: 'in-review'
+status: 'done'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
 warnings: []
 baseline_revision: '98a62a9'
-final_revision: ''
+final_revision: '3d6806c'
 ---
 
 <intent-contract>
