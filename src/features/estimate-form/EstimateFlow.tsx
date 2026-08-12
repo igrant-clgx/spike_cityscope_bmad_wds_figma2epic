@@ -58,12 +58,24 @@ export function EstimateFlow() {
     }
   };
 
+  // "New Estimate" (Story 4.4 / FR-25 / OI-7 clear-all): reset the flow scope to
+  // the empty baseline and remount the stepper — the same reset path used on an
+  // address change. The ResultsPanel has already dropped the prior estimateId.
+  const handleNewEstimate = () => {
+    methods.reset(stepFormDefaults());
+    setStepperKey((k) => k + 1);
+  };
+
   return (
     <Box>
       <AddressSection address={address} onConfirm={handleConfirm} />
       <FormProvider {...methods}>
         <EstimateStepper key={stepperKey} />
-        <ResultsPanel config={config} getScope={methods.getValues} />
+        <ResultsPanel
+          config={config}
+          getScope={methods.getValues}
+          onNewEstimate={handleNewEstimate}
+        />
       </FormProvider>
     </Box>
   );

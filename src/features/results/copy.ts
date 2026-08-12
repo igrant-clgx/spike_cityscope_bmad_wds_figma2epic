@@ -65,6 +65,10 @@ export const ERROR_ANNOUNCEMENT =
   'We couldn\u2019t work out your estimate. Please try again.';
 export const RETRY_LABEL = 'Try again';
 
+/** Post-result actions (UX-DR13): Edit preserves answers, New clears the flow. */
+export const EDIT_ESTIMATE_LABEL = 'Edit Estimate';
+export const NEW_ESTIMATE_LABEL = 'New Estimate';
+
 /** Confidence display copy keyed by level (humble, non-alarming). */
 export const CONFIDENCE_COPY: Record<
   EstimateConfidence,

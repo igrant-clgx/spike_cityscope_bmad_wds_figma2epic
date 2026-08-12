@@ -11,10 +11,12 @@ import type { EstimateResult, FormConfig } from '@shared/schemas';
 import { formatAudRange } from '@/lib/money-format';
 import {
   CALCULATE_CTA_LABEL,
+  EDIT_ESTIMATE_LABEL,
   ERROR_TITLE,
   IDLE_PROMPT,
   LOADING_MESSAGE,
   LOW_CONFIDENCE_MESSAGE,
+  NEW_ESTIMATE_LABEL,
   RESULT_CARD_TITLE,
 } from './copy';
 
@@ -38,6 +40,8 @@ function renderView(
         ctaDisabled={false}
         onCalculate={() => {}}
         onRetry={() => {}}
+        onEdit={() => {}}
+        onNewEstimate={() => {}}
         {...props}
       />
     </ThemeProvider>,
@@ -106,6 +110,39 @@ describe('ResultsPanelView (node-only structural, full I/O matrix)', () => {
     expect(html).toContain('We couldn\u2019t work out your estimate. Please try again.');
   });
 
+  it('success: renders Edit (outlined) + New (contained) actions below the card', () => {
+    const html = renderView({
+      kind: 'success',
+      result: RESULT,
+      announce: 'Your estimate is ready.',
+    });
+    expect(html).toContain(EDIT_ESTIMATE_LABEL);
+    expect(html).toContain(NEW_ESTIMATE_LABEL);
+    expect(html).toContain('MuiButton-outlined');
+    expect(html).toContain('MuiButton-contained');
+  });
+
+  it('lowConfidence: also renders the Edit + New actions', () => {
+    const low = { ...RESULT, confidence: 'low' as const };
+    const html = renderView({
+      kind: 'lowConfidence',
+      result: low,
+      announce: 'An early, rough estimate is ready.',
+    });
+    expect(html).toContain(EDIT_ESTIMATE_LABEL);
+    expect(html).toContain(NEW_ESTIMATE_LABEL);
+  });
+
+  it('idle/loading/error: does NOT render the Edit/New actions', () => {
+    const idle = renderView({ kind: 'idle', announce: '' });
+    const loading = renderView({ kind: 'loading', announce: '' });
+    const error = renderView({ kind: 'error', message: 'x', announce: '' });
+    for (const html of [idle, loading, error]) {
+      expect(html).not.toContain(EDIT_ESTIMATE_LABEL);
+      expect(html).not.toContain(NEW_ESTIMATE_LABEL);
+    }
+  });
+
   it('collapses the reveal under reduced motion (duration resolves to 0)', () => {
     // Motion signal, not content presence: the reveal band collapses to 0ms.
     expect(resolveDuration(REVEAL_MS, true)).toBe(0);
@@ -136,7 +173,7 @@ describe('ResultsPanel (wired, idle at rest)', () => {
     return renderToStaticMarkup(
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={new QueryClient()}>
-          <ResultsPanel config={cfg} getScope={() => scope} />
+          <ResultsPanel config={cfg} getScope={() => scope} onNewEstimate={() => {}} />
         </QueryClientProvider>
       </ThemeProvider>,
     );
@@ -149,7 +186,7 @@ describe('ResultsPanel (wired, idle at rest)', () => {
     return renderToStaticMarkup(
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={new QueryClient()}>
-          <ResultsPanel config={cfg} getScope={() => s} />
+          <ResultsPanel config={cfg} getScope={() => s} onNewEstimate={() => {}} />
         </QueryClientProvider>
       </ThemeProvider>,
     );
