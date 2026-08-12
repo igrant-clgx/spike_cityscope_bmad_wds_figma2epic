@@ -1,12 +1,12 @@
 import Typography from '@mui/material/Typography';
-import { AddressBlock } from '@/features/address';
+import { AddressSection } from '@/features/address';
 
 /**
- * Walking-skeleton home page. The address block (Story 2.2) renders above the
- * form region. No property is selected yet — the flow aggregate is wired to
- * live state in later stories — so the block shows its honest empty/initial
- * prompt. The autocomplete change modal (Story 2.3) will supply the resolved
- * address and `onChangeAddress`.
+ * Walking-skeleton home page. The address section (Story 2.3) renders above the
+ * form region — it owns the flow-form state and connects the display block to
+ * the autocomplete change modal (debounced suggest → structured resolution →
+ * `setAddress`). `AddressSection` is the client boundary; this page stays a
+ * Server Component.
  */
 export default function HomePage() {
   return (
@@ -15,7 +15,7 @@ export default function HomePage() {
         Reno Calculator
       </Typography>
 
-      <AddressBlock address={null} />
+      <AddressSection />
 
       <Typography variant="cost-display" component="p">
         $32,700 - $40,000
