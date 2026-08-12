@@ -3,10 +3,13 @@ project_name: spike_cityscope_bmad_wds_figma2epic
 config:
   brief_level: simplified   # derived from existing artifacts; pending owner confirmation
 phase:
-  current: 1-wds-strategy
-  step: 00-simplified-brief (complete)
+  current: 2-wds-design
+  step: trigger-mapping (complete, doc-synthesis)
 started: 2026-08-13
 branch: ig-figma-to-bmad-ux
 artifacts:
   product_brief: _bmad-output/A-Product-Brief/project-brief.md
-next_phase: 2-wds-strategy (bmad-wds-trigger-mapping)
+  trigger_map: _bmad-output/B-Trigger-Map/trigger-map.md
+  personas: _bmad-output/B-Trigger-Map/personas/
+  feature_impact: _bmad-output/B-Trigger-Map/feature-impact-analysis.md
+next_phase: 3-wds-design (bmad-wds-outline-scenarios)

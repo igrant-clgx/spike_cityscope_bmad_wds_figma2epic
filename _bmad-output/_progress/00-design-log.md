@@ -32,3 +32,25 @@
 ### Next
 - Owner to confirm/adjust the brief.
 - Then Phase 2: Trigger Mapping (`bmad-wds-trigger-mapping`) — recommend running in a fresh context.
+
+---
+## 2026-08-13 — Phase 2 Trigger Mapping COMPLETE (documentation synthesis)
+
+- Took the **documentation-synthesis** path (existing docs available), deriving the Trigger Map
+  from `product-brief.md`, `prd.md`, `EXPERIENCE.md`, and the Figma. Owner unavailable, so all
+  personas/drivers are **source-cited and pending user validation**.
+- Outputs:
+  - `_bmad-output/B-Trigger-Map/trigger-map.md` (poster: vision, 4 objectives, 3 prioritized
+    target groups, mermaid, design focus, cross-group patterns/tensions)
+  - `_bmad-output/B-Trigger-Map/personas/` — 02 Priya (primary ⭐), 03 Marcus (secondary), 04 Coach (tertiary)
+  - `_bmad-output/B-Trigger-Map/feature-impact-analysis.md` (WDS scoring, max 11; Must-Have set)
+
+### Decisions
+- Primary design target = **Priya** (Renovating Homeowner); central tension resolved as
+  "trust before ask" — coach CTA is an offer after value, never a gate.
+- Top Must-Haves: credible range card + disclaimer, Steps 1–2, address entry, WCAG AA,
+  **Figma-faithful fidelity**, honest voice, "how calculated" explainer.
+
+### Next
+- Owner to validate personas/drivers with real users.
+- Phase 3: Outline Scenarios (`bmad-wds-outline-scenarios`) — run in a fresh context.
