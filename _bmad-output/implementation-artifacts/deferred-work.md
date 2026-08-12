@@ -73,3 +73,6 @@
 
 ## Story 5.1 — sentinel / all-zeros phone accepted (EH#3)
 `isAuPhone` accepts format-valid but semantically impossible numbers (e.g. `0400000000`, `0200000000`). Semantic-plausibility validation is out of spike scope; revisit if real telephony validation is required downstream.
+
+## Story 5.3 — no error-reveal on a submit-attempt with an untouched invalid field (EH#3)
+FR-30 keeps the submit button DISABLED until the form is valid, so there is no submit event to trigger an "all-errors reveal"; a user with one still-untouched required field sees a disabled button with no explanation, and per-field errors surface only on blur. **Resolve in Story 5.4** (owns the submit/states surface): on a submit-attempt or `submitCount>0`, treat all fields as touched (reveal every error) and/or add an aria-live error summary so the blocked state is explained.
