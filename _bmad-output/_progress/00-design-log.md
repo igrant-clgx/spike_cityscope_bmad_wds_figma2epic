@@ -153,3 +153,17 @@
 - The spike's Figma-first thread is complete: ingested → spec'd → remapped in code (verified) →
   packaged (DD-001) → open items reconciled. Only true Product content decisions (OI-1/OI-2) and a
   few visual confirmations remain — all correctly owner-gated, not fabricated.
+
+---
+## 2026-08-13 — Owner decisions recorded (sign-off)
+
+- Owner reviewed and decided:
+  1. **Merge** both PRs (#1 design artifacts, #2 build + fidelity fixes).
+  2. **Step 2/3 content** (OI-1 items, OI-2 questions): **leave as-is** — placeholders stand for the spike.
+  3. **Visual items approved** (OI-F1 header/canvas hex + branding, OI-F2 selected-button state,
+     OI-F3 Poppins/Source Sans Pro licensing): all agreed and approved.
+- DD-001 open_questions updated: OI-F1/F2/F3 → APPROVED; OI-1/OI-2 → ACCEPTED_AS_IS.
+- Only R3 (cost algorithm, out of UX scope) remains open.
+
+### Outcome
+The Figma-first spike is signed off. No remaining UX/theming decisions.
