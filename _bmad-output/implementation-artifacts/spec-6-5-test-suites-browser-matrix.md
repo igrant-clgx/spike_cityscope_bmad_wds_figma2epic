@@ -2,7 +2,7 @@
 title: 'Story 6.5: Test suites & browser support matrix'
 type: 'chore'
 created: '2026-08-14'
-status: 'ready-for-dev'
+status: 'in-review'
 review_loop_iteration: 0
 followup_review_recommended: false
 context: []
@@ -53,10 +53,10 @@ final_revision: ''
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `src/server/journey.e2e.test.ts` -- CREATE: an end-to-end journey over the concrete stubs (address suggest/resolve → estimate → consented lead), asserting id threading, idempotency dedup, consent-gate rejection, and no-PII observability; runs green in `npm test`.
-- [ ] `_bmad-output/implementation-artifacts/test-suites-and-browser-matrix.md` -- CREATE: a suite inventory by category (unit / component-structural / route / E2E-journey / a11y-static) with measured counts + pass evidence; a documented + reasoned NFR-12 browser support matrix (evergreen targets, graceful degradation) resolving `[OPEN] matrix TBD`; a defects section; a verdict + honest node-only-harness ceiling (cross-browser = manual-pass).
-- [ ] `_bmad-output/implementation-artifacts/sprint-status.yaml` -- (finalization) mark `6-5-test-suites-browser-matrix: done`.
-- [ ] Confirm the tree stays green (`npm run typecheck && npm run lint && npm test && npm run build`).
+- [x] `src/server/journey.e2e.test.ts` -- CREATE: an end-to-end journey over the concrete stubs (address suggest/resolve → estimate → consented lead), asserting id threading, idempotency dedup, consent-gate rejection, and no-PII observability; runs green in `npm test`.
+- [x] `_bmad-output/implementation-artifacts/test-suites-and-browser-matrix.md` -- CREATE: a suite inventory by category (unit / component-structural / route / E2E-journey / a11y-static) with measured counts + pass evidence; a documented + reasoned NFR-12 browser support matrix (evergreen targets, graceful degradation) resolving `[OPEN] matrix TBD`; a defects section; a verdict + honest node-only-harness ceiling (cross-browser = manual-pass).
+- [x] `_bmad-output/implementation-artifacts/sprint-status.yaml` -- (finalization) mark `6-5-test-suites-browser-matrix: done`.
+- [x] Confirm the tree stays green (`npm run typecheck && npm run lint && npm test && npm run build`).
 
 **Acceptance Criteria:**
 - Given the assembled app, when the test suites run, then unit, E2E-journey (against stubs), and a11y-static suites exist and pass (NFR-11) — inventoried with measured counts + pass evidence.
@@ -73,3 +73,28 @@ final_revision: ''
 **Manual checks:**
 - The journey composes the CONCRETE stubs (no mocks) and asserts id threading across all three seams.
 - The suite inventory counts match a real `find`; the browser matrix is specific + reasoned; the cross-browser manual-pass ceiling is stated honestly.
+
+## Review Triage Log
+
+Verification story shipping BOTH an artifact AND one new test — one adversarial auditor (opus-4.8) checked (a) the new E2E journey test is correct + meaningful (not vacuous) and (b) the artifact is complete, honest, evidenced.
+
+**Audit result: HONEST AND COMPLETE — 0 critical, 1 minor (fixed).**
+
+- Ran the new test: `npx vitest run src/server/journey.e2e.test.ts` → 4 green; full suite 71 files / 528 tests green. **CLEARED.**
+- Journey quality (the critical check): composes the CONCRETE stubs via the REAL use-cases (no mocks); ids thread genuinely (`peek()` store's estimateId === the estimate's); idempotency proves real dedup (same key → same leadId, one record); consent gate proves rejection + zero stored records; no-PII assertion is a real serialize-and-grep for actual PII values. No assertion passes trivially against broken code. **CLEARED — meaningful, not tautological.**
+- Import/API fidelity: factory names, use-case signatures, `peek()`, `encryptAtRest`/`retentionMonths`, both hex-id regexes all match source; `.test.ts` correctly excluded from the arch boundary walk. **CLEARED.**
+- Count integrity: independently reproduced 71 files / 528 tests / 5 route / 21 `.test.tsx` / 45 `src` `.test.ts` / 16 a11y — all truthful; overlap caveat honest. **CLEARED.**
+- NFR-12 matrix: resolves the real prior `[OPEN] matrix TBD`; evergreen + graceful-degradation with per-browser rationale; cross-browser correctly labelled manual-pass; every risk-spot grounded in actual code (`100dvh`/`visuallyHidden`/`flexWrap`/reduced-motion/focus-ring). **CLEARED.**
+- Overclaim check: no browser/interaction/axe result claimed as automated `pass`; "runs green end-to-end against stubs" backed by the 4 passing tests. **CLEARED.**
+
+**MINOR (fixed):** the journey's analytics events are hand-tracked in the test (the spike use-cases don't auto-wire analytics), so the no-PII assertion validates the typed event-contract discipline + serialization, not pipeline auto-emission — the artifact's "taxonomy fires with no PII" wording was tightened to say exactly that.
+
+No CRITICAL issues. No HALT/blocked condition.
+
+## Auto Run Result
+
+- **Outcome:** ✅ done — E2E journey added (green) + verification artifact delivered, audited HONEST AND COMPLETE, tree green.
+- **Deliverables:** (1) `src/server/journey.e2e.test.ts` (NEW, 4 tests) — node-level end-to-end journey composing the concrete stub adapters through the real use-cases (address→estimate→lead), asserting id threading, idempotency dedup, consent-gate rejection, no-PII observability. (2) `test-suites-and-browser-matrix.md` — measured suite inventory (71 files / 528 tests across unit / component-structural / route / E2E-journey / a11y-static), the E2E-journey evidence table, and the documented + reasoned NFR-12 browser support matrix (evergreen + graceful degradation + risk-spot checklist) resolving `[OPEN] matrix TBD`; verdict + honest node-only-harness ceiling (live DOM / axe / cross-browser / UI-E2E = manual-pass).
+- **Code change:** +1 test file (`journey.e2e.test.ts`); no production code changed.
+- **Gates:** typecheck ✅, lint ✅, test ✅ (528, +4), build ✅.
+- **Review:** 1 adversarial auditor (test correctness + artifact honesty), 0 critical / 1 minor (fixed).
