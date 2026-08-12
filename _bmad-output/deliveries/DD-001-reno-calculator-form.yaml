@@ -1,0 +1,178 @@
+# WDS Design Delivery — DD-001
+# Packaged by Freya (WDS Phase 4 Handover [H]) under the autonomous-derivation
+# pattern (owner unavailable). All artifacts are source-cited and Figma-grounded.
+# PENDING OWNER CONFIRMATION.
+
+delivery:
+  id: "DD-001"
+  name: "Reno Calculator — Stepped Estimate Form (Figma-faithful)"
+  type: "user_flow"
+  status: "ready"
+  priority: "high"
+  created_by: "wds-freya"
+  created_at: "2026-08-13T08:50:00+10:00"
+  updated_at: "2026-08-13T08:50:00+10:00"
+  version: "1.0"
+
+description: |
+  Packages the primary scenario's form surface (Scenario 01 — Priya Gets an
+  Honest Number): a dark app bar, a centered 840px content column with an
+  address row and a three-step accordion (Step 1 expanded: Internal/External
+  renovation type; Steps 2-3 collapsed), and a dark footer disclaimer.
+
+  This is the FIRST Design Delivery for the branch and it closes the spike's
+  core thesis: the Figma was ingested (exact pixels/tokens), a Figma-grounded
+  page spec was written, and the app's design tokens were remapped to the Figma
+  and verified — build now matches the pixels.
+
+user_value:
+  problem: "A homeowner wants a credible renovation cost estimate without being asked for personal details up front."
+  solution: "A short, trustworthy, stepped question flow that builds confidence before any ask; the coach/lead CTA is offered after value, never as a gate."
+  success_criteria:
+    - "User completes Step 1 (renovation type) and the flow progresses through Steps 2-3 without confusion."
+    - "The rendered surface is faithful to the Figma (color/type/radius/spacing) — verified visually and by token tests."
+    - "No lead-capture gate blocks reaching an indicative estimate."
+
+design_artifacts:
+  scenarios:
+    - id: "01-priya-honest-number"
+      path: "C-UX-Scenarios/01-priya-honest-number/"
+      screens: ["01-calculator-form"]
+  page_specifications:
+    - "C-UX-Scenarios/01-priya-honest-number/01-calculator-form.md"
+  figma_source:
+    file_key: "Q0fDj1AKMbwyPJRmPltox0"
+    frame: "9:2 (1512w default)"
+    render: "C-UX-Scenarios/_figma-imports/figma-9-2-desktop-1512w.png"
+    observations_ledger: "C-UX-Scenarios/_figma-imports/figma-design-observations.md"
+  design_system:
+    # Tokens are implemented directly in the app theme (design_system_mode: none).
+    components:
+      - "App bar / Header (dark, logo placeholders)"
+      - "Address row (label + 'Enter new address' link)"
+      - "Accordion step card (MuiPaper, 16px radius, brand elevation)"
+      - "Selection buttons (outlined, violet, title-case, 4px radius)"
+      - "Footer disclaimer (dark, caption)"
+    path: "app-theme: src/theme/tokens.ts + src/theme/theme.ts (branch planning/epics-and-stories)"
+
+# ---------------------------------------------------------------------------
+# FIDELITY: Figma spec -> code token mapping (verified, commit beb7d31)
+# The prior build followed the re-narrated DESIGN.md, which diverged from the
+# Figma. These were remapped to the exact Figma values and verified.
+# ---------------------------------------------------------------------------
+fidelity_token_map:
+  status: "implemented_and_verified"
+  implemented_on_branch: "planning/epics-and-stories"
+  commit: "beb7d31"
+  verification:
+    typecheck: pass
+    lint: pass
+    tests: "528 pass"
+    build: pass
+    visual: "screenshot at 1512w converges with figma-9-2-desktop-1512w.png (files/built-form-v3-figma-remap.png)"
+  tokens:
+    - name: "primary / accent"
+      figma: "#432A6E (Jacarta / color/violet/30)"
+      was: "#0066CC"
+      applies_to: "outlined selection buttons, links, focus ring"
+    - name: "heading font"
+      figma: "Poppins (font-1)"
+      was: "Roboto"
+      applies_to: "h1-h4, cost-display"
+    - name: "body / UI font"
+      figma: "Source Sans Pro (font-2, shipped as Source Sans 3)"
+      was: "Roboto"
+      applies_to: "body, labels, buttons, step headers"
+    - name: "text primary"
+      figma: "#110B1C (Ebony, rendered ~80%)"
+      was: "#333333"
+    - name: "canvas background"
+      figma: "#EDF1F3 (light blue-grey, observed)"
+      was: "#F5F5F5"
+    - name: "paper / card radius"
+      figma: "16px"
+      was: "8px"
+    - name: "selection button radius"
+      figma: "4px"
+      was: "8px (inherited)"
+    - name: "accordion elevation"
+      figma: "0px 2px 2px rgba(17,11,28,0.08)"
+      was: "0px 2px 4px rgba(0,0,0,0.08)"
+
+layout_reference:
+  content_column_width_px: 840
+  side_margin_px_at_1512w: 336
+  header_height_px: 68.98
+  footer_height_px: 81.45
+  inter_card_gap_px: 16
+  selection_button_gap_px: 7.98
+
+technical_requirements:
+  platform:
+    frontend: "Next.js 16 + React 19 + MUI v9 (@mui/material)"
+    backend: "Next.js route handlers (/api/v1/*), stub adapters"
+  data_models:
+    - name: "RenovationEstimateForm (flow aggregate)"
+      fields: ["renovationTypeId", "items", "details", "address"]
+  fonts:
+    - "Poppins (next/font/google) — variable --font-poppins"
+    - "Source Sans 3 (next/font/google) — variable --font-source-sans"
+
+acceptance_criteria:
+  functional:
+    - "Step 1 offers exactly Internal / External as an exclusive single-select; a required selection is never cleared to empty."
+    - "Steps 2-3 render collapsed with muted titles until progressed."
+    - "The disclaimer text matches the Figma/Cotality copy exactly."
+  non_functional:
+    - "WCAG AA: visible focus ring, >=44px targets, reduced-motion collapse."
+    - "Visual fidelity: color/type/radius/spacing match the Figma tokens (verified)."
+
+open_questions:
+  # Reconciled 2026-08-13 against the authoritative implementation on
+  # planning/epics-and-stories. Items answered by code are marked RESOLVED with
+  # the source; genuine Product placeholders stay OPEN.
+  - id: "OI-1"
+    status: "ACCEPTED_AS_IS"
+    q: "Step 2 item set — placeholder in stub-config-source.ts."
+    decision: "Owner 2026-08-13: leave as-is (placeholder item set stands for the spike)."
+  - id: "OI-2"
+    status: "ACCEPTED_AS_IS"
+    q: "Step 3 questions — generic/placeholder in stub-config-source.ts."
+    decision: "Owner 2026-08-13: leave as-is (placeholder questions stand for the spike)."
+  - id: "OI-7"
+    status: "RESOLVED"
+    answer: "First address set = record only (no reset, no notice). Changing an already-confirmed address = reset dependent scope + show ADDRESS_CHANGED_RESET_NOTICE (FR-9 / Story 2.5). Re-confirming the SAME address is not a change (no wipe)."
+    source: "src/features/estimate-form/EstimateFlow.tsx (isSameAddress), src/features/address/copy.ts"
+  - id: "OI-8"
+    status: "RESOLVED"
+    answer: "Ordered progressive disclosure type -> items -> details; exactly-one-step-expanded invariant (UX-DR7). A step is 'complete' once its scope slot holds a meaningful (non-blank) answer."
+    source: "src/features/estimate-form/step-state.ts (STEP_ORDER, isStepComplete, next-expanded logic)"
+  - id: "STATE-ADDRESS"
+    status: "RESOLVED"
+    answer: "Default entry state is EMPTY (address === null) -> the app shows the 'Enter your property address to get started' prompt. The Figma's pre-filled '400 Catherine Street...' is an illustrative filled state, not the default."
+    source: "src/features/address/AddressSection.tsx (address: ... | null), EstimateFlow.tsx"
+  - id: "OI-F1"
+    status: "APPROVED"
+    q: "Exact header/canvas background hexes + logo treatment."
+    decision: "Owner 2026-08-13: current values approved (header #2C2C2C, canvas #EDF1F3, text branding)."
+  - id: "OI-F2"
+    status: "APPROVED"
+    q: "Selection-button selected state (fill/contrast)."
+    decision: "Owner 2026-08-13: current implemented selected state approved (primaryActive #2C1B48 fill, onPrimary #FFFFFF label)."
+  - id: "OI-F3"
+    status: "APPROVED"
+    q: "Poppins + Source Sans Pro licensing/availability for production."
+    decision: "Owner 2026-08-13: fonts agreed and approved for production."
+  - id: "R3"
+    status: "OPEN"
+    q: "Cost algorithm behind the estimate (out of UX scope)."
+
+handoff:
+  to: "BMad dev (existing implementation on planning/epics-and-stories)"
+  note: |
+    The token remap is already implemented and verified on planning/epics-and-stories
+    (commit beb7d31). Step progression (OI-8), address keep-vs-reset (OI-7) and the
+    default address state (STATE-ADDRESS) are already resolved in the implementation.
+    The ONLY genuinely open content items are OI-1 (Step 2 item set) and OI-2 (Step 3
+    questions) — the code explicitly flags both as placeholders pending Product — plus
+    the open visual items OI-F1/F2/F3. Core theming and interaction are done.
