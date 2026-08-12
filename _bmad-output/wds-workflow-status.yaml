@@ -4,7 +4,7 @@ config:
   brief_level: simplified   # derived from existing artifacts; pending owner confirmation
 phase:
   current: 4-wds-design
-  step: ux-design (in progress — Figma ingested, first page spec written)
+  step: handover [H] complete — DD-001 packaged; fidelity verified in code (beb7d31)
 started: 2026-08-13
 branch: ig-figma-to-bmad-ux
 artifacts:
@@ -16,4 +16,10 @@ artifacts:
   figma_render: _bmad-output/C-UX-Scenarios/_figma-imports/figma-9-2-desktop-1512w.png
   figma_observations: _bmad-output/C-UX-Scenarios/_figma-imports/figma-design-observations.md
   page_spec_calculator_form: _bmad-output/C-UX-Scenarios/01-priya-honest-number/01-calculator-form.md
-next_phase: 4-wds-design remaining (specs for scenarios 02/03 + result surface; Design Delivery [H]) then token remap
+  design_delivery: _bmad-output/deliveries/DD-001-reno-calculator-form.yaml
+fidelity:
+  status: verified_in_code
+  implemented_on_branch: planning/epics-and-stories
+  commit: beb7d31
+  gates: "typecheck+lint+528 tests+build green; visual converges with Figma"
+next_phase: 5-wds-agentic-development (resolve content/state OI-2/7/8; confirm OI-F1/F2/F3) or Phase 4 remaining specs (scenarios 02/03 + result surface)

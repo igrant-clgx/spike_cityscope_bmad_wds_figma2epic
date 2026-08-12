@@ -1,0 +1,153 @@
+# WDS Design Delivery — DD-001
+# Packaged by Freya (WDS Phase 4 Handover [H]) under the autonomous-derivation
+# pattern (owner unavailable). All artifacts are source-cited and Figma-grounded.
+# PENDING OWNER CONFIRMATION.
+
+delivery:
+  id: "DD-001"
+  name: "Reno Calculator — Stepped Estimate Form (Figma-faithful)"
+  type: "user_flow"
+  status: "ready"
+  priority: "high"
+  created_by: "wds-freya"
+  created_at: "2026-08-13T08:50:00+10:00"
+  updated_at: "2026-08-13T08:50:00+10:00"
+  version: "1.0"
+
+description: |
+  Packages the primary scenario's form surface (Scenario 01 — Priya Gets an
+  Honest Number): a dark app bar, a centered 840px content column with an
+  address row and a three-step accordion (Step 1 expanded: Internal/External
+  renovation type; Steps 2-3 collapsed), and a dark footer disclaimer.
+
+  This is the FIRST Design Delivery for the branch and it closes the spike's
+  core thesis: the Figma was ingested (exact pixels/tokens), a Figma-grounded
+  page spec was written, and the app's design tokens were remapped to the Figma
+  and verified — build now matches the pixels.
+
+user_value:
+  problem: "A homeowner wants a credible renovation cost estimate without being asked for personal details up front."
+  solution: "A short, trustworthy, stepped question flow that builds confidence before any ask; the coach/lead CTA is offered after value, never as a gate."
+  success_criteria:
+    - "User completes Step 1 (renovation type) and the flow progresses through Steps 2-3 without confusion."
+    - "The rendered surface is faithful to the Figma (color/type/radius/spacing) — verified visually and by token tests."
+    - "No lead-capture gate blocks reaching an indicative estimate."
+
+design_artifacts:
+  scenarios:
+    - id: "01-priya-honest-number"
+      path: "C-UX-Scenarios/01-priya-honest-number/"
+      screens: ["01-calculator-form"]
+  page_specifications:
+    - "C-UX-Scenarios/01-priya-honest-number/01-calculator-form.md"
+  figma_source:
+    file_key: "Q0fDj1AKMbwyPJRmPltox0"
+    frame: "9:2 (1512w default)"
+    render: "C-UX-Scenarios/_figma-imports/figma-9-2-desktop-1512w.png"
+    observations_ledger: "C-UX-Scenarios/_figma-imports/figma-design-observations.md"
+  design_system:
+    # Tokens are implemented directly in the app theme (design_system_mode: none).
+    components:
+      - "App bar / Header (dark, logo placeholders)"
+      - "Address row (label + 'Enter new address' link)"
+      - "Accordion step card (MuiPaper, 16px radius, brand elevation)"
+      - "Selection buttons (outlined, violet, title-case, 4px radius)"
+      - "Footer disclaimer (dark, caption)"
+    path: "app-theme: src/theme/tokens.ts + src/theme/theme.ts (branch planning/epics-and-stories)"
+
+# ---------------------------------------------------------------------------
+# FIDELITY: Figma spec -> code token mapping (verified, commit beb7d31)
+# The prior build followed the re-narrated DESIGN.md, which diverged from the
+# Figma. These were remapped to the exact Figma values and verified.
+# ---------------------------------------------------------------------------
+fidelity_token_map:
+  status: "implemented_and_verified"
+  implemented_on_branch: "planning/epics-and-stories"
+  commit: "beb7d31"
+  verification:
+    typecheck: pass
+    lint: pass
+    tests: "528 pass"
+    build: pass
+    visual: "screenshot at 1512w converges with figma-9-2-desktop-1512w.png (files/built-form-v3-figma-remap.png)"
+  tokens:
+    - name: "primary / accent"
+      figma: "#432A6E (Jacarta / color/violet/30)"
+      was: "#0066CC"
+      applies_to: "outlined selection buttons, links, focus ring"
+    - name: "heading font"
+      figma: "Poppins (font-1)"
+      was: "Roboto"
+      applies_to: "h1-h4, cost-display"
+    - name: "body / UI font"
+      figma: "Source Sans Pro (font-2, shipped as Source Sans 3)"
+      was: "Roboto"
+      applies_to: "body, labels, buttons, step headers"
+    - name: "text primary"
+      figma: "#110B1C (Ebony, rendered ~80%)"
+      was: "#333333"
+    - name: "canvas background"
+      figma: "#EDF1F3 (light blue-grey, observed)"
+      was: "#F5F5F5"
+    - name: "paper / card radius"
+      figma: "16px"
+      was: "8px"
+    - name: "selection button radius"
+      figma: "4px"
+      was: "8px (inherited)"
+    - name: "accordion elevation"
+      figma: "0px 2px 2px rgba(17,11,28,0.08)"
+      was: "0px 2px 4px rgba(0,0,0,0.08)"
+
+layout_reference:
+  content_column_width_px: 840
+  side_margin_px_at_1512w: 336
+  header_height_px: 68.98
+  footer_height_px: 81.45
+  inter_card_gap_px: 16
+  selection_button_gap_px: 7.98
+
+technical_requirements:
+  platform:
+    frontend: "Next.js 16 + React 19 + MUI v9 (@mui/material)"
+    backend: "Next.js route handlers (/api/v1/*), stub adapters"
+  data_models:
+    - name: "RenovationEstimateForm (flow aggregate)"
+      fields: ["renovationTypeId", "items", "details", "address"]
+  fonts:
+    - "Poppins (next/font/google) — variable --font-poppins"
+    - "Source Sans 3 (next/font/google) — variable --font-source-sans"
+
+acceptance_criteria:
+  functional:
+    - "Step 1 offers exactly Internal / External as an exclusive single-select; a required selection is never cleared to empty."
+    - "Steps 2-3 render collapsed with muted titles until progressed."
+    - "The disclaimer text matches the Figma/Cotality copy exactly."
+  non_functional:
+    - "WCAG AA: visible focus ring, >=44px targets, reduced-motion collapse."
+    - "Visual fidelity: color/type/radius/spacing match the Figma tokens (verified)."
+
+open_questions:
+  - id: "OI-2"
+    q: "What are Step 3's questions? (undefined in Figma)"
+  - id: "OI-7"
+    q: "On 'Enter new address', keep or reset prior answers?"
+  - id: "OI-8"
+    q: "Exact step-progression rule (auto-open next step?)"
+  - id: "OI-F1"
+    q: "Exact header/canvas background hexes + logo treatment (observed from render only)."
+  - id: "OI-F2"
+    q: "Selection-button selected state (fill/contrast) — not shown in this frame."
+  - id: "OI-F3"
+    q: "Poppins + Source Sans Pro licensing/availability for production."
+  - id: "R3"
+    q: "Cost algorithm behind the estimate (out of UX scope)."
+  - id: "STATE-ADDRESS"
+    q: "The built app shows an empty address prompt; the Figma shows a pre-filled address with 'Enter new address'. Confirm the default entry state."
+
+handoff:
+  to: "BMad dev (existing implementation on planning/epics-and-stories)"
+  note: |
+    The token remap is already implemented and verified on planning/epics-and-stories
+    (commit beb7d31). Remaining work is content/state (OI-2/7/8, STATE-ADDRESS) and
+    confirming the open visual items (OI-F1/F2/F3), not core theming.

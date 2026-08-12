@@ -108,3 +108,28 @@
 - Remaining Phase 4: specs for scenarios 02/03 surfaces + result/estimate surface; then Design
   Delivery ([H]) / conceptual-specs packaging. Recommend applying the token remap to close the
   fidelity loop.
+
+---
+## 2026-08-13 — Phase 4 Handover [H]: DD-001 packaged + fidelity VERIFIED IN CODE
+
+- Ran the WDS Phase 4 **Handover** activity. Packaged Scenario 01's form surface into a formal
+  **Design Delivery**: `_bmad-output/deliveries/DD-001-reno-calculator-form.yaml`.
+- **Closed the spike's fidelity loop end-to-end.** Applied the Figma-grounded token remap to the
+  built app on branch `planning/epics-and-stories` (commit **beb7d31**) and verified it:
+  - primary → #432A6E violet; fonts → Poppins (display) + Source Sans Pro (body/UI);
+    text → Ebony #110B1C; canvas → #EDF1F3; paper radius → 16px; button radius → 4px;
+    accordion shadow → exact Figma value.
+  - Gates: typecheck, lint, **528 tests**, build all green.
+  - Visual: app screenshot at 1512w converges with `figma-9-2-desktop-1512w.png`
+    (`files/built-form-v3-figma-remap.png`).
+
+### Decisions
+- DD-001 records the full **Figma-spec → code-token mapping** as the canonical handoff, so the
+  build's fidelity is traceable to specific Figma variables.
+- Remaining app work is content/state (OI-2/7/8, STATE-ADDRESS) + open visual items
+  (OI-F1/F2/F3), not core theming.
+
+### Next
+- Owner to confirm DD-001 + the open items.
+- Optional: specs for scenarios 02/03 + the result/estimate surface; then Phase 5 (agentic dev)
+  to resolve the remaining content/state questions.
