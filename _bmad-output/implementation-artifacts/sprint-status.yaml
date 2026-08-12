@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12T19:28:28+10:00
-last_updated: '2026-08-14T01:00:00+10:00'
+last_updated: '2026-08-14T01:30:00+10:00'
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -62,13 +62,13 @@ development_status:
   2-4-manual-entry-fallback-non-destructive-error-handling: done
   2-5-address-change-resets-scope-to-a-defined-state: done
   epic-2-retrospective: done
-  epic-3: in-progress
+  epic-3: done
   3-1-configsource-port-stub-adapter-versioned-content-schemas: done
   3-2-accordion-stepper-shell-flow-aggregate: done
   3-3-step-1-renovation-type-selection: done
   3-4-step-2-config-driven-multi-select-items: done
   3-5-step-3-dynamic-property-details-with-validation: done
-  epic-3-retrospective: optional
+  epic-3-retrospective: done
   epic-4: backlog
   4-1-estimateengine-port-deterministic-stub-estimate-identity: backlog
   4-2-result-cost-card: backlog
@@ -121,7 +121,7 @@ action_items:
   - epic: 2
     action: "Surface OI-1 (Step 2 item content) and OI-2 (Step 3 validation) as documented assumptions in the Story 3.4 / 3.5 specs and flag for confirmation"
     owner: "Alice / Amelia"
-    status: open
+    status: done
   - epic: 2
     action: "Land the inward-dependency boundary arch test early in Epic 3 (by Story 3.1) so ConfigSource/EstimateEngine/LeadSink adapters cannot import inward"
     owner: "Winston"
@@ -129,8 +129,36 @@ action_items:
   - epic: 2
     action: "Decide the accordion interaction-testing approach (extend node-only + manual a11y, or introduce a jsdom lane) before Story 3.2"
     owner: "Amelia / Dana"
-    status: open
+    status: done
   - epic: 2
     action: "Add 'stale transient UI state reset' as an explicit item in the reviewer-prompt checklist"
     owner: "Amelia"
+    status: done
+  - epic: 3
+    action: "Land the inward-dependency boundary arch test as the FIRST task of Epic 4 (before the EstimateEngine adapter); manual grep across 4 adapters is on borrowed time — carried from Epic 1 #3 / Epic 2 #3"
+    owner: "Winston"
+    status: open
+  - epic: 3
+    action: "Confirm OI-7 — reconcile the shipped clear-all reset to a signed product decision before wiring Edit/New Estimate (Story 4.4)"
+    owner: "Alice / Igrant"
+    status: open
+  - epic: 3
+    action: "Keep OI-3 (cost algorithm) behind the EstimateEngine port so the real algorithm swaps in with zero UI change; document as the [OPEN] in the 4.1 spec"
+    owner: "Winston / Amelia"
+    status: open
+  - epic: 3
+    action: "Extract AUD integer-cents money formatting to a pure, exhaustively-tested helper (AD-7); add money-unit correctness to the reviewer checklist"
+    owner: "Amelia / Dana"
+    status: open
+  - epic: 3
+    action: "Pull deferred Epic 3 items into 4.x specs: stale-answer pruning (prune propertyDetails to visible questions before the estimate request) + form-level submit toast"
+    owner: "Amelia"
+    status: open
+  - epic: 3
+    action: "Add 'derived-state-on-transient' and 'a11y error wiring (aria-describedby resolves to a rendered node)' to the reviewer-prompt checklist"
+    owner: "Amelia"
+    status: open
+  - epic: 3
+    action: "Enable tsconfig noUncheckedIndexedAccess in a hardening pass (carried from Epic 1 #6, nice-to-have)"
+    owner: "Winston"
     status: open
