@@ -51,12 +51,37 @@ describe("address schemas", () => {
     );
   });
 
-  it("requires geo lat/lng", () => {
+  it("accepts a resolved address WITHOUT geo (manual entry omits coordinates)", () => {
     const { geo: _geo, ...noGeo } = VALID_ADDRESS;
-    expect(resolvedAddressSchema.safeParse(noGeo).success).toBe(false);
+    expect(resolvedAddressSchema.safeParse(noGeo).success).toBe(true);
+  });
+
+  it("still rejects a malformed geo when present (partial coordinates)", () => {
     expect(
       resolvedAddressSchema.safeParse({ ...VALID_ADDRESS, geo: { lat: 1 } }).success,
     ).toBe(false);
+  });
+
+  it("rejects whitespace-only street or suburb (trimmed non-empty)", () => {
+    expect(
+      resolvedAddressSchema.safeParse({ ...VALID_ADDRESS, street: "   " }).success,
+    ).toBe(false);
+    expect(
+      resolvedAddressSchema.safeParse({ ...VALID_ADDRESS, suburb: "  \t " }).success,
+    ).toBe(false);
+  });
+
+  it("trims surrounding whitespace on street and suburb", () => {
+    const parsed = resolvedAddressSchema.safeParse({
+      ...VALID_ADDRESS,
+      street: "  100 George St  ",
+      suburb: "  Sydney ",
+    });
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.data.street).toBe("100 George St");
+      expect(parsed.data.suburb).toBe("Sydney");
+    }
   });
 
   it("validates prediction shape", () => {

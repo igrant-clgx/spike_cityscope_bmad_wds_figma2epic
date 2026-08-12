@@ -13,6 +13,14 @@ import {
   ADDRESS_NO_RESULTS,
   ADDRESS_CONFIRM_LABEL,
   ADDRESS_CANCEL_LABEL,
+  ADDRESS_ERROR_MESSAGE,
+  ADDRESS_RETRY_LABEL,
+  ADDRESS_ENTER_MANUALLY_LABEL,
+  ADDRESS_BACK_TO_SEARCH_LABEL,
+  MANUAL_STREET_LABEL,
+  MANUAL_STATE_LABEL,
+  MANUAL_POSTCODE_LABEL,
+  MANUAL_POSTCODE_INVALID,
 } from './copy';
 
 /**
@@ -56,6 +64,14 @@ function body(overrides: Partial<React.ComponentProps<typeof AddressModalBody>> 
       isResolving={false}
       onConfirm={() => {}}
       onCancel={() => {}}
+      errorMessage={null}
+      onRetry={() => {}}
+      isManualMode={false}
+      onEnterManual={() => {}}
+      onExitManual={() => {}}
+      manualValues={{ street: '', suburb: '', state: '', postcode: '' }}
+      manualErrors={{}}
+      onManualFieldChange={() => {}}
       {...overrides}
     />,
   );
@@ -122,5 +138,58 @@ describe('AddressModalBody', () => {
     const html = body({ query: 'zzzzz', predictions: [], isLookupLoading: true });
     expect(html).not.toContain(ADDRESS_NO_RESULTS);
     expect(html).toContain(ADDRESS_LOOKUP_LOADING);
+  });
+
+  it('renders a non-scolding retryable error alert with a manual-entry fallback', () => {
+    const html = body({ query: '100 George St', errorMessage: ADDRESS_ERROR_MESSAGE });
+    // The typed query is preserved in the search field (non-destructive, FR-33).
+    expect(html).toContain('value="100 George St"');
+    expect(html).toContain('try again or enter it manually');
+    expect(html).toContain(ADDRESS_RETRY_LABEL);
+    expect(html).toContain(ADDRESS_ENTER_MANUALLY_LABEL);
+  });
+
+  it('hides predictions and no-results text while the error alert is shown', () => {
+    const html = body({
+      query: 'zzzzz',
+      predictions: samplePredictions,
+      errorMessage: ADDRESS_ERROR_MESSAGE,
+    });
+    expect(html).not.toContain('George St, Sydney');
+    expect(html).not.toContain(ADDRESS_NO_RESULTS);
+  });
+
+  it('renders the structured manual-entry fields when manual mode is active', () => {
+    const html = body({ isManualMode: true });
+    expect(html).toContain(MANUAL_STREET_LABEL);
+    expect(html).toContain(MANUAL_STATE_LABEL);
+    expect(html).toContain(MANUAL_POSTCODE_LABEL);
+    expect(html).toContain('<select');
+  });
+
+  it('offers a "search instead" control to leave manual entry', () => {
+    const html = body({ isManualMode: true });
+    expect(html).toContain(ADDRESS_BACK_TO_SEARCH_LABEL);
+  });
+
+  it('renders no service-error alert when there is no error (e.g. after a successful retry)', () => {
+    const html = body({ errorMessage: null });
+    expect(html).not.toContain(ADDRESS_ERROR_MESSAGE);
+    expect(html).not.toContain(ADDRESS_RETRY_LABEL);
+  });
+
+  it('enables Confirm in manual mode even without a resolved provider address', () => {
+    const html = body({ isManualMode: true, resolvedAddress: null });
+    expect(html).toContain(ADDRESS_CONFIRM_LABEL);
+    expect(html).not.toMatch(/<button[^>]*disabled/);
+  });
+
+  it('announces a manual field error inline and via aria-describedby', () => {
+    const html = body({
+      isManualMode: true,
+      manualErrors: { postcode: MANUAL_POSTCODE_INVALID },
+    });
+    expect(html).toContain(MANUAL_POSTCODE_INVALID);
+    expect(html).toContain('aria-describedby="manual-address-postcode-helper-text"');
   });
 });

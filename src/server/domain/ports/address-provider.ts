@@ -19,7 +19,7 @@ export interface ResolvedAddress {
   suburb: string;
   state: AuState;
   postcode: string;
-  geo: { lat: number; lng: number };
+  geo?: { lat: number; lng: number };
 }
 
 export interface AddressProvider {

@@ -13,12 +13,19 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import { FormTextField } from '@/components/feedback';
 import type { AddressPrediction } from '@shared/schemas';
 import type { ResolvedAddress } from '@server/domain/ports/address-provider';
 import { useAddressSuggest } from './use-address-suggest';
 import { useDebouncedValue } from './use-debounced-value';
 import { useAddressResolve } from './use-address-resolve';
+import { ManualAddressForm } from './ManualAddressForm';
+import { validateManualAddress } from './validate-manual-address';
+import type {
+  ManualAddressField,
+  ManualAddressFields,
+} from './validate-manual-address';
 import {
   ADDRESS_MODAL_TITLE,
   ADDRESS_SEARCH_LABEL,
@@ -27,10 +34,21 @@ import {
   ADDRESS_NO_RESULTS,
   ADDRESS_CONFIRM_LABEL,
   ADDRESS_CANCEL_LABEL,
+  ADDRESS_ERROR_MESSAGE,
+  ADDRESS_RETRY_LABEL,
+  ADDRESS_ENTER_MANUALLY_LABEL,
+  ADDRESS_BACK_TO_SEARCH_LABEL,
 } from './copy';
 
 const MIN_QUERY_LENGTH = 3;
 const DIALOG_TITLE_ID = 'address-modal-title';
+
+const EMPTY_MANUAL_FIELDS: ManualAddressFields = {
+  street: '',
+  suburb: '',
+  state: '',
+  postcode: '',
+};
 
 export interface AddressModalProps {
   /** Whether the dialog is open. */
@@ -53,6 +71,19 @@ export interface AddressModalBodyProps {
   isResolving: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  /** Non-null when the last suggest/resolve returned a service error (FR-33). */
+  errorMessage: string | null;
+  /** Re-run the failed operation without clearing entered data. */
+  onRetry: () => void;
+  /** Whether the structured manual-entry fallback is active (FR-8). */
+  isManualMode: boolean;
+  /** Switch into manual entry from the error affordance. */
+  onEnterManual: () => void;
+  /** Leave manual entry and return to autocomplete search. */
+  onExitManual: () => void;
+  manualValues: ManualAddressFields;
+  manualErrors: Partial<Record<ManualAddressField, string>>;
+  onManualFieldChange: (field: ManualAddressField, value: string) => void;
 }
 
 /**
@@ -73,11 +104,27 @@ export function AddressModalBody({
   isResolving,
   onConfirm,
   onCancel,
+  errorMessage,
+  onRetry,
+  isManualMode,
+  onEnterManual,
+  onExitManual,
+  manualValues,
+  manualErrors,
+  onManualFieldChange,
 }: AddressModalBodyProps) {
   const showNoResults =
+    !isManualMode &&
+    !errorMessage &&
     !isLookupLoading &&
     query.trim().length >= MIN_QUERY_LENGTH &&
     predictions.length === 0;
+
+  const showPredictions = !isManualMode && !errorMessage && predictions.length > 0;
+
+  const confirmDisabled = isManualMode
+    ? false
+    : resolvedAddress === null || isResolving;
 
   return (
     <>
@@ -94,7 +141,7 @@ export function AddressModalBody({
           slotProps={{ htmlInput: { 'aria-label': ADDRESS_SEARCH_LABEL } }}
         />
 
-        {isLookupLoading ? (
+        {isLookupLoading && !isManualMode ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
             <CircularProgress size={16} aria-hidden />
             <Typography variant="body2" color="text.secondary">
@@ -103,13 +150,42 @@ export function AddressModalBody({
           </Box>
         ) : null}
 
+        {errorMessage && !isManualMode ? (
+          <Alert
+            severity="error"
+            sx={{ mt: 2 }}
+            action={
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  type="button"
+                  color="inherit"
+                  size="small"
+                  onClick={onRetry}
+                >
+                  {ADDRESS_RETRY_LABEL}
+                </Button>
+                <Button
+                  type="button"
+                  color="inherit"
+                  size="small"
+                  onClick={onEnterManual}
+                >
+                  {ADDRESS_ENTER_MANUALLY_LABEL}
+                </Button>
+              </Box>
+            }
+          >
+            {ADDRESS_ERROR_MESSAGE}
+          </Alert>
+        ) : null}
+
         {showNoResults ? (
           <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
             {ADDRESS_NO_RESULTS}
           </Typography>
         ) : null}
 
-        {predictions.length > 0 ? (
+        {showPredictions ? (
           <List aria-label={ADDRESS_MODAL_TITLE} sx={{ mt: 1 }}>
             {predictions.map((prediction) => (
               <ListItem key={prediction.addressId} disablePadding>
@@ -123,6 +199,24 @@ export function AddressModalBody({
             ))}
           </List>
         ) : null}
+
+        {isManualMode ? (
+          <>
+            <ManualAddressForm
+              values={manualValues}
+              errors={manualErrors}
+              onFieldChange={onManualFieldChange}
+            />
+            <Button
+              type="button"
+              variant="text"
+              onClick={onExitManual}
+              sx={{ px: 0, mt: 1 }}
+            >
+              {ADDRESS_BACK_TO_SEARCH_LABEL}
+            </Button>
+          </>
+        ) : null}
       </DialogContent>
 
       <DialogActions>
@@ -133,7 +227,7 @@ export function AddressModalBody({
           type="button"
           variant="contained"
           onClick={onConfirm}
-          disabled={resolvedAddress === null || isResolving}
+          disabled={confirmDisabled}
         >
           {ADDRESS_CONFIRM_LABEL}
         </Button>
@@ -153,18 +247,27 @@ export function AddressModalBody({
 export function AddressModal({ open, onCancel, onConfirm }: AddressModalProps) {
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [manualValues, setManualValues] =
+    useState<ManualAddressFields>(EMPTY_MANUAL_FIELDS);
+  const [manualErrors, setManualErrors] = useState<
+    Partial<Record<ManualAddressField, string>>
+  >({});
 
   const debouncedQuery = useDebouncedValue(query);
   const suggest = useAddressSuggest(debouncedQuery);
   const resolve = useAddressResolve();
 
   // Reset all transient state whenever the dialog closes so a reopen starts
-  // clean — no stale query text, selection, predictions, or resolved address
-  // can carry over into the next open (BH/ECH: stale confirm after reopen).
+  // clean — no stale query text, selection, predictions, resolved address,
+  // manual-mode toggle, or manual field values/errors can carry over.
   useEffect(() => {
     if (!open) {
       setQuery('');
       setSelectedId(null);
+      setIsManualMode(false);
+      setManualValues(EMPTY_MANUAL_FIELDS);
+      setManualErrors({});
       resolve.reset();
     }
     // `resolve` identity is stable per TanStack Query; guard on `open` only.
@@ -184,6 +287,17 @@ export function AddressModal({ open, onCancel, onConfirm }: AddressModalProps) {
   const resolvedAddress: ResolvedAddress | null =
     resolve.data?.ok ? resolve.data.data.address : null;
 
+  // `apiFetch` is NON-throwing: a service failure resolves to `ok: false`, so a
+  // suggest query / resolve mutation still SUCCEEDS at the query level. Detect
+  // the service error via the result envelope (`data.ok === false`), NOT
+  // `isError`. Errors are non-destructive — the typed query and any selection
+  // are preserved (FR-33).
+  const suggestError = settled && suggest.data?.ok === false;
+  const resolveError = resolve.data?.ok === false;
+  const hasServiceError = suggestError || resolveError;
+  const errorMessage =
+    hasServiceError && !isManualMode ? ADDRESS_ERROR_MESSAGE : null;
+
   const handleQueryChange = (value: string) => {
     // Editing the query invalidates any staged selection/resolution so Confirm
     // can never write an address that no longer matches what the user sees.
@@ -199,7 +313,52 @@ export function AddressModal({ open, onCancel, onConfirm }: AddressModalProps) {
     resolve.mutate(addressId);
   };
 
+  // Retry re-runs the failed operation without clearing entered data: a resolve
+  // failure re-mutates the same selection; otherwise the suggest query refetches.
+  const handleRetry = () => {
+    if (resolveError && selectedId !== null) {
+      resolve.mutate(selectedId);
+      return;
+    }
+    void suggest.refetch();
+  };
+
+  const handleEnterManual = () => {
+    setIsManualMode(true);
+  };
+
+  // Return to autocomplete search from manual entry, discarding the manual
+  // field values/errors while preserving the typed search query (non-destructive
+  // to the search path the user is going back to).
+  const handleExitManual = () => {
+    setIsManualMode(false);
+    setManualValues(EMPTY_MANUAL_FIELDS);
+    setManualErrors({});
+  };
+
+  const handleManualFieldChange = (
+    field: ManualAddressField,
+    value: string,
+  ) => {
+    setManualValues((current) => ({ ...current, [field]: value }));
+    setManualErrors((current) => {
+      if (current[field] === undefined) return current;
+      const next = { ...current };
+      delete next[field];
+      return next;
+    });
+  };
+
   const handleConfirm = () => {
+    if (isManualMode) {
+      const result = validateManualAddress(manualValues);
+      if (result.ok) {
+        onConfirm(result.address);
+      } else {
+        setManualErrors(result.errors);
+      }
+      return;
+    }
     if (resolvedAddress !== null) {
       onConfirm(resolvedAddress);
     }
@@ -225,6 +384,14 @@ export function AddressModal({ open, onCancel, onConfirm }: AddressModalProps) {
         isResolving={resolve.isPending}
         onConfirm={handleConfirm}
         onCancel={onCancel}
+        errorMessage={errorMessage}
+        onRetry={handleRetry}
+        isManualMode={isManualMode}
+        onEnterManual={handleEnterManual}
+        onExitManual={handleExitManual}
+        manualValues={manualValues}
+        manualErrors={manualErrors}
+        onManualFieldChange={handleManualFieldChange}
       />
     </Dialog>
   );

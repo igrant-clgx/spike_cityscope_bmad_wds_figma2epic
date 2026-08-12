@@ -50,16 +50,28 @@ export const addressPredictionsSchema = z.object({
   predictions: z.array(addressPredictionSchema),
 });
 
-/** Resolved structured AU address (street/suburb/state/postcode/geo). */
+/**
+ * Resolved structured AU address (street/suburb/state/postcode; optional geo).
+ *
+ * `street`/`suburb` are trimmed and non-empty — these are display-bearing fields
+ * and manual entry (Story 2.4) is now an input source, so leading/trailing
+ * whitespace must never survive into the stored/rendered address.
+ *
+ * `geo` is OPTIONAL: provider resolution supplies coordinates, but manual entry
+ * cannot, so a manually entered address omits it. Downstream code must not
+ * branch on the presence of `geo` (the stub estimate engine is origin-agnostic).
+ */
 export const resolvedAddressSchema = z.object({
-  street: z.string().min(1),
-  suburb: z.string().min(1),
+  street: z.string().trim().min(1),
+  suburb: z.string().trim().min(1),
   state: auStateSchema,
   postcode: z.string().regex(/^\d{4}$/),
-  geo: z.object({
-    lat: z.number(),
-    lng: z.number(),
-  }),
+  geo: z
+    .object({
+      lat: z.number(),
+      lng: z.number(),
+    })
+    .optional(),
 });
 
 /** The resolve response payload. */
