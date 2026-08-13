@@ -1,0 +1,281 @@
+.renovation-details {
+  --reno-details-background: #eef5f7;
+
+  min-width: 0;
+  min-height: 648px;
+  padding: var(--en-space-600) var(--en-space-400) var(--en-space-1200);
+  background: var(--reno-details-background);
+}
+
+.renovation-details__visually-hidden {
+  position: absolute;
+  width: var(--en-space-025);
+  height: var(--en-space-025);
+  padding: 0;
+  border: 0;
+  margin: calc(var(--en-space-025) * -1);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.renovation-details__address-context,
+.renovation-details__questionnaire {
+  width: min(100%, 840px);
+  margin-inline: auto;
+}
+
+.renovation-details__address-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--en-space-400);
+}
+
+.renovation-details__address-context p {
+  margin: 0;
+  font-family: var(--reno-font-display);
+  font-size: 15.8px;
+  letter-spacing: 0.5px;
+  line-height: 20.48px;
+}
+
+.renovation-details__new-address {
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--en-space-200) 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--en-content-interactive-default);
+  cursor: pointer;
+  font-family: var(--reno-font-ui);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 18.2px;
+  text-decoration: underline;
+  text-underline-offset: var(--en-space-100);
+}
+
+.renovation-details__new-address:hover {
+  color: var(--en-content-interactive-hover);
+}
+
+.renovation-details__new-address:focus-visible {
+  outline: var(--en-space-050) solid var(--en-border-focus);
+  outline-offset: var(--en-space-050);
+}
+
+.renovation-details__questionnaire {
+  margin-top: var(--en-space-400);
+}
+
+.renovation-questionnaire {
+  display: grid;
+  gap: var(--en-space-400);
+}
+
+.renovation-questionnaire__step {
+  border-radius: 16px;
+  background: var(--en-surface-default);
+  box-shadow: 0 var(--en-space-050) var(--en-space-100)
+    var(--en-transparent-shadow-stop-01);
+  overflow: hidden;
+}
+
+.renovation-questionnaire__step h2 {
+  margin: 0;
+  font-family: var(--reno-font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 18px;
+}
+
+.renovation-questionnaire__heading {
+  display: flex;
+  width: 100%;
+  min-height: var(--en-space-1600);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--en-space-400);
+  padding: var(--en-space-400) var(--en-space-600);
+  border: 0;
+  background: transparent;
+  color: var(--en-content-default);
+  cursor: pointer;
+  font-family: var(--reno-font-ui);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 19px;
+  text-align: left;
+}
+
+.renovation-questionnaire__heading:focus-visible {
+  outline: var(--en-space-050) solid var(--en-border-focus);
+  outline-offset: calc(var(--en-space-050) * -1);
+}
+
+.renovation-questionnaire__step--locked {
+  background: color-mix(
+    in srgb,
+    var(--en-surface-default) 65%,
+    var(--reno-details-background)
+  );
+}
+
+.renovation-questionnaire__step--locked .renovation-questionnaire__heading {
+  color: var(--en-content-disabled);
+  cursor: not-allowed;
+}
+
+.renovation-questionnaire__chevron {
+  display: inline-flex;
+  flex: 0 0 auto;
+  transform: rotate(0);
+  transition: transform 120ms ease;
+}
+
+.renovation-questionnaire__chevron--expanded {
+  transform: rotate(180deg);
+}
+
+.renovation-questionnaire__panel {
+  padding: 0 var(--en-space-600) var(--en-space-400);
+}
+
+.renovation-questionnaire__panel h3 {
+  margin: 0 0 20px;
+  font-family: var(--reno-font-display);
+  font-size: 17.7px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 23px;
+}
+
+.renovation-questionnaire__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--en-space-200);
+}
+
+.renovation-questionnaire__option {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--en-space-200);
+  padding: var(--en-space-200) var(--en-space-400);
+  border: var(--en-space-025) solid var(--en-border-interactive);
+  border-radius: 4px;
+  background: var(--en-surface-default);
+  color: var(--en-content-interactive-default);
+  cursor: pointer;
+  font-family: var(--reno-font-ui);
+  font-size: 15px;
+  letter-spacing: 0.28px;
+  line-height: 24px;
+}
+
+.renovation-questionnaire__option:hover {
+  border-color: currentColor;
+  color: var(--en-content-interactive-hover);
+}
+
+.renovation-questionnaire__option:active {
+  border-color: currentColor;
+  color: var(--en-content-interactive-active);
+}
+
+.renovation-questionnaire__option:focus-visible {
+  outline: var(--en-space-050) solid var(--en-border-focus);
+  outline-offset: var(--en-space-050);
+}
+
+.renovation-questionnaire__option--selected {
+  border-color: var(--en-border-selected);
+  background: var(--en-surface-selected-default);
+  color: var(--en-content-interactive-active);
+  box-shadow: inset 0 0 0 var(--en-space-025) var(--en-border-selected);
+}
+
+.renovation-questionnaire__option--selected::after {
+  content: "\2713";
+  font-weight: 700;
+}
+
+.renovation-questionnaire__summary {
+  display: grid;
+  gap: var(--en-space-300);
+  max-width: 28rem;
+  margin: 0;
+}
+
+.renovation-questionnaire__summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--en-space-400);
+  padding-bottom: var(--en-space-200);
+  border-bottom: var(--en-space-025) solid var(--en-border-subtle);
+}
+
+.renovation-questionnaire__summary dt {
+  color: var(--en-content-subtle);
+}
+
+.renovation-questionnaire__summary dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.renovation-questionnaire__notice {
+  max-width: 36rem;
+  padding: var(--en-space-300);
+  border-left: var(--en-space-100) solid var(--en-border-info);
+  margin: var(--en-space-400) 0 0;
+  background: var(--en-surface-info-subtle);
+  color: var(--en-content-default);
+  line-height: 1.5;
+}
+
+.renovation-questionnaire__supported-path {
+  display: grid;
+  justify-items: start;
+  gap: var(--en-space-400);
+  margin-top: var(--en-space-400);
+}
+
+.renovation-questionnaire__supported-path p {
+  margin: 0;
+  color: var(--en-content-default);
+  line-height: 1.5;
+}
+
+#renovation-details-questionnaire-view-estimate-button {
+  min-height: 44px;
+  font-family: var(--reno-font-ui);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .renovation-questionnaire__chevron {
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .renovation-details {
+    min-height: 600px;
+    padding-top: var(--en-space-600);
+  }
+
+  .renovation-details__address-context {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--en-space-200);
+  }
+
+  .renovation-questionnaire__heading,
+  .renovation-questionnaire__panel {
+    padding-right: var(--en-space-400);
+    padding-left: var(--en-space-400);
+  }
+}

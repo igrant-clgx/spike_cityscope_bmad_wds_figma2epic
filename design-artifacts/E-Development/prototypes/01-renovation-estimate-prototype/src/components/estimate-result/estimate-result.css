@@ -1,0 +1,325 @@
+.estimate-result {
+  --estimate-result-accent: #432c78;
+
+  min-width: 0;
+  padding: var(--en-space-100) var(--en-space-400) var(--en-space-800);
+  color: var(--en-content-default);
+  background: var(--en-background-default);
+}
+
+.estimate-result__visually-hidden {
+  position: absolute;
+  width: var(--en-space-025);
+  height: var(--en-space-025);
+  padding: 0;
+  border: 0;
+  margin: calc(var(--en-space-025) * -1);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.estimate-result__address-context,
+.estimate-result__explanation,
+.estimate-result__tips {
+  width: min(100%, 792px);
+  margin-inline: auto;
+}
+
+.estimate-result__address-context {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--en-space-400);
+}
+
+.estimate-result__address-context p {
+  display: flex;
+  align-items: center;
+  gap: var(--en-space-300);
+  margin: 0;
+  font-family: var(--reno-font-display);
+  font-size: 15.8px;
+  letter-spacing: 0.5px;
+  line-height: 20.48px;
+}
+
+.estimate-result__address-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--estimate-result-accent);
+}
+
+.estimate-result__new-address,
+.estimate-result__recovery-action {
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--en-space-200) 15px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--en-content-interactive-default);
+  cursor: pointer;
+  font-family: var(--reno-font-ui);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 18.2px;
+  text-decoration: underline;
+  text-underline-offset: var(--en-space-100);
+}
+
+.estimate-result__new-address:hover,
+.estimate-result__recovery-action:hover {
+  color: var(--en-content-interactive-hover);
+}
+
+.estimate-result__new-address:focus-visible,
+.estimate-result__recovery-action:focus-visible,
+.estimate-result__explanation button:focus-visible,
+.estimate-result a:focus-visible {
+  outline: var(--en-space-050) solid var(--en-border-focus);
+  outline-offset: var(--en-space-050);
+}
+
+.estimate-result__summary {
+  max-width: 920px;
+  margin: var(--en-space-500) auto 0;
+  text-align: center;
+}
+
+.estimate-result__summary h1 {
+  margin: 0;
+  color: var(--estimate-result-accent);
+  font-family: var(--reno-font-ui);
+  font-size: 22.4px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 29.16px;
+  text-transform: uppercase;
+}
+
+#estimate-result-summary-renovation-description {
+  margin: var(--en-space-300) 0 0;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  line-height: 23.63px;
+}
+
+.estimate-result__cost {
+  margin: var(--en-space-200) 0 0;
+  color: var(--estimate-result-accent);
+  font-family: var(--reno-font-ui);
+  font-size: clamp(2.5rem, 5vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 57.2px;
+}
+
+#estimate-result-summary-planning-caveat {
+  margin: var(--en-space-1000) 0 0;
+  color: var(--en-content-subtle);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 18.2px;
+}
+
+.estimate-result__explanation {
+  margin-top: 44px;
+  border-radius: 0 0 16px 16px;
+  background: var(--en-surface-default);
+  box-shadow: 0 var(--en-space-050) var(--en-space-100)
+    var(--en-transparent-shadow-stop-01);
+  overflow: hidden;
+}
+
+.estimate-result__explanation h2 {
+  margin: 0;
+  font-family: var(--reno-font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 18.2px;
+}
+
+.estimate-result__explanation button {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--en-space-400);
+  padding: var(--en-space-300) var(--en-space-400);
+  border: 0;
+  background: transparent;
+  color: var(--en-content-interactive-default);
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0.5px;
+  line-height: 18.2px;
+  text-align: left;
+}
+
+.estimate-result__explanation button:hover {
+  color: var(--en-content-interactive-hover);
+}
+
+.estimate-result__chevron {
+  display: inline-flex;
+  flex: 0 0 auto;
+  transform: rotate(0);
+}
+
+.estimate-result__chevron--expanded {
+  transform: rotate(180deg);
+}
+
+.estimate-result__explanation-panel {
+  padding: 0 var(--en-space-400) var(--en-space-400);
+}
+
+.estimate-result__explanation-panel p {
+  padding: var(--en-space-300);
+  border-left: var(--en-space-100) solid var(--en-border-info);
+  margin: 0;
+  background: var(--en-surface-info-subtle);
+  line-height: 1.5;
+}
+
+.estimate-result__actions-contact {
+  width: min(100%, 900px);
+  margin: 42px auto 0;
+  text-align: center;
+}
+
+.estimate-result__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--en-space-200);
+}
+
+.estimate-result__actions en-btn {
+  min-height: 44px;
+  padding-block: var(--en-space-050);
+  font-family: var(--reno-font-ui);
+}
+
+.estimate-result__contact {
+  margin-top: var(--en-space-700);
+}
+
+.estimate-result__contact h2 {
+  margin: 0;
+  color: var(--estimate-result-accent);
+  font-family: var(--reno-font-ui);
+  font-size: clamp(1.375rem, 3vw, 1.575rem);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 32.8px;
+}
+
+.estimate-result__phone-icon {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--en-space-300);
+  color: var(--estimate-result-accent);
+}
+
+#estimate-result-contact-call-label {
+  margin: var(--en-space-100) 0 0;
+}
+
+.estimate-result__contact a {
+  color: var(--en-content-interactive-default);
+  text-underline-offset: var(--en-space-100);
+}
+
+.estimate-result__domestic-phone {
+  display: inline-block;
+  margin-top: var(--en-space-200);
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+#estimate-result-contact-service-hours {
+  margin: var(--en-space-200) 0 0;
+  color: var(--en-content-subtle);
+  line-height: 1.45;
+}
+
+#estimate-result-contact-international-phone-link {
+  display: inline-block;
+  margin-top: var(--en-space-050);
+  color: var(--en-content-subtle);
+}
+
+.estimate-result__tips {
+  margin-top: var(--en-space-700);
+  line-height: 1.5;
+}
+
+.estimate-result__tips p {
+  margin: 0;
+}
+
+.estimate-result__tips p + p {
+  margin-top: var(--en-space-300);
+}
+
+.estimate-result--recovery {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--en-space-400);
+  padding-top: var(--en-space-1000);
+}
+
+.estimate-result--recovery h1,
+.estimate-result--recovery p {
+  width: min(100%, 792px);
+  margin: 0 auto;
+}
+
+.estimate-result--recovery .estimate-result__recovery-action {
+  width: min(100%, 792px);
+  margin-inline: auto;
+  text-align: left;
+}
+
+@media (max-width: 767px) {
+  .estimate-result {
+    padding-right: var(--en-space-300);
+    padding-left: var(--en-space-300);
+  }
+
+  .estimate-result__address-context {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--en-space-200);
+  }
+
+  .estimate-result__summary {
+    margin-top: var(--en-space-600);
+  }
+
+  .estimate-result__cost {
+    font-size: clamp(2.25rem, 12vw, 3rem);
+  }
+
+  #estimate-result-summary-planning-caveat,
+  .estimate-result__explanation,
+  .estimate-result__actions-contact,
+  .estimate-result__contact,
+  .estimate-result__tips {
+    margin-top: var(--en-space-700);
+  }
+
+  .estimate-result__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .estimate-result__actions en-btn {
+    width: 100%;
+  }
+}

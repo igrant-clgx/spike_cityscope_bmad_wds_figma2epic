@@ -108,12 +108,13 @@ technical_requirements:
     transitions:
       - "SELECT_PROPERTY"
       - "SELECT_INTERNAL"
+      - "SELECT_RENOVATION_ITEM"
       - "CREATE_FIXED_ESTIMATE"
       - "EDIT_ESTIMATE"
       - "START_NEW_ESTIMATE"
       - "RESET_ADDRESS"
     decisions:
-      - "Selecting Internal exposes a View example estimate action that creates the fixed result."
+      - "Selecting Internal unlocks the fixed Kitchen selection; confirmation then exposes the result action."
       - "External remains selectable but does not progress; explain that only the Internal example is available."
       - "Advanced Search remains visible but shows an inline prototype-unavailable notice instead of navigating."
       - "The calculation disclosure shows: Calculation details are not available in this visual prototype."
@@ -126,7 +127,7 @@ acceptance_criteria:
     - "Selecting the fixed mocked address stores its identifier and display address, then navigates to Renovation Details."
     - "Free text that has not been selected from the mocked suggestions cannot advance and shows the specified inline validation."
     - "Renovation Details displays the selected address, starts with Step 1 expanded, and presents Internal and External options."
-    - "Selecting Internal completes the prototype questionnaire and enables navigation to the fixed result; Step 2 and Step 3 remain visibly out of prototype scope rather than presenting invented questions."
+    - "Selecting Internal unlocks the fixed Kitchen item in Step 2; Step 3 confirms those answers and enables navigation to the fixed result without adding production questionnaire logic."
     - "Estimate Result displays the selected address, Internal Renovation: Kitchen, and $32,700 - $40,000."
     - "Edit Estimate returns to Details with prototype state retained."
     - "New Estimate retains the address, clears renovation/result state, and returns to Step 1."
@@ -147,7 +148,7 @@ acceptance_criteria:
     - "Missing result state on Estimate Result -> show the specified recovery message and link to Details."
     - "Empty or unselected address text -> keep the user on Address Search and show the matching specified validation."
     - "Repeated navigation/reset activation -> process once and leave state consistent."
-    - "Direct activation of locked or out-of-scope questionnaire steps -> do not reveal invented content; announce that the prototype path uses the fixed example."
+    - "Direct activation of locked questionnaire steps -> remain locked until the fixed prerequisite is selected."
     - "320 CSS px viewport and 200% zoom -> preserve reading order, controls, and estimate readability without horizontal scrolling."
 
 testing_guidance:
@@ -178,8 +179,8 @@ estimated_complexity:
 notes: |
   Explicitly out of scope for DD-001:
   - Production address lookup and advanced search
-  - Expanded Step 2 renovation-item options
-  - Expanded Step 3 questions and conditional logic
+  - Additional Step 2 renovation-item options beyond Kitchen
+  - Production Step 3 questions and conditional logic beyond fixed confirmation
   - Live estimate calculation or estimate API integration
   - Expanded "How this was calculated" content
   - Final production logos, contact content, currency policy, and legal approval

@@ -5,7 +5,8 @@ metadata:
   scenario: "01-renovation-estimate"
   delivery: "DD-001"
   test_scenario: "TS-001"
-  status: "blocked"
+  status: "complete"
+  completed_date: "2026-08-13"
   complexity: "complex"
   estimated_sections: 6
   estimated_time: "465 minutes"
@@ -89,12 +90,19 @@ state_specific_elements:
   - "Polite suggestion-count and selection announcements"
   - "Required-address validation"
   - "Unselected-free-text validation"
+  - "No-results and over-200-character validation"
   - "Advanced Search unavailable notice"
 
 sections:
   - id: "section-1"
     name: "Application Foundation"
-    status: "blocked"
+    status: "complete"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered:
+      - "Configured Artifactory access returned E403 for open-source packages."
+    improvements_made:
+      - "Used cached open-source packages and the existing local @ensemble/lib installation without changing registry configuration."
     estimate_minutes: 90
     scope: |
       Establish the React and TypeScript application, Ensemble setup, route
@@ -110,11 +118,19 @@ sections:
       detected_at: "2026-08-13"
       command: "npm view react version"
       error: "E403 Forbidden from the configured npm-google-oss-public Artifactory registry"
-      policy: "Registry configuration was not changed; dependency setup requires repository access to be restored."
+      policy: "Registry configuration was not changed."
+      local_resolution: "Cached React tooling and the existing local @ensemble/lib 6.1.9 installation were used for local validation."
+      remaining_impact: "A clean npm install still requires repository access to be restored."
 
   - id: "section-2"
     name: "Shared Header and Disclaimer Footer"
-    status: "pending"
+    status: "complete"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered:
+      - "The Ensemble footer initially expanded its CSS grid track beyond the 320px viewport."
+    improvements_made:
+      - "Constrained the grid track and footer host while preserving the Ensemble component and responsive disclaimer wrapping."
     estimate_minutes: 60
     scope: |
       Build the reusable dual-brand header and disclaimer footer with
@@ -134,7 +150,13 @@ sections:
 
   - id: "section-3"
     name: "Responsive Hero Composition"
-    status: "pending"
+    status: "complete"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered:
+      - "The bright Figma image required an explicit contrast treatment for white overlay text."
+    improvements_made:
+      - "Combined the Ensemble semantic scrim with image brightness control to preserve readability across crops."
     estimate_minutes: 75
     scope: |
       Reproduce the full-bleed Figma hero, responsive image crop, overlay,
@@ -156,7 +178,13 @@ sections:
 
   - id: "section-4"
     name: "Accessible Address Combobox"
-    status: "pending"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered: []
+    improvements_made:
+      - "Kept DOM focus on the input while exposing deterministic keyboard and pointer selection through one typed reducer action."
     estimate_minutes: 90
     scope: |
       Implement a native accessible combobox/listbox backed by the fixed
@@ -174,7 +202,14 @@ sections:
 
   - id: "section-5"
     name: "Validation, Notices, and Navigation"
-    status: "pending"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered: []
+    improvements_made:
+      - "Extracted route navigation from App so selection and route guards share one focused History API helper."
+      - "Added deterministic no-results feedback, reachable overlength validation, IME-safe Enter handling, and first-keystroke-safe editing."
     estimate_minutes: 60
     scope: |
       Add address validation, live announcements, valid-selection navigation,
@@ -193,7 +228,14 @@ sections:
 
   - id: "section-6"
     name: "Responsive, Accessibility, and Visual Hardening"
-    status: "pending"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    issues_encountered:
+      - "A nonexistent --en-font-family-base variable forced the page to fall back to Arial instead of Ensemble's global TWK Everett stack."
+    improvements_made:
+      - "Restored the Ensemble global typography foundation and added focus transfer to the Details heading after automatic navigation."
     estimate_minutes: 90
     scope: |
       Validate and refine the completed view against Figma, responsive targets,

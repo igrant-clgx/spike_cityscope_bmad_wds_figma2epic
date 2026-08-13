@@ -1,0 +1,75 @@
+metadata:
+  page_number: "01.2"
+  page_name: "Renovation Details"
+  logical_view: "Renovation Details"
+  scenario: "01-renovation-estimate"
+  delivery: "DD-001"
+  test_scenario: "TS-001"
+  status: "complete"
+  completed_date: "2026-08-13"
+  complexity: "complex"
+  estimated_sections: 5
+  estimated_time: "330 minutes"
+  specification: "../../../../C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md"
+  figma_frame: "9:2"
+  route: "/renocalc/ceshllg/search/details"
+  responsive_range: "320px-1512px"
+  test_viewports: [320, 768, 1024, 1512]
+
+page_purpose: |
+  Present the selected property, collect the supported fixed Internal and
+  Kitchen choices across all three steps, confirm them, and create the
+  deterministic example estimate.
+
+confirmed_decisions:
+  - "Internal is the only path that can create the fixed Kitchen estimate."
+  - "External remains selectable but shows a prototype-unavailable explanation."
+  - "Step 2 selects the fixed Kitchen item after Internal is chosen."
+  - "Step 3 confirms Internal and Kitchen before exposing the estimate action."
+  - "Enter new address clears all flow state without confirmation."
+  - "Missing selected-property state redirects to Address Search."
+
+sections:
+  - id: "section-1"
+    name: "Guarded Shell and Address Context"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    estimate_minutes: 60
+    dependencies: []
+  - id: "section-2"
+    name: "Questionnaire Accordion Structure"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    estimate_minutes: 75
+    dependencies: ["section-1"]
+  - id: "section-3"
+    name: "Renovation Type Selection"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    estimate_minutes: 75
+    dependencies: ["section-2"]
+  - id: "section-4"
+    name: "Fixed Estimate and Flow Actions"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    actual_time: "Not tracked"
+    estimate_minutes: 60
+    dependencies: ["section-3"]
+  - id: "section-5"
+    name: "Responsive Accessibility and Visual Hardening"
+    status: "complete"
+    started_date: "2026-08-13"
+    completed_date: "2026-08-13"
+    estimate_minutes: 60
+    dependencies: ["section-1", "section-2", "section-3", "section-4"]
+
+navigation:
+  previous_view: "Address Search"
+  next_view: "Estimate Result"

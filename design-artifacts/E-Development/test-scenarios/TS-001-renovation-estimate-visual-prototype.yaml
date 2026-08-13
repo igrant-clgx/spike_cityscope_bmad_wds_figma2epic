@@ -55,11 +55,11 @@ happy_path:
         design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#interactions"
 
       - action: "Review Renovation Details."
-        expected: "The selected address is visible, Step 1 is expanded, Internal and External are available, and Steps 2 and 3 do not expose invented content."
+        expected: "The selected address is visible, Step 1 is expanded, Internal and External are available, and Steps 2 and 3 remain locked until their fixed-path prerequisites are selected."
         design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md#renovation-questionnaire"
 
       - action: "Choose Internal and continue through the fixed prototype path."
-        expected: "Internal is visibly and programmatically selected; the prototype records Kitchen and presents a clear action to view the fixed example result."
+        expected: "Internal unlocks Step 2, Kitchen unlocks Step 3, and the confirmation presents a clear action to view the fixed example result."
         design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md#interactions"
 
       - action: "Activate the result action."
@@ -177,12 +177,12 @@ edge_cases:
       - "The final route and state correspond to one completed action."
 
   - id: "EC-003"
-    name: "Out-of-scope questionnaire and explanation disclosures"
+    name: "Fixed questionnaire and unavailable explanation content"
     priority: "high"
 
     steps:
-      - action: "Activate Step 2, Step 3, and How this was calculated."
-        expected: "The UI does not reveal invented production content and clearly identifies unavailable prototype-only content."
+      - action: "Complete Step 2 and Step 3, then activate How this was calculated."
+        expected: "The questionnaire exposes only the approved fixed Kitchen path, and the explanation clearly identifies unavailable prototype-only content."
         design_ref: "E-Development/deliveries/DD-001-renovation-estimate-visual-prototype.yaml#notes"
 
     success_criteria:
