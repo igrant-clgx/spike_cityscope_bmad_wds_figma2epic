@@ -55,7 +55,7 @@ development_status:
   epic-2: in-progress
   2-1-complete-3-step-renovation-questionnaire: review
   epic-2-retrospective: optional
-  epic-3: backlog
-  3-1-view-cost-estimate-and-supporting-info: backlog
+  epic-3: in-progress
+  3-1-view-cost-estimate-and-supporting-info: review
   3-2-edit-estimate-new-estimate-actions: backlog
   epic-3-retrospective: optional
