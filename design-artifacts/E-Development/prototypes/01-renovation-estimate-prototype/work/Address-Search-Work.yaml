@@ -1,0 +1,235 @@
+metadata:
+  page_number: "01.1"
+  page_name: "Address Search"
+  logical_view: "Address Search"
+  scenario: "01-renovation-estimate"
+  delivery: "DD-001"
+  test_scenario: "TS-001"
+  status: "blocked"
+  complexity: "complex"
+  estimated_sections: 6
+  estimated_time: "465 minutes"
+  specification: "../../../../C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md"
+  figma_frame: "2:3"
+  route: "/renocalc/ceshllg/search"
+
+  device_compatibility:
+    type: "responsive"
+    range: "320px-1512px"
+    primary_viewport: "1512px"
+    test_viewports:
+      - width: 320
+        device: "Small mobile"
+      - width: 768
+        device: "Tablet"
+      - width: 1024
+        device: "Small desktop"
+      - width: 1512
+        device: "Figma desktop reference"
+    breakpoints:
+      - 768
+      - 1024
+      - 1280
+    touch_optimized: true
+    hover_interactions: true
+
+  implementation:
+    platform: "React + TypeScript"
+    component_library: "Ensemble"
+    state_owner: "Single React context and reducer"
+    persistence: "In-memory only"
+    backend: "None"
+    language: "English"
+    package_policy: "Preserve the repository's existing registry configuration"
+
+page_purpose: |
+  Help the user select the fixed prototype property through an accessible
+  address combobox and enter the renovation-estimate flow.
+
+user_context:
+  - "The user is entering the public prototype flow or replacing a prior address."
+  - "Only one deterministic local property suggestion is available."
+  - "Advanced Search is visible but unavailable in this prototype."
+
+success_criteria:
+  - "The fixed property can be selected by keyboard, pointer, or touch."
+  - "Free text that has not been selected cannot advance."
+  - "The stable property identifier and display address are stored together."
+  - "Successful selection navigates to Renovation Details."
+  - "The page is faithful to Figma and usable without horizontal overflow from 320px through 1512px."
+
+demo_data:
+  source: "../data/demo-data.json"
+  property_id: "prototype-property-400-catherine-st"
+  display_address: "400 Catherine Street Lilyfield NSW 2040"
+
+object_ids:
+  layout_relationships:
+    - "address-search-header-hero-v-space-zero"
+    - "address-search-hero-footer-v-space-zero"
+  header:
+    - "address-search-header"
+    - "address-search-header-brand-image"
+    - "address-search-header-partner-brand-image"
+  hero:
+    - "address-search-hero-search"
+    - "address-search-hero-family-image"
+    - "address-search-hero-primary-headline"
+    - "address-search-hero-address-instruction"
+    - "address-search-hero-property-address-input"
+    - "address-search-hero-value-supporting-copy"
+    - "address-search-hero-address-recovery-prompt"
+    - "address-search-hero-advanced-search-link"
+  footer:
+    - "address-search-footer-disclaimer"
+    - "address-search-footer-disclaimer-copy"
+
+state_specific_elements:
+  - "Address suggestion listbox and active option"
+  - "Polite suggestion-count and selection announcements"
+  - "Required-address validation"
+  - "Unselected-free-text validation"
+  - "Advanced Search unavailable notice"
+
+sections:
+  - id: "section-1"
+    name: "Application Foundation"
+    status: "blocked"
+    estimate_minutes: 90
+    scope: |
+      Establish the React and TypeScript application, Ensemble setup, route
+      shell, typed fixture adapter, and single context/reducer state owner.
+    dependencies: []
+    acceptance_criteria:
+      - "The app starts through the repository's existing package configuration."
+      - "No registry configuration is changed."
+      - "The approved routes resolve through one application shell."
+      - "The fixture and flow state are fully typed."
+      - "No localStorage, sessionStorage, backend, or network dependency is introduced."
+    blocker:
+      detected_at: "2026-08-13"
+      command: "npm view react version"
+      error: "E403 Forbidden from the configured npm-google-oss-public Artifactory registry"
+      policy: "Registry configuration was not changed; dependency setup requires repository access to be restored."
+
+  - id: "section-2"
+    name: "Shared Header and Disclaimer Footer"
+    status: "pending"
+    estimate_minutes: 60
+    scope: |
+      Build the reusable dual-brand header and disclaimer footer with
+      Figma-aligned dimensions and approved exported assets or named placeholders.
+    dependencies:
+      - "section-1"
+    object_ids:
+      - "address-search-header"
+      - "address-search-header-brand-image"
+      - "address-search-header-partner-brand-image"
+      - "address-search-footer-disclaimer"
+      - "address-search-footer-disclaimer-copy"
+    acceptance_criteria:
+      - "The header and footer preserve the Figma reading order and proportions."
+      - "Brand imagery preserves aspect ratio and has appropriate alternative text."
+      - "The disclaimer text matches the approved specification."
+
+  - id: "section-3"
+    name: "Responsive Hero Composition"
+    status: "pending"
+    estimate_minutes: 75
+    scope: |
+      Reproduce the full-bleed Figma hero, responsive image crop, overlay,
+      typography, content width, and vertical rhythm.
+    dependencies:
+      - "section-1"
+      - "section-2"
+    object_ids:
+      - "address-search-hero-search"
+      - "address-search-hero-family-image"
+      - "address-search-hero-primary-headline"
+      - "address-search-hero-address-instruction"
+      - "address-search-hero-value-supporting-copy"
+      - "address-search-hero-address-recovery-prompt"
+    acceptance_criteria:
+      - "Visible content and hierarchy match the Figma frame."
+      - "Text remains readable over every supported crop."
+      - "The composition has no horizontal overflow at the required viewports."
+
+  - id: "section-4"
+    name: "Accessible Address Combobox"
+    status: "pending"
+    estimate_minutes: 90
+    scope: |
+      Implement a native accessible combobox/listbox backed by the fixed
+      property fixture, with keyboard, pointer, touch, focus, and selection behavior.
+    dependencies:
+      - "section-1"
+      - "section-3"
+    object_ids:
+      - "address-search-hero-property-address-input"
+    acceptance_criteria:
+      - "The combobox exposes label, expanded state, controls, and active descendant."
+      - "Arrow keys navigate, Enter selects, and Escape closes suggestions."
+      - "The selected property ID and display address are stored together."
+      - "Touch targets are at least 44x44 CSS px."
+
+  - id: "section-5"
+    name: "Validation, Notices, and Navigation"
+    status: "pending"
+    estimate_minutes: 60
+    scope: |
+      Add address validation, live announcements, valid-selection navigation,
+      stale-selection clearing, and the Advanced Search unavailable notice.
+    dependencies:
+      - "section-1"
+      - "section-4"
+    object_ids:
+      - "address-search-hero-property-address-input"
+      - "address-search-hero-advanced-search-link"
+    acceptance_criteria:
+      - "Empty input reports Enter a property address."
+      - "Unselected text reports Select an address from the suggestions."
+      - "Advanced Search remains on the view and displays the approved unavailable notice."
+      - "Valid selection dispatches SELECT_PROPERTY and navigates once."
+
+  - id: "section-6"
+    name: "Responsive, Accessibility, and Visual Hardening"
+    status: "pending"
+    estimate_minutes: 90
+    scope: |
+      Validate and refine the completed view against Figma, responsive targets,
+      keyboard behavior, focus visibility, contrast, zoom, and reduced motion.
+    dependencies:
+      - "section-2"
+      - "section-3"
+      - "section-4"
+      - "section-5"
+    acceptance_criteria:
+      - "The view matches the reference at 1512px and remains usable at 320px."
+      - "The view works at 200% browser zoom without horizontal scrolling."
+      - "Keyboard focus order follows the visual and semantic order."
+      - "All serious accessibility defects are resolved."
+      - "Relevant TS-001 critical and high-priority checks pass."
+
+navigation:
+  previous_view: null
+  next_view: "Renovation Details"
+  next_route: "/renocalc/ceshllg/search/details"
+  transition: "SELECT_PROPERTY"
+
+edge_cases:
+  - "Empty input after interaction remains on Address Search."
+  - "Typed text without selecting the fixed suggestion cannot advance."
+  - "Editing a selected address invalidates the stored selection."
+  - "Repeated selection or navigation activation is processed once."
+  - "Advanced Search never navigates to an unspecified route."
+  - "The 320px viewport and 200% zoom preserve content and control access."
+
+definition_of_done:
+  - "All six sections are implemented and approved in order."
+  - "All specified Object IDs are represented."
+  - "The fixed demo data loads without network access."
+  - "The view is keyboard, pointer, and touch operable."
+  - "Address validation and navigation satisfy DD-001."
+  - "Responsive and visual checks cover all required viewports."
+  - "No console errors or unhandled route/state failures remain."
+  - "Each implemented section has a just-in-time story file."

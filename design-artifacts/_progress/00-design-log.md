@@ -12,6 +12,7 @@
 - [ ] Define trigger map - Phase 2
 - [ ] Create user scenarios - Phase 3
 - [ ] Resolve content hidden by the supplied Figma captures
+- [ ] Restore access to the configured npm Artifactory registry; `react` currently returns HTTP 403
 
 ---
 
@@ -19,7 +20,7 @@
 
 | Task | Started | Agent |
 |------|---------|-------|
-| Prepare Development Delivery from the renovation estimate specifications | Not started | - |
+| Implement DD-001 Renovation Estimate Visual Prototype | 2026-08-13 | BMad |
 
 **Rules:** Mark what you start. Complete it when done (move to Log). One task at a time per agent.
 
@@ -29,15 +30,27 @@
 
 | Scenario | Step | Page | Status | Updated |
 |----------|------|------|--------|---------|
-| renovation-estimate | 01.1 | Address Search | specified | 2026-04-13 |
-| renovation-estimate | 01.2 | Renovation Details | specified | 2026-04-13 |
-| renovation-estimate | 01.3 | Estimate Result | specified | 2026-04-13 |
+| renovation-estimate | 01.1 | Address Search | building | 2026-08-13 |
+| renovation-estimate | 01.2 | Renovation Details | building | 2026-08-13 |
+| renovation-estimate | 01.3 | Estimate Result | building | 2026-08-13 |
 
 **Status values:** `discussed` -> `wireframed` -> `specified` -> `explored` -> `building` -> `built` -> `approved` | `removed`
 
 ---
 
 ## Log
+
+### 2026-08-13 - Design Delivery: renovation estimate visual prototype
+
+- Packaged the three-screen fixed prototype as `DD-001`.
+- Created acceptance contract `TS-001` with a 100% pass threshold for critical and high-priority tests.
+- Agreed React + TypeScript + Ensemble, deterministic local fixtures, one in-memory reducer/context, and no backend.
+- Completed the structured architecture handoff with Winston and recorded nine work packages totaling 6.5 person-days including validation.
+- Officially handed the delivery to BMad with status `in_development`.
+- Completed WDS prototype initiation and created the Scenario 01 roadmap, deterministic demo data, and working folder structure.
+- Confirmed three logical views and approved the six-section Address Search work plan.
+- Blocked Application Foundation before scaffold creation because the configured Artifactory registry returned HTTP 403 for `react`; registry policy remains unchanged.
+- Pre-build gate: verify existing package installation and approve exported Figma assets or named placeholders.
 
 ### 2026-04-13 - Renovation estimate flow specified
 
@@ -52,4 +65,4 @@
 
 - **This file** - Single source of truth for project progress.
 - **C-UX-Scenarios/** - Page-level UX specifications grouped by scenario.
-
+- **E-Development/** - Design deliveries, handoff logs, and acceptance-test scenarios.

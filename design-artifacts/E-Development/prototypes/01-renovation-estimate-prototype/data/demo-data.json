@@ -1,0 +1,24 @@
+{
+  "scenarioId": "01-renovation-estimate",
+  "language": "en",
+  "property": {
+    "id": "prototype-property-400-catherine-st",
+    "displayAddress": "400 Catherine Street Lilyfield NSW 2040"
+  },
+  "renovationSelection": {
+    "renovationType": "Internal",
+    "renovationItem": "Kitchen"
+  },
+  "estimate": {
+    "description": "Internal Renovation: Kitchen",
+    "minimumAmount": 32700,
+    "maximumAmount": 40000,
+    "currencyDisplay": "$32,700 - $40,000"
+  },
+  "prototypeNotices": {
+    "advancedSearch": "Advanced search is not available in this visual prototype.",
+    "externalRenovation": "Only the Internal renovation example is available in this visual prototype.",
+    "lockedSteps": "This visual prototype uses the fixed Internal Kitchen example.",
+    "calculationDetails": "Calculation details are not available in this visual prototype."
+  }
+}

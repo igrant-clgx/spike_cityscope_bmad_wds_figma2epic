@@ -1,0 +1,189 @@
+delivery:
+  id: "DD-001"
+  name: "Renovation Estimate Visual Prototype"
+  type: "user_flow"
+  status: "in_development"
+  priority: "high"
+  created_by: "wds-ux-expert"
+  designer: "Freya"
+  created_at: "2026-08-12T23:36:51Z"
+  updated_at: "2026-08-12T23:48:57Z"
+  handed_off_at: "2026-08-12T23:48:57Z"
+  assigned_to: "bmad-architect"
+  handoff_log: "E-Development/deliveries/DD-001-handoff-log.md"
+  version: "1.0"
+
+description: |
+  A responsive, accessible visual prototype of the three-screen renovation
+  estimate journey shown in Figma. The testable path starts with a mocked
+  address selection, records the visible Internal renovation choice, and
+  presents the fixed Figma example result: Internal Renovation: Kitchen,
+  $32,700 - $40,000.
+
+  This delivery validates the experience, interaction model, responsive
+  behavior, and visual fidelity. It is not a production calculator and does
+  not define live address lookup, configurable Step 2 or Step 3 content,
+  estimate calculation, advanced search, or expanded calculation details.
+
+user_value:
+  problem: "Users and stakeholders need to experience and evaluate the intended renovation-estimate journey before calculator rules and service contracts are available."
+  solution: "Provide a navigable, high-fidelity prototype that demonstrates property selection, renovation orientation, the indicative estimate presentation, and reset/edit actions."
+  success_criteria:
+    - "A first-time participant can complete the fixed prototype path from Address Search to Estimate Result in under 2 minutes without assistance."
+    - "All three reference screens and their primary responsive layouts are represented at desktop and 320 CSS px widths without horizontal overflow."
+    - "The critical path and reset/edit interactions are fully operable with keyboard, pointer, and touch input."
+
+design_artifacts:
+  scenarios:
+    - id: "01-renovation-estimate"
+      path: "C-UX-Scenarios/01-renovation-estimate/"
+      screens:
+        - "01.1 Address Search"
+        - "01.2 Renovation Details"
+        - "01.3 Estimate Result"
+
+  user_flows:
+    - name: "Fixed Renovation Estimate Prototype"
+      path: "C-UX-Scenarios/01-renovation-estimate/01-renovation-estimate.md"
+      entry: "01.1 Address Search"
+      exit: "01.3 Estimate Result"
+
+  design_system:
+    components:
+      - "Dual-brand header (page-specific)"
+      - "Address search combobox and suggestion list (page-specific)"
+      - "Questionnaire accordion and selectable option buttons (page-specific)"
+      - "Estimate summary and explanation disclosure (page-specific)"
+      - "Primary, secondary, link, and phone actions (page-specific)"
+      - "Disclaimer and informational content regions (page-specific)"
+    path: null
+    mode: "none"
+    implementation_library: "Ensemble"
+
+technical_requirements:
+  platform:
+    frontend: "React + TypeScript + Ensemble"
+    backend: "None; prototype uses deterministic local data"
+
+  integrations:
+    - name: "Ensemble design system"
+      purpose: "Supply accessible web components and semantic design tokens for the prototype UI."
+      required: true
+
+    - name: "Mock address suggestion provider"
+      purpose: "Return the fixed address 400 Catherine Street Lilyfield NSW 2040 and a stable local property identifier."
+      required: true
+
+  data_models:
+    - name: "SelectedProperty"
+      fields:
+        - "id"
+        - "displayAddress"
+
+    - name: "PrototypeRenovationSelection"
+      fields:
+        - "renovationType"
+        - "renovationItem"
+
+    - name: "PrototypeEstimate"
+      fields:
+        - "description"
+        - "minimumAmount"
+        - "maximumAmount"
+        - "currencyDisplay"
+
+  state_management:
+    persistence: "In-memory browser state for the active prototype session"
+    route_guards:
+      - "Details requires a selected property; otherwise redirect to Address Search."
+      - "Result requires the fixed prototype estimate; otherwise provide recovery to Details."
+    fixed_values:
+      renovation_item: "Kitchen"
+      estimate_description: "Internal Renovation: Kitchen"
+      estimate_range: "$32,700 - $40,000"
+
+  implementation_contract:
+    architecture: "Single React context and reducer owning the complete flow state"
+    package_source: "Follow the repository's existing package configuration; do not change npm registry policy for this delivery"
+    transitions:
+      - "SELECT_PROPERTY"
+      - "SELECT_INTERNAL"
+      - "CREATE_FIXED_ESTIMATE"
+      - "EDIT_ESTIMATE"
+      - "START_NEW_ESTIMATE"
+      - "RESET_ADDRESS"
+    decisions:
+      - "Selecting Internal exposes a View example estimate action that creates the fixed result."
+      - "External remains selectable but does not progress; explain that only the Internal example is available."
+      - "Advanced Search remains visible but shows an inline prototype-unavailable notice instead of navigating."
+      - "The calculation disclosure shows: Calculation details are not available in this visual prototype."
+      - "Enter new address clears all state without a confirmation dialog in this ephemeral prototype."
+      - "Use a native accessible combobox/listbox if Ensemble input semantics cannot expose the required ARIA relationships."
+
+acceptance_criteria:
+  functional:
+    - "Address Search renders the Figma-defined header, hero, search control, supporting content, and disclaimer."
+    - "Selecting the fixed mocked address stores its identifier and display address, then navigates to Renovation Details."
+    - "Free text that has not been selected from the mocked suggestions cannot advance and shows the specified inline validation."
+    - "Renovation Details displays the selected address, starts with Step 1 expanded, and presents Internal and External options."
+    - "Selecting Internal completes the prototype questionnaire and enables navigation to the fixed result; Step 2 and Step 3 remain visibly out of prototype scope rather than presenting invented questions."
+    - "Estimate Result displays the selected address, Internal Renovation: Kitchen, and $32,700 - $40,000."
+    - "Edit Estimate returns to Details with prototype state retained."
+    - "New Estimate retains the address, clears renovation/result state, and returns to Step 1."
+    - "Enter new address clears all prototype flow state and returns to Address Search."
+    - "The explanation disclosure toggles its container but identifies expanded calculation content as unavailable in this prototype."
+    - "Phone links use the normalized tel values specified in the Estimate Result page contract."
+
+  non_functional:
+    - "The implementation uses React, TypeScript, and Ensemble without a backend or network dependency."
+    - "Pages remain usable from 320 CSS px through the desktop reference width without horizontal overflow."
+    - "Primary content is visible within 2 seconds on a typical local development environment."
+    - "Interactive controls meet WCAG 2.2 AA keyboard, focus-visible, name/role/value, contrast, and 44x44 target requirements."
+    - "Semantic HTML, heading order, combobox/listbox semantics, disclosures, validation announcements, and result live-region behavior follow the page specifications."
+    - "Visual styling uses Ensemble components and tokens where suitable; any page-specific styling is documented and does not invent a separate design system."
+
+  edge_cases:
+    - "Missing selected-property state on Details -> redirect to Address Search without rendering stale content."
+    - "Missing result state on Estimate Result -> show the specified recovery message and link to Details."
+    - "Empty or unselected address text -> keep the user on Address Search and show the matching specified validation."
+    - "Repeated navigation/reset activation -> process once and leave state consistent."
+    - "Direct activation of locked or out-of-scope questionnaire steps -> do not reveal invented content; announce that the prototype path uses the fixed example."
+    - "320 CSS px viewport and 200% zoom -> preserve reading order, controls, and estimate readability without horizontal scrolling."
+
+testing_guidance:
+  user_testing:
+    - "Ask first-time participants to obtain the displayed estimate without prompting; record completion time, hesitation, and incorrect actions."
+    - "Ask participants to explain what the estimate means and distinguish Edit Estimate, New Estimate, and Enter new address."
+    - "Confirm participants understand that this build is a fixed visual prototype rather than a live calculator."
+
+  qa_testing:
+    - "Validate Chrome, Safari, Firefox, and Edge at current stable versions."
+    - "Validate keyboard-only operation and VoiceOver on Safari."
+    - "Test 320 px, 768 px, 1024 px, and 1512 px viewport widths plus 200% browser zoom."
+    - "Compare each screen against its linked Figma frame and page-specific Object IDs."
+    - "Exercise direct-route guards, validation, edit, restart, address reset, disclosure, and phone-link behavior."
+
+estimated_complexity:
+  size: "medium"
+  effort: "5 development days plus 1.5 days for full TS-001 validation and sign-off"
+  risk: "medium"
+  dependencies: []
+  assumptions:
+    - "Ensemble is available for React and its components can be styled to match the supplied Figma reference."
+    - "Figma images and logo assets can be exported or represented by approved local placeholders."
+    - "No production API, authentication, analytics, persistence, or server deployment is required."
+    - "The fixed example address and estimate are acceptable prototype data."
+    - "The existing package configuration can install the required React, TypeScript, Ensemble, routing, and test dependencies; failures block implementation and must be surfaced."
+
+notes: |
+  Explicitly out of scope for DD-001:
+  - Production address lookup and advanced search
+  - Expanded Step 2 renovation-item options
+  - Expanded Step 3 questions and conditional logic
+  - Live estimate calculation or estimate API integration
+  - Expanded "How this was calculated" content
+  - Final production logos, contact content, currency policy, and legal approval
+
+  These exclusions must not be silently inferred or implemented. They require
+  a later specification update and a separate ready delivery before the
+  prototype can become a production renovation calculator.

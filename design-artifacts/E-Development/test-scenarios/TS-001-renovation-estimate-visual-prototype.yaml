@@ -1,0 +1,381 @@
+test_scenario:
+  id: "TS-001"
+  name: "Renovation Estimate Visual Prototype Testing"
+  delivery_id: "DD-001"
+  type: "user_acceptance"
+  status: "ready"
+  tester: "designer"
+  created_at: "2026-08-12T23:36:51Z"
+
+test_objectives:
+  - "Validate the fixed prototype path works from address selection through the displayed estimate."
+  - "Verify the implementation matches the three Figma frames and page specifications at target viewport widths."
+  - "Confirm edit, reset, route-guard, validation, and disclosure behavior leaves local state consistent."
+  - "Ensure Ensemble components and tokens are used appropriately without inventing a separate design system."
+  - "Verify keyboard, screen-reader, zoom, contrast, and touch-target accessibility."
+  - "Confirm the interface clearly identifies fixed prototype behavior and does not imply a live calculation."
+
+test_environment:
+  devices:
+    - "Desktop: Chrome, Safari, Firefox, and Edge current stable versions"
+    - "Mobile viewport: 320x568 CSS px in browser responsive mode"
+    - "Tablet viewport: 768x1024 CSS px in browser responsive mode"
+    - "Desktop reference viewport: 1512x804 CSS px"
+
+  test_data:
+    - field: "mockedAddress"
+      value: "400 Catherine Street Lilyfield NSW 2040"
+    - field: "mockedPropertyId"
+      value: "prototype-property-400-catherine-st"
+    - field: "renovationType"
+      value: "internal"
+    - field: "renovationItem"
+      value: "Kitchen"
+    - field: "estimateDescription"
+      value: "Internal Renovation: Kitchen"
+    - field: "estimateRange"
+      value: "$32,700 - $40,000"
+
+happy_path:
+  - id: "HP-001"
+    name: "Complete the fixed renovation estimate flow"
+    priority: "critical"
+
+    steps:
+      - action: "Open /renocalc/ceshllg/search."
+        expected: "Address Search renders the dual-brand header, hero content, empty address combobox, supporting content, and disclaimer."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#page-sections"
+
+      - action: "Type enough of the fixed Catherine Street address to show suggestions."
+        expected: "The mocked suggestion appears in a listbox and is available to pointer and keyboard selection."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#property-address-input"
+
+      - action: "Select 400 Catherine Street Lilyfield NSW 2040."
+        expected: "The stable mocked property identifier and display address are stored, then the app navigates to /renocalc/ceshllg/search/details."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#interactions"
+
+      - action: "Review Renovation Details."
+        expected: "The selected address is visible, Step 1 is expanded, Internal and External are available, and Steps 2 and 3 do not expose invented content."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md#renovation-questionnaire"
+
+      - action: "Choose Internal and continue through the fixed prototype path."
+        expected: "Internal is visibly and programmatically selected; the prototype records Kitchen and presents a clear action to view the fixed example result."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md#interactions"
+
+      - action: "Activate the result action."
+        expected: "The app navigates to /renocalc/ceshllg/result and announces the newly loaded estimate without unexpected focus or scroll movement."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#page-states"
+
+      - action: "Review the estimate summary."
+        expected: "The selected address, Internal Renovation: Kitchen, $32,700 - $40,000, and planning caveat are visible."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#estimate-summary"
+
+    success_criteria:
+      - "The full path completes without errors or unavailable controls."
+      - "The displayed address, selection, and estimate exactly match the approved fixed data."
+      - "A first-time participant can complete the path in under 2 minutes without assistance."
+
+  - id: "HP-002"
+    name: "Edit, restart, and change address"
+    priority: "high"
+
+    steps:
+      - action: "From Estimate Result, activate Edit Estimate."
+        expected: "Details opens with the selected address and Internal choice retained."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#interactions"
+
+      - action: "Return to the result, then activate New Estimate."
+        expected: "Details opens with the address retained and renovation/result state cleared at Step 1."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#interactions"
+
+      - action: "Complete the fixed path again, then activate Enter new address."
+        expected: "All prototype flow state is cleared and Address Search opens with no stale result."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#interactions"
+
+    success_criteria:
+      - "Each action clears only the state defined by its page contract."
+      - "No prior address, answer, or result appears after a full address reset."
+
+error_states:
+  - id: "ES-001"
+    name: "Reject free text that is not a selected suggestion"
+    priority: "high"
+
+    steps:
+      - action: "Type an address but do not select the mocked suggestion; attempt to advance."
+        expected: "The user remains on Address Search."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#property-address-input"
+      - action: "Inspect the address field feedback."
+        expected: "The inline message is: Select an address from the suggestions."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#error-messages"
+      - action: "Select the valid suggestion."
+        expected: "The error clears and the user can continue."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#interactions"
+
+    success_criteria:
+      - "Invalid free text never creates selected-property state."
+      - "Feedback is associated with and announced for the address field."
+
+  - id: "ES-002"
+    name: "Recover from missing Details route state"
+    priority: "high"
+
+    steps:
+      - action: "Open /renocalc/ceshllg/search/details in a fresh session."
+        expected: "The app redirects to Address Search without briefly rendering stale questionnaire content."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.2-renovation-details/01.2-renovation-details.md#technical-notes"
+
+    success_criteria:
+      - "The route cannot be used without a selected property."
+      - "Recovery leaves the application in a valid empty state."
+
+  - id: "ES-003"
+    name: "Recover from missing result state"
+    priority: "high"
+
+    steps:
+      - action: "Open /renocalc/ceshllg/result in a fresh session."
+        expected: "No stale price is shown; the page displays: Your estimate is no longer available. Return to your renovation details to calculate it again."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#error-handling"
+      - action: "Activate the recovery action."
+        expected: "The app returns to a valid earlier route, applying the selected-property guard if needed."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.3-estimate-result/01.3-estimate-result.md#page-states"
+
+    success_criteria:
+      - "The application never fabricates or reuses an estimate without current flow state."
+      - "A clear recovery path is available."
+
+edge_cases:
+  - id: "EC-001"
+    name: "Address input boundaries"
+    priority: "medium"
+
+    steps:
+      - action: "Leave the address empty after interacting with it."
+        expected: "The field reports: Enter a property address."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#error-messages"
+      - action: "Enter more than 200 characters."
+        expected: "The field reports: Use 200 characters or fewer."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#error-messages"
+      - action: "Enter punctuation and non-matching text."
+        expected: "No invalid property state is created; the user can edit the preserved query."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/pages/01.1-address-search/01.1-address-search.md#page-states"
+
+    success_criteria:
+      - "Boundary inputs produce the specified feedback and do not break layout or state."
+
+  - id: "EC-002"
+    name: "Rapid and repeated actions"
+    priority: "medium"
+
+    steps:
+      - action: "Rapidly activate address selection, result navigation, New Estimate, and Enter new address twice."
+        expected: "Each transition is processed once; no duplicate history entries or contradictory state is created."
+        design_ref: "E-Development/deliveries/DD-001-renovation-estimate-visual-prototype.yaml#acceptance_criteria"
+
+    success_criteria:
+      - "The final route and state correspond to one completed action."
+
+  - id: "EC-003"
+    name: "Out-of-scope questionnaire and explanation disclosures"
+    priority: "high"
+
+    steps:
+      - action: "Activate Step 2, Step 3, and How this was calculated."
+        expected: "The UI does not reveal invented production content and clearly identifies unavailable prototype-only content."
+        design_ref: "E-Development/deliveries/DD-001-renovation-estimate-visual-prototype.yaml#notes"
+
+    success_criteria:
+      - "Users cannot mistake placeholder behavior for production calculator logic."
+
+  - id: "EC-004"
+    name: "Narrow viewport and zoom"
+    priority: "high"
+
+    steps:
+      - action: "Use every screen at 320 CSS px width and at 200% browser zoom."
+        expected: "Reading order is preserved, controls remain reachable, labels are not truncated, and no horizontal page scrolling is required."
+        design_ref: "E-Development/deliveries/DD-001-renovation-estimate-visual-prototype.yaml#acceptance_criteria"
+
+    success_criteria:
+      - "The cost range, address, actions, disclosures, and legal content remain readable and operable."
+
+design_system_checks:
+  - id: "DS-001"
+    name: "Ensemble component usage"
+    checks:
+      - component: "Ensemble buttons, links, inputs, disclosures, and icons"
+        instances:
+          - "Address Search"
+          - "Renovation Details"
+          - "Estimate Result"
+        verify:
+          - "Use documented Ensemble components when they satisfy the required semantics."
+          - "Default, hover, pressed, selected, disabled, error, and focus-visible states remain distinguishable."
+          - "Page-specific CSS does not replace accessible native or Ensemble behavior."
+        design_ref: "E-Development/deliveries/DD-001-renovation-estimate-visual-prototype.yaml#design_artifacts"
+
+  - id: "DS-002"
+    name: "Page-specific token and visual validation"
+    checks:
+      - component: "Typography, spacing, color, focus, and state tokens"
+        instances:
+          - "All page specification Typography sections"
+          - "All page specification Spacing sections"
+        verify:
+          - "Typography follows the documented responsive semantic scale."
+          - "Spacing follows the documented semantic token relationships."
+          - "Colors and focus styles use Ensemble or documented semantic tokens rather than arbitrary one-off values."
+          - "Desktop composition matches the Figma reference within normal browser-rendering tolerance."
+        design_ref: "C-UX-Scenarios/01-renovation-estimate/"
+
+accessibility:
+  - id: "A11Y-001"
+    name: "Keyboard navigation and focus"
+    priority: "critical"
+
+    setup: "Use keyboard only with visible focus indicators."
+
+    steps:
+      - action: "Complete HP-001, including combobox selection and disclosures, with Tab, Shift+Tab, arrow keys, Enter, Space, and Escape."
+        verify:
+          - "Every interactive control is reachable and operable."
+          - "Focus order follows visual and reading order."
+          - "Combobox active-descendant and Escape behavior work."
+          - "Auto-navigation and step changes place focus at the relevant heading or control."
+          - "Focus is never lost or trapped."
+
+    success_criteria:
+      - "The complete critical path works without a pointer."
+      - "Focus-visible styling does not rely on color alone."
+
+  - id: "A11Y-002"
+    name: "Screen reader semantics and announcements"
+    priority: "critical"
+
+    setup: "Enable VoiceOver with Safari."
+
+    steps:
+      - action: "Read and complete the flow using VoiceOver."
+        verify:
+          - "Pages expose one meaningful h1 and logical heading order."
+          - "Images have appropriate organization-name alt text or empty alt when decorative."
+          - "Combobox, listbox, option, selected, disclosure, locked, and error states expose correct name, role, and value."
+          - "Validation and the result range are announced at appropriate priority without duplicate announcements."
+          - "Prototype exclusions are communicated in text, not only visually."
+
+    success_criteria:
+      - "All content and actions are understandable without seeing the screen."
+      - "No serious or critical accessibility defect is present."
+
+  - id: "A11Y-003"
+    name: "Contrast, target size, zoom, and reduced motion"
+    priority: "high"
+
+    setup: "Use an accessibility inspection tool, 200% zoom, and reduced-motion preference."
+
+    steps:
+      - action: "Inspect all screens and interaction states."
+        verify:
+          - "Normal text contrast is at least 4.5:1 and large text/UI boundaries meet applicable 3:1 requirements."
+          - "Interactive targets are at least 44x44 CSS px."
+          - "Content remains usable at 200% zoom and 320 CSS px."
+          - "No required information depends on animation and reduced motion introduces no loss."
+
+    success_criteria:
+      - "All high-priority accessibility checks pass."
+
+usability:
+  - id: "UX-001"
+    name: "Unassisted prototype comprehension"
+    type: "observational"
+
+    instructions: |
+      Give a first-time participant the starting route and ask them to obtain
+      a renovation estimate for the displayed property. Do not explain that
+      the data is fixed. Record completion time, hesitation, errors, and what
+      they believe the estimate represents. Then ask them to edit it, start a
+      new estimate, and change the address.
+
+    success_criteria:
+      - "The participant reaches the result in under 2 minutes without assistance."
+      - "The participant correctly explains that the amount is indicative and the current build is a fixed prototype."
+      - "The participant distinguishes Edit Estimate, New Estimate, and Enter new address."
+
+performance:
+  - id: "PERF-001"
+    name: "Local prototype responsiveness"
+
+    verify:
+      - "Primary content is visible within 2 seconds in the supported local development environment."
+      - "Typing, selecting, disclosure toggles, and route changes provide feedback within 100 ms unless navigation is underway."
+      - "Responsive hero assets have explicit dimensions and do not cause disruptive layout shift."
+
+    success_criteria:
+      - "No interaction feels unresponsive during the fixed local flow."
+      - "The primary layout remains stable as images and fonts load."
+
+report_template:
+  sections:
+    - name: "Test Summary"
+      fields:
+        - "Date tested"
+        - "Tester name"
+        - "Browser/device tested"
+        - "Build version"
+        - "Overall result (Pass/Fail/Partial)"
+
+    - name: "Test Results"
+      fields:
+        - "Test ID"
+        - "Result (Pass/Fail)"
+        - "Notes"
+        - "Evidence"
+
+    - name: "Issues Found"
+      fields:
+        - "Issue ID"
+        - "Severity (Critical/High/Medium/Low)"
+        - "Description"
+        - "Steps to reproduce"
+        - "Expected vs actual"
+        - "Evidence"
+        - "Design reference violated"
+
+    - name: "Ensemble and Visual Compliance"
+      fields:
+        - "Component or screen"
+        - "Compliant (Yes/No)"
+        - "Deviation and rationale"
+
+    - name: "Recommendations"
+      fields:
+        - "What worked well"
+        - "What needs improvement"
+        - "Suggested changes"
+
+sign_off:
+  required_for_approval:
+    - "100% of critical and high-priority tests pass."
+    - "No critical or high-severity functional issue remains."
+    - "No serious or critical accessibility defect remains."
+    - "The three desktop screens match the Figma references within normal browser-rendering tolerance."
+    - "All prototype exclusions are visible, accurate, and do not imply live calculator behavior."
+
+  must_fix:
+    - "Broken or incomplete Address Search to Estimate Result path"
+    - "Incorrect fixed address, renovation description, or estimate range"
+    - "State leakage across Edit, New Estimate, or Enter new address"
+    - "Keyboard trap, inaccessible critical action, missing accessible name, or unreadable critical content"
+    - "Horizontal page scrolling at 320 CSS px or 200% zoom"
+    - "Invented production content or behavior presented as approved"
+
+  nice_to_fix:
+    - "Minor spacing, type rendering, or image-crop differences that do not change hierarchy or usability"
+    - "Low-severity cosmetic differences between browsers"
+
+  approval:
+    approvers:
+      - "WDS designer"
+      - "Product owner"
+    process: "Review the completed TS-001 report and linked evidence; both approvers record approval after every required criterion passes."
