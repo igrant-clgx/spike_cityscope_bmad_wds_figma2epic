@@ -41,7 +41,7 @@
 # - Retrospective appends its action items to action_items; sprint-status surfaces open ones
 
 generated: 2026-08-12
-last_updated: 2026-08-12
+last_updated: 2026-08-13
 project: spike_cityscope_bmad_wds_figma2epic
 project_key: NOKEY
 tracking_system: file-system
@@ -52,8 +52,8 @@ development_status:
   1-1-project-scaffold-and-shared-shell: review
   1-2-enter-property-address: review
   epic-1-retrospective: optional
-  epic-2: backlog
-  2-1-complete-3-step-renovation-questionnaire: backlog
+  epic-2: in-progress
+  2-1-complete-3-step-renovation-questionnaire: review
   epic-2-retrospective: optional
   epic-3: backlog
   3-1-view-cost-estimate-and-supporting-info: backlog

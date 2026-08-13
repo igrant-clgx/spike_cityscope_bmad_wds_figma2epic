@@ -9,6 +9,7 @@ export const colors = {
   textPrimary: 'rgba(17, 11, 28, 1)',
   textSecondary: 'rgba(17, 11, 28, 0.8)',
   heroOverlay: '#5c1515',
+  questionnaireBackground: '#edf2f4',
 };
 
 const theme = createTheme({
