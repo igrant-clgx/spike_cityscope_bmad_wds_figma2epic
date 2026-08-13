@@ -38,6 +38,7 @@ export default function AddressEntryPage() {
         backgroundImage: 'url(/hero-background.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        minHeight: 'calc(100vh - 68.98px - 81.45px)',
       }}
     >
       <Box
